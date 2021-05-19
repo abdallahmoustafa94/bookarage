@@ -3,18 +3,35 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.1.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.21.1",
+    "jwt-decode": "^3.1.2",
+    "moment": "^2.29.1",
     "react": "^17.0.2",
+    "react-code-input": "^3.10.1",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.2.0",
+    "react-intl-tel-input": "^8.0.4",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-toast-notifications": "^2.4.4",
+    "semantic-ui-calendar-react": "^0.15.3",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.3",
+    "socket.io-client": "^4.1.2",
     "web-vitals": "^1.0.1"
   },
+  "resolutions": {
+    "semantic-ui-calendar-react/react": "^17.0.2",
+    "semantic-ui-calendar-react/react-dom": "^17.0.2"
+  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "CI= craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -34,5 +51,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss7-compat": "^2.0.4",
+    "autoprefixer": "^9.8.6",
+    "postcss": "^7.0.35",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.4",
+    "tailwindcss-dir": "^4.0.0"
   }
 }
