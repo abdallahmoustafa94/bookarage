@@ -5,13 +5,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#148f64',
+        primaryRedColor: {
+          hover: '#f35532',
+          default: '#f2421b',
+        },
+        mainBgColor: {
+          hover: '#325a8f',
+          default: '#244066',
+        },
         secondary: {
           hover: '#ACB274',
           DEFAULT: '#958a5f',
         },
-        subTitleText: '#777',
-        goldPrimary: '#958a5f',
+        labelColor: '#5b626b',
       },
     },
     screens: {
@@ -30,10 +36,6 @@ module.exports = {
 
       '2xl': '1536px',
       // => @media (min-width: 1536px) { ... }
-    },
-    fontFamily: {
-      nunito: ['Nunito Sans', 'sans-serif'],
-      Almarai: ['Almarai', 'sans-serif'],
     },
   },
   variants: {

@@ -1,5 +1,121 @@
-@import url("https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
-html[dir="rtl"] {
-  font-family: "El Messiri", sans-serif;
+#root {
+  height: 100%;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* html[dir='rtl'] {
+  font-family: 'El Messiri', sans-serif;
+} */
+.main-font {
+  font-family: 'Poppins', sans-serif !important;
+}
+html[dir='ltr'] .main-font * {
+  font-family: 'Poppins', sans-serif;
+}
+html[dir='rtl'] .main-font * {
+  font-family: 'Almarai', sans-serif;
+}
+html[dir='ltr'] .main-font i {
+  font-family: 'Icons' !important;
+}
+html[dir='rtl'] .main-font i {
+  font-family: 'Icons' !important;
+}
+input {
+  @apply text-labelColor;
+  background-color: #f2f2f2 !important;
+  border: none !important;
+  font-family: 'Poppins', sans-serif !important;
+  font-size: 12px !important;
+  padding: 15px !important;
+  margin-top: 5px !important;
+}
+
+.auth-bg {
+  background: url(./assets/images/auth-bg.png) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 100%;
+}
+
+.btn-primary {
+  @apply bg-primaryRedColor-default text-white hover:bg-primaryRedColor-hover transition-colors duration-300 focus:ring-offset-primaryRedColor-default px-16 py-3 text-lg font-normal shadow-md !important;
+}
+
+.btn-primary-outline {
+  @apply bg-transparent ring-2 ring-primaryRedColor-default font-medium text-primaryRedColor-default hover:bg-primaryRedColor-hover hover:text-white transition-colors duration-300 focus:ring-offset-primaryRedColor-default px-16 py-3 text-lg shadow-md !important;
+}
+
+.btn-declined {
+  @apply bg-gray-100 text-gray-400 hover:bg-gray-300 transition-colors duration-300 focus:ring-offset-gray-400 px-12 py-3 text-lg font-normal shadow-md !important;
+}
+
+#nav-menu {
+  padding: 0 55px !important;
+  height: 50px !important;
+  font-family: 'Poppins', sans-serif;
+}
+
+#nav-menu .item {
+  @apply text-gray-300;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+#nav-menu .item.active {
+  @apply bg-primaryRedColor-default;
+}
+#dashboard-menu-requests {
+  background-color: #f3f8ff;
+  height: 100px;
+}
+#dashboard-menu-requests .item::before {
+  display: none;
+}
+#dashboard-menu-requests .item.active {
+  background-color: #fff !important;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 0px;
+}
+#dashboard-menu-requests .item:hover {
+  background: none !important;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+#dashboard-menu-requests .item.active:hover {
+  background-color: #fff !important;
+}
+#dashboard-menu-requests .bottom-arrow {
+  position: relative;
+  border-bottom: 5px solid #f2421b;
+  border-radius: 50px;
+}
+#dashboard-menu-requests .bottom-arrow::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 0;
+  height: 0;
+  border-bottom: 7px solid #f2421b;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+div[role='listbox'].dropdown {
+  background-color: #f2f2f2 !important;
+  border: none !important;
+  border-radius: 10px !important;
+}
+.dropdown.active .menu {
+  border: none !important;
+  box-shadow: none !important;
 }
