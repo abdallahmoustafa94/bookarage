@@ -59,7 +59,7 @@ input {
 
 #nav-menu {
   padding: 0 55px !important;
-  height: 50px !important;
+  /* height: 50px; */
   font-family: 'Poppins', sans-serif;
 }
 
@@ -73,7 +73,7 @@ input {
 }
 #dashboard-menu-requests {
   background-color: #f3f8ff;
-  height: 100px;
+  /* height: 100px; */
 }
 #dashboard-menu-requests .item::before {
   display: none;

@@ -1,7 +1,7 @@
-import {useEffect, useState} from 'react'
-import {Redirect, Route, Switch, useHistory, useLocation} from 'react-router'
-import {Dimmer, Dropdown, Icon, Image, Loader, Menu} from 'semantic-ui-react'
-import {useLanguage} from '../context/languageContext'
+import { useEffect, useState } from 'react'
+import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router'
+import { Dimmer, Dropdown, Icon, Image, Loader, Menu } from 'semantic-ui-react'
+import { useLanguage } from '../context/languageContext'
 import {
   RiMenu2Line,
   RiNotification3Line,
@@ -12,30 +12,30 @@ import {
   RiUserSettingsLine,
   RiUser5Line,
 } from 'react-icons/ri'
-import {GiWallet} from 'react-icons/gi'
-import {BsPeopleCircle} from 'react-icons/bs'
+import { GiWallet } from 'react-icons/gi'
+import { BsPeopleCircle } from 'react-icons/bs'
 import useAsync from '../hooks/useAsync'
-import {useUser} from '../context/UserContext'
-import {Link} from 'react-router-dom'
+import { useUser } from '../context/UserContext'
+import { Link } from 'react-router-dom'
 import routes from '../routes'
 import logo from '../assets/images/logo.svg'
-import {IoChatboxEllipsesOutline} from 'react-icons/io5'
+import { IoChatboxEllipsesOutline } from 'react-icons/io5'
 import DashboardPage from '../pages/Dashborad'
 import notifyImage from '../assets/images/sample.jpeg'
-import {logout} from '../services/AuthServices'
-import {useToasts} from 'react-toast-notifications'
+import { logout } from '../services/AuthServices'
+import { useToasts } from 'react-toast-notifications'
 import Auth from '../config/auth'
 import DetailsModal from '../components/Dashboard/modals/details.modal'
 
 const DashboardLayout = () => {
-  const {run, isLoading} = useAsync()
+  const { run, isLoading } = useAsync()
   const [lang, setLang] = useLanguage()
-  const {addToast} = useToasts()
+  const { addToast } = useToasts()
   const [userData, setUserData] = useState()
   const [showNotification, setShowNotification] = useState(false)
   const [user, setUser] = useUser()
   const parsedUser = JSON.parse(user)
-  const {pathname} = useLocation()
+  const { pathname } = useLocation()
 
   const history = useHistory()
 
@@ -58,8 +58,8 @@ const DashboardLayout = () => {
 
   const handleOnClickLogout = () => {
     run(logout())
-      .then(({data}) => {
-        addToast(data.message, {appearance: 'success'})
+      .then(({ data }) => {
+        addToast(data.message, { appearance: 'success' })
         Auth.logout()
         history.push(routes.login)
       })
@@ -80,7 +80,7 @@ const DashboardLayout = () => {
               return null
             }
             if (error.field === 'permissionDenied') {
-              addToast(error.message, {appearance: 'error'})
+              addToast(error.message, { appearance: 'error' })
               history.push('/requests')
               return null
             }
@@ -131,7 +131,7 @@ const DashboardLayout = () => {
             <li className="absolute top-24 w-1/4 ltr:right-0 z-10 rtl:left-0">
               <div
                 className="bg-white -mt-1 overflow-y-auto rounded-lg border-2 border-gray-200"
-                style={{height: 'auto', maxHeight: '400px'}}
+                style={{ height: 'auto', maxHeight: '400px' }}
               >
                 <ul>
                   <li className="bg-blue-100 p-3 border-b-2">
@@ -140,7 +140,7 @@ const DashboardLayout = () => {
                         src={notifyImage}
                         className="rounded-full w-20 h-20"
                       />
-                      <div className="ltr:ml-5 rtl:mr-5" style={{width: '80%'}}>
+                      <div className="ltr:ml-5 rtl:mr-5" style={{ width: '80%' }}>
                         <div className="flex justify-between w-full">
                           <p className="font-semibold text-lg mb-1">
                             Welcome Yehia
@@ -166,14 +166,13 @@ const DashboardLayout = () => {
                     <Image
                       src={userData?.avatar}
                       alt="avatar"
-                      className={`${
-                        userData?.avatar ? 'visible' : 'hidden'
-                      } w-12 h-12 rounded-full mx-auto`}
+                      className={`${userData?.avatar ? 'visible' : 'hidden'
+                        } w-12 h-12 rounded-full mx-auto`}
                     />
                   ) : (
                     <BsPeopleCircle
                       size="32"
-                      // className={`mx-auto`}
+                    // className={`mx-auto`}
                     />
                   )}
                   <div>
@@ -210,7 +209,9 @@ const DashboardLayout = () => {
 
       <Menu
         inverted
-        className="bg-mainBgColor-default mt-0 text-lg rounded-none"
+        stackable
+
+        className={`bg-mainBgColor-default mt-0 text-lg rounded-none md:h-auto`}
         id="nav-menu"
         widths={8}
       >
