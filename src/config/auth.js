@@ -19,13 +19,17 @@ const Auth = {
     const userId = JSON.parse(localStorage.getItem('user') || '[]')
     return userId._id
   },
+  getShopId: () => {
+    const userId = JSON.parse(localStorage.getItem('user') || '[]')
+    return userId.shopId
+  },
   isExpired: myToken => {
     const decodeToken = jwt_decode(myToken)
     const now = new Date().getTime() / 1000
     if (now > decodeToken.exp) {
       return true
     } else {
-      return decodeToken._id
+      return false
     }
   },
   isHR: () => {

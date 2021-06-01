@@ -11,7 +11,11 @@ const AuthAxios = Axios.create()
 AuthAxios.interceptors.request.use(config => {
   console.log(Auth.getToken())
   let accessToken = Auth.getToken()
-  if (Auth.isExpired(accessToken)) window.location = '/auth/login'
+
+  if (Auth.isExpired(accessToken)) {
+    Auth.logout()
+    window.location.pathname = '/auth/login'
+  }
 
   config.headers = {Authorization: `Bearer ${Auth.getToken()}`}
   return config

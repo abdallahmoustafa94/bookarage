@@ -15,10 +15,10 @@
   font-family: 'Poppins', sans-serif !important;
 }
 html[dir='ltr'] .main-font * {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
 }
 html[dir='rtl'] .main-font * {
-  font-family: 'Almarai', sans-serif;
+  font-family: 'Almarai', sans-serif !important;
 }
 html[dir='ltr'] .main-font i {
   font-family: 'Icons' !important;
@@ -63,11 +63,14 @@ input {
   font-family: 'Poppins', sans-serif;
 }
 
+#nav-menu.desktop-menu {
+  position: static !important;
+}
+
 #nav-menu .item {
   @apply text-gray-300;
-  padding: 0 !important;
-  margin: 0 !important;
 }
+
 #nav-menu .item.active {
   @apply bg-primaryRedColor-default;
 }

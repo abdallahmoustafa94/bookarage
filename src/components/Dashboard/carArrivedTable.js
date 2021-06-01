@@ -49,9 +49,11 @@ const CarArrivedTable = ({requests, loading}) => {
               <Table.Row key={i}>
                 <Table.Cell>{i + 1}</Table.Cell>
                 <Table.Cell>
-                  {req.car.carMake} - {req.car.carModel} {req.car.carYear}
+                  {req.requestDetails.car.carMake} -{' '}
+                  {req.requestDetails.car.carModel}{' '}
+                  {req.requestDetails.car.carYear}
                 </Table.Cell>
-                <Table.Cell>{req.car.plateNumber}</Table.Cell>
+                <Table.Cell>{req.requestDetails.car.plateNumber}</Table.Cell>
                 <Table.Cell>{req.user.nameEN}</Table.Cell>
                 <Table.Cell>{req.user.phoneNumber}</Table.Cell>
                 <Table.Cell>
@@ -59,7 +61,9 @@ const CarArrivedTable = ({requests, loading}) => {
                     <p key={i}>{service.nameEN}</p>
                   ))}
                 </Table.Cell>
-                <Table.Cell>{formatDate(req.requestDate)}</Table.Cell>
+                <Table.Cell>
+                  {formatDate(req.requestDetails.requestDate)}
+                </Table.Cell>
                 <Table.Cell>
                   <Icon
                     name="eye"

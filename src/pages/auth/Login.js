@@ -38,6 +38,7 @@ const LoginPage = () => {
       })
       .catch(e => {
         console.log(e)
+        e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
       })
   }
 

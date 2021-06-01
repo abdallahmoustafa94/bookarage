@@ -5,4 +5,11 @@ module.exports = {
   login: '/auth/login',
   register: '/auth/register',
   profile: '/user/profile',
+  requests: '/requests',
+  inquiries: '/inquiries',
+  wallet: '/wallet',
+  management: '/management',
+  myAccount: '/myAccount',
+  messages: '/messages',
+  offers: '/offers',
 }

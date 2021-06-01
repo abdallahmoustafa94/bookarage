@@ -1,8 +1,10 @@
-import {Fragment} from 'react'
+import {Fragment, useContext} from 'react'
 import {Button, Icon, Table} from 'semantic-ui-react'
+import StateContext from '../../context/stateContext'
 import {formatDate} from '../../utils/date-format'
 
 const AppointmentTable = ({requests, loading, updateRequest}) => {
+  const {setShowModal} = useContext(StateContext)
   const handleOnClickConfirm = (status, requestId) => {
     updateRequest({id: requestId, statusId: status})
   }
@@ -51,23 +53,31 @@ const AppointmentTable = ({requests, loading, updateRequest}) => {
               <Table.Row key={i}>
                 <Table.Cell>{i + 1}</Table.Cell>
                 <Table.Cell
-                  positive={req.requestStatus.id === 2}
-                  negative={req.requestStatus.id === 1}
+                  positive={req.requestDetails.requestStatus.id === 2}
+                  negative={req.requestDetails.requestStatus.id === 1}
                 >
-                  {req.requestStatus.name}
+                  {req.requestDetails.requestStatus.name}
                 </Table.Cell>
                 <Table.Cell>
-                  {req.car.carMake} - {req.car.carModel} {req.car.carYear}
+                  {req.requestDetails.car.carMake} -{' '}
+                  {req.requestDetails.car.carModel}{' '}
+                  {req.requestDetails.car.carYear}
                 </Table.Cell>
                 <Table.Cell>{req.user.nameEN}</Table.Cell>
                 <Table.Cell>{req.user.phoneNumber}</Table.Cell>
                 <Table.Cell>
-                  {req?.services.map((service, i) => (
+                  {req.requestDetails?.services.map((service, i) => (
                     <p key={i}>{service.nameEN}</p>
                   ))}
                 </Table.Cell>
-                <Table.Cell>{formatDate(req.requestDate)}</Table.Cell>
                 <Table.Cell>
+                  {formatDate(req.requestDetails.requestDate)}
+                </Table.Cell>
+                <Table.Cell
+                  onClick={() =>
+                    setShowModal({modalName: 'requestDetails', data: req})
+                  }
+                >
                   <Icon
                     name="eye"
                     className="text-primaryRedColor-default cursor-pointer text-lg"
@@ -77,11 +87,14 @@ const AppointmentTable = ({requests, loading, updateRequest}) => {
                   <div
                     className="flex items-center justify-center text-primaryRedColor-default text-lg font-medium cursor-pointer"
                     onClick={() =>
-                      handleOnClickConfirm(req.requestStatus.id + 1, req._id)
+                      handleOnClickConfirm(
+                        req.requestDetails.requestStatus.id + 1,
+                        req._id,
+                      )
                     }
                   >
                     <p className="m-0">
-                      {req.requestStatus.id === 1
+                      {req.requestDetails.requestStatus.id === 1
                         ? 'Confirm'
                         : 'Mark Car Arrived'}
                     </p>

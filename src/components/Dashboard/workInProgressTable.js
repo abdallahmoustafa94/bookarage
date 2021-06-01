@@ -46,7 +46,9 @@ const WorkInProgressTable = ({requests, loading}) => {
               <Table.Row key={i}>
                 <Table.Cell>{i + 1}</Table.Cell>
                 <Table.Cell>
-                  {req.car.carMake} - {req.car.carModel} {req.car.carYear}
+                  {req.requestDetails.car.carMake} -{' '}
+                  {req.requestDetails.car.carModel}{' '}
+                  {req.requestDetails.car.carYear}
                 </Table.Cell>
                 <Table.Cell>{req.user.nameEN}</Table.Cell>
                 <Table.Cell>{req.user.phoneNumber}</Table.Cell>
@@ -55,8 +57,10 @@ const WorkInProgressTable = ({requests, loading}) => {
                     <p key={i}>{service.nameEN}</p>
                   ))}
                 </Table.Cell>
-                <Table.Cell>{req.car?.estimatedTime}</Table.Cell>
-                <Table.Cell>{req.assignedTech.nameEN}</Table.Cell>
+                <Table.Cell>{req.requestDetails.car?.estimatedTime}</Table.Cell>
+                <Table.Cell>
+                  {req.requestDetails.assignedTech.nameEN}
+                </Table.Cell>
                 <Table.Cell>
                   <Icon
                     name="eye"

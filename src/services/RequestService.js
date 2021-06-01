@@ -1,16 +1,9 @@
 import Auth from '../config/auth'
-import {axios} from '../config/axiosConfig'
+import {authAxios, axios} from '../config/axiosConfig'
 
 // Get my requests
-export const myRequests = () => {
-  const token = Auth.getToken()
-  const header = {
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  }
-
-  return axios.get('/requests/myRequests', header)
+export const myRequests = id => {
+  return authAxios.get('/requests/requestsByShopId/' + id)
 }
 
 // Update Request

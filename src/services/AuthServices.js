@@ -1,5 +1,4 @@
-import Auth from '../config/auth'
-import {axios} from '../config/axiosConfig'
+import {authAxios, axios} from '../config/axiosConfig'
 
 export const login = loginData => {
   return axios.post('/auth/login', loginData, {
@@ -11,10 +10,5 @@ export const login = loginData => {
 }
 
 export const logout = () => {
-  const token = Auth.getToken()
-  return axios.get('/auth/logout', {
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  })
+  return authAxios.get('/auth/logout')
 }
