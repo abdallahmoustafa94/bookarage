@@ -4,33 +4,33 @@ import {
   FaCheckCircle,
   FaTimesCircle,
 } from 'react-icons/fa'
-import {ImWrench} from 'react-icons/im'
+import { ImWrench } from 'react-icons/im'
 import {
   IoCalendar,
   IoCopyOutline,
   IoShareSocial,
   IoNavigate,
 } from 'react-icons/io5'
-import {FaTruckLoading} from 'react-icons/fa'
-import {RiMapPinFill} from 'react-icons/ri'
+import { FaTruckLoading } from 'react-icons/fa'
+import { RiMapPinFill } from 'react-icons/ri'
 
-import {Button} from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import {useToasts} from 'react-toast-notifications'
-import {useState} from 'react'
-import {useLanguage} from '../../../../context/languageContext'
+import { useToasts } from 'react-toast-notifications'
+import { useState } from 'react'
+import { useLanguage } from '../../../../context/languageContext'
 import moment from 'moment'
 import useMediaQuery from '../../../../hooks/use-media-query'
 
-const RequestInformationSection = ({requestInfo}) => {
+const RequestInformationSection = ({ requestInfo }) => {
   const [copied, setCopied] = useState(false)
   const [lang] = useLanguage()
-  const {addToast} = useToasts()
+  const { addToast } = useToasts()
   const isSmall = useMediaQuery('(max-width: 992px)')
 
   const handleOnCopy = () => {
     setCopied(true)
-    addToast('Text Copied!', {appearance: 'success'})
+    addToast('Text Copied!', { appearance: 'success' })
   }
   return (
     <div className="mx-1 bg-white p-3 rounded-md text-lg">
@@ -38,13 +38,13 @@ const RequestInformationSection = ({requestInfo}) => {
         <p className="mb-2">Request Information</p>
         <div
           className="bg-gradient-to-r  from-yellow-400 to-primaryRedColor-default rounded-full w-12"
-          style={{content: ' ', height: '5px'}}
+          style={{ content: ' ', height: '5px' }}
         ></div>
       </div>
       <div className="my-7">
         <p className="mb-2 text-gray-400 font-light">Required Services</p>
         {requestInfo.requestDetails.services?.map((service, i) => (
-          <div className="flex items-center">
+          <div className="flex items-center" key={i}>
             <div className="bg-primaryRedColor-default p-1 rounded-md ltr:mr-3 rtl:ml-3">
               <ImWrench size={15} className="text-white" />
             </div>
@@ -89,9 +89,8 @@ const RequestInformationSection = ({requestInfo}) => {
       <div className="my-7">
         <p className="mb-2 text-gray-400 font-light">Car Location</p>
         <div
-          className={`flex ${
-            isSmall ? 'flex-col justify-start' : 'flex-row justify-between'
-          } items-center`}
+          className={`flex ${isSmall ? 'flex-col justify-start' : 'flex-row justify-between'
+            } items-center`}
         >
           <div className={`flex items-center ${isSmall ? 'mb-5' : 'w-1/2'}`}>
             <RiMapPinFill size={21} className="ltr:mr-3 rtl:ml-3" />
@@ -108,9 +107,8 @@ const RequestInformationSection = ({requestInfo}) => {
             </p>
           </div>
           <div
-            className={`flex items-center ${
-              isSmall ? 'justify-start w-full' : 'w-1/2 justify-end'
-            }  `}
+            className={`flex items-center ${isSmall ? 'justify-start w-full' : 'w-1/2 justify-end'
+              }  `}
           >
             <Button
               icon="location arrow"

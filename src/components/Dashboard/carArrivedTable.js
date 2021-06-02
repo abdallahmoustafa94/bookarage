@@ -1,17 +1,16 @@
-import {Fragment, useContext} from 'react'
-import {Icon, Table} from 'semantic-ui-react'
+import { Fragment, useContext } from 'react'
+import { Icon, Table } from 'semantic-ui-react'
 import StateContext from '../../context/stateContext'
-import {formatDate} from '../../utils/date-format'
+import { formatDate } from '../../utils/date-format'
 
-const CarArrivedTable = ({requests, loading}) => {
-  const {setShowModal} = useContext(StateContext)
+const CarArrivedTable = ({ requests, loading }) => {
+  const { setShowModal } = useContext(StateContext)
   return (
     <Fragment>
       <div
-        className={`${
-          loading ? 'visible' : 'hidden'
-        } absolute bg-gray-50 bg-opacity-40 w-full top-10 z-20`}
-        style={{content: ' ', height: '100%'}}
+        className={`${loading ? 'visible' : 'hidden'
+          } absolute bg-gray-50 bg-opacity-40 w-full top-10 z-20`}
+        style={{ content: ' ', height: '100%' }}
       ></div>
       <Table celled textAlign="center">
         <Table.Header>
@@ -57,7 +56,7 @@ const CarArrivedTable = ({requests, loading}) => {
                 <Table.Cell>{req.user.nameEN}</Table.Cell>
                 <Table.Cell>{req.user.phoneNumber}</Table.Cell>
                 <Table.Cell>
-                  {req?.services.map((service, i) => (
+                  {req?.requestDetails.services.map((service, i) => (
                     <p key={i}>{service.nameEN}</p>
                   ))}
                 </Table.Cell>
@@ -76,7 +75,7 @@ const CarArrivedTable = ({requests, loading}) => {
                     onClick={() =>
                       setShowModal({
                         modalName: 'assignTech',
-                        data: {requestId: req._id, tech: req.shop.employees},
+                        data: { requestId: req._id, tech: req.shop.employees },
                       })
                     }
                   >
