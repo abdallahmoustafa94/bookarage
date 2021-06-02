@@ -1,16 +1,17 @@
-import { useContext, useEffect, useState } from 'react'
-import { BsWrench } from 'react-icons/bs'
-import { FaAngleRight } from 'react-icons/fa'
+import {useContext, useEffect, useState} from 'react'
+import {BsWrench} from 'react-icons/bs'
+import {FaAngleRight} from 'react-icons/fa'
 
-import { Grid, Icon, Modal } from 'semantic-ui-react'
+import {Grid, Icon, Modal} from 'semantic-ui-react'
 import StateContext from '../../../context/stateContext'
 import useMediaQuery from '../../../hooks/use-media-query'
 import RequestInformationSection from './detailsModalComponent/requestInformation'
 import CarInformationSection from './detailsModalComponent/carInformation'
+import MaintainanceHistorySection from './detailsModalComponent/maintainanceHistory'
 
 const DetailsModal = () => {
   const [open, setOpen] = useState(false)
-  const { showModal, setShowModal } = useContext(StateContext)
+  const {showModal, setShowModal} = useContext(StateContext)
   const [modalData, setModalData] = useState('')
   const isSmall = useMediaQuery('(max-width: 992px)')
 
@@ -30,21 +31,23 @@ const DetailsModal = () => {
       closeIcon={
         <Icon
           name="times"
-          className="p-0 text-gray-200 absolute -top-10 ltr:right-0 rtl:left-0 text-lg"
+          className="p-0 text-gray-200 absolute -top-10 ltr:right-0 rtl:left-0 text-lg cursor-pointer"
         />
       }
       className="bg-transparent m-auto main-font mt-7"
-      style={{ width: '90%' }}
-      onClose={() => setShowModal({ modalName: '', data: null })}
+      style={{width: '90%'}}
+      onClose={() => setShowModal({modalName: '', data: null})}
     >
       <Modal.Header className="rounded-md">
         <div
-          className={`flex items-center ${isSmall ? 'flex-col' : 'justify-between'
-            } `}
+          className={`flex items-center ${
+            isSmall ? 'flex-col' : 'justify-between'
+          } `}
         >
           <div
-            className={`flex items-center ${isSmall ? 'justify-start w-full mb-2' : ''
-              } lg:text-lg text-sm font-normal`}
+            className={`flex items-center ${
+              isSmall ? 'justify-start w-full mb-2' : ''
+            } lg:text-lg text-sm font-normal`}
           >
             <BsWrench
               size={isSmall ? 15 : 18}
@@ -65,10 +68,14 @@ const DetailsModal = () => {
           <Grid.Row>
             <Grid.Column className={`${isSmall ? 'p-0' : ''}`}>
               <RequestInformationSection requestInfo={modalData} />
+              <MaintainanceHistorySection />
             </Grid.Column>
             <Grid.Column className={`${isSmall ? 'p-0' : ''}`}>
               <CarInformationSection carInfo={modalData} />
             </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column></Grid.Column>
           </Grid.Row>
         </Grid>
       </Modal.Content>
