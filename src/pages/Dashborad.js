@@ -34,25 +34,25 @@ const DashboardPage = () => {
         let requestTypes = {
           appointment: [],
           carArrived: [],
-          inProgress: [],
           estimatedSent: [],
-          estimatedApproved: [],
-          invoiceCreated: [],
+          inProgress: [],
+          carReady: [],
+          invoicePaid: [],
         }
         data.data?.map(r => {
           if (r.requestType === 'ServiceRequest') {
             if ([1, 2].includes(r.requestDetails.requestStatus.id)) {
               requestTypes.appointment.push(r)
-            } else if ([3].includes(r.requestDetails.requestStatus.id)) {
+            } else if ([3, 4].includes(r.requestDetails.requestStatus.id)) {
               requestTypes.carArrived.push(r)
-            } else if ([4].includes(r.requestDetails.requestStatus.id)) {
+            } else if ([7].includes(r.requestDetails.requestStatus.id)) {
               requestTypes.inProgress.push(r)
             } else if ([5].includes(r.requestDetails.requestStatus.id)) {
               requestTypes.estimatedSent.push(r)
-            } else if ([6].includes(r.requestDetails.requestStatus.id)) {
-              requestTypes.estimatedApproved.push(r)
-            } else if ([7].includes(r.requestDetails.requestStatus.id)) {
-              requestTypes.invoiceCreated.push(r)
+            } else if ([6, 8, 9].includes(r.requestDetails.requestStatus.id)) {
+              requestTypes.carReady.push(r)
+            } else if ([10].includes(r.requestDetails.requestStatus.id)) {
+              requestTypes.invoicePaid.push(r)
             }
           }
         })

@@ -57,30 +57,6 @@ const RequestTabs = ({activeMenu, setActiveMenu}) => {
       </Menu.Item>
 
       <Menu.Item
-        active={activeMenu === 'inProgress'}
-        onClick={() => setActiveMenu('inProgress')}
-      >
-        <div className="flex flex-col w-full lg:px-10 px-4">
-          <p
-            className={`lg:text-5xl text-3xl font-normal text-left ${
-              activeMenu === 'inProgress'
-                ? 'text-primaryRedColor-default'
-                : 'text-mainBgColor-default'
-            } mb-1`}
-          >
-            15
-          </p>
-          <p className="font-medium text-labelColor">Work in Progress</p>
-
-          <div
-            className={`bottom-arrow ${
-              activeMenu === 'inProgress' ? 'visible' : 'hidden'
-            }`}
-          ></div>
-        </div>
-      </Menu.Item>
-
-      <Menu.Item
         active={activeMenu === 'estimatedSent'}
         onClick={() => setActiveMenu('estimatedSent')}
       >
@@ -105,6 +81,30 @@ const RequestTabs = ({activeMenu, setActiveMenu}) => {
       </Menu.Item>
 
       <Menu.Item
+        active={activeMenu === 'inProgress'}
+        onClick={() => setActiveMenu('inProgress')}
+      >
+        <div className="flex flex-col w-full lg:px-10 px-4">
+          <p
+            className={`lg:text-5xl text-3xl font-normal text-left ${
+              activeMenu === 'inProgress'
+                ? 'text-primaryRedColor-default'
+                : 'text-mainBgColor-default'
+            } mb-1`}
+          >
+            15
+          </p>
+          <p className="font-medium text-labelColor">Work in Progress</p>
+
+          <div
+            className={`bottom-arrow ${
+              activeMenu === 'inProgress' ? 'visible' : 'hidden'
+            }`}
+          ></div>
+        </div>
+      </Menu.Item>
+
+      {/* <Menu.Item
         active={activeMenu === 'estimatedApproved'}
         onClick={() => setActiveMenu('estimatedApproved')}
       >
@@ -126,7 +126,7 @@ const RequestTabs = ({activeMenu, setActiveMenu}) => {
             }`}
           ></div>
         </div>
-      </Menu.Item>
+      </Menu.Item> */}
 
       <Menu.Item
         active={activeMenu === 'carReady'}
