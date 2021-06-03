@@ -68,7 +68,9 @@ const DetailsModal = () => {
           <Grid.Row>
             <Grid.Column className={`${isSmall ? 'p-0' : ''}`}>
               <RequestInformationSection requestInfo={modalData} />
-              <MaintainanceHistorySection />
+              <MaintainanceHistorySection
+                carId={modalData?.requestDetails?.car?._id}
+              />
             </Grid.Column>
             <Grid.Column className={`${isSmall ? 'p-0' : ''}`}>
               <CarInformationSection carInfo={modalData} />

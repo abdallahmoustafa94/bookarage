@@ -6,13 +6,12 @@ export const myRequests = id => {
   return authAxios.get('/requests/requestsByShopId/' + id)
 }
 
+// Get car History
+export const carHistory = carId => {
+  return authAxios.get('/requests/carHistory/' + carId)
+}
+
 // Update Request
 export const updateRequest = status => {
-  const token = Auth.getToken()
-  const header = {
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
-  }
-  return axios.patch('/requests/updateRequest', status, header)
+  return authAxios.patch('/requests/updateRequest', status)
 }
