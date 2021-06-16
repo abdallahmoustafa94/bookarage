@@ -8,9 +8,11 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
+    "formik": "^2.2.9",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.1",
     "react": "^17.0.2",
+    "react-circular-progressbar": "^2.0.4",
     "react-code-input": "^3.10.1",
     "react-copy-to-clipboard": "^5.0.3",
     "react-dom": "^17.0.2",
@@ -24,7 +26,8 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "socket.io-client": "^4.1.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.9"
   },
   "resolutions": {
     "semantic-ui-calendar-react/react": "^17.0.2",

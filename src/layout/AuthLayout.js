@@ -2,6 +2,7 @@ import {useEffect} from 'react'
 import {Redirect, Route, Switch, useHistory} from 'react-router'
 import Auth from '../config/auth'
 import LoginPage from '../pages/auth/Login'
+import RegisterPage from '../pages/auth/register'
 import routes from '../routes'
 
 const AuthLayout = () => {
@@ -20,7 +21,7 @@ const AuthLayout = () => {
   return (
     <div className="auth-bg">
       <div
-        className="absolute left-1/2 top-1/2 bg-white max-w-2xl rounded-2xl px-16"
+        className="absolute left-1/2 top-1/2 bg-white max-w-4xl rounded-2xl px-16 my-5 "
         style={{
           transform: 'translate(-50%, -50%)',
           height: 'auto',
@@ -29,6 +30,7 @@ const AuthLayout = () => {
       >
         <Switch>
           <Route exact path={routes.login} component={LoginPage} />
+          <Route path={routes.register} component={RegisterPage} />
           <Redirect to={routes.login} />
         </Switch>
       </div>

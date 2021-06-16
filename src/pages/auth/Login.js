@@ -92,6 +92,7 @@ const LoginPage = () => {
               <Button
                 content="Create Account"
                 className="btn-primary-outline"
+                onClick={() => history.push(routes.register)}
               />
             </div>
           </div>

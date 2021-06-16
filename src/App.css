@@ -26,7 +26,8 @@ html[dir='ltr'] .main-font i {
 html[dir='rtl'] .main-font i {
   font-family: 'Icons' !important;
 }
-input {
+input,
+textarea {
   @apply text-labelColor;
   background-color: #f2f2f2 !important;
   border: none !important;
@@ -37,11 +38,14 @@ input {
 }
 
 .auth-bg {
-  background: url(./assets/images/auth-bg.png) no-repeat center center fixed;
+  background: url(./assets/images/auth-bg.png);
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
   height: 100%;
 }
 
@@ -121,4 +125,9 @@ div[role='listbox'].dropdown {
 .dropdown.active .menu {
   border: none !important;
   box-shadow: none !important;
+}
+
+.react-code-input input {
+  font-size: 25px !important;
+  padding: 7px !important;
 }
