@@ -16,9 +16,11 @@ import {
 } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 import ShopInfoStep from '../../components/auth/RegisterSteps/shopInfoStep'
+import AddBrandModal from '../../shared/addBrandModal'
+import AddServiceModal from '../../shared/addServiceModal'
 
 const RegisterPage = () => {
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(10)
   const [state, setState] = useState({
     role: '',
     nameEN: '',
@@ -57,6 +59,8 @@ const RegisterPage = () => {
   }
   return (
     <div className={step === 1 ? 'px-20 py-10' : 'py-10'}>
+      <AddBrandModal />
+      <AddServiceModal />
       {step === 1 && <RoleSelectionStep nextStep={v => handleNextStep(v)} />}
       {step === 2 && (
         <PersonalInfoStep
@@ -117,7 +121,7 @@ const RegisterPage = () => {
           <div className="mt-6">
             {step === 6 && (
               <ShopInfoStep
-                nextStep={v => handleNextStep(v)} 
+                nextStep={v => handleNextStep(v)}
                 values={state}
                 stepTitle={v => setStepTitle(v)}
               />
@@ -126,7 +130,7 @@ const RegisterPage = () => {
           <div className="mt-6">
             {step === 7 && (
               <LocationInformation
-                nextStep={v => handleNextStep(v)} 
+                nextStep={v => handleNextStep(v)}
                 values={state}
                 stepTitle={v => setStepTitle(v)}
               />
@@ -135,7 +139,7 @@ const RegisterPage = () => {
           <div className="mt-6">
             {step === 8 && (
               <LegalInformation
-                nextStep={v => handleNextStep(v)} 
+                nextStep={v => handleNextStep(v)}
                 values={state}
                 stepTitle={v => setStepTitle(v)}
               />
@@ -144,7 +148,7 @@ const RegisterPage = () => {
           <div className="mt-6">
             {step === 9 && (
               <BrandsAndServices
-                nextStep={v => handleNextStep(v)} 
+                nextStep={v => handleNextStep(v)}
                 values={state}
                 stepTitle={v => setStepTitle(v)}
               />
@@ -153,7 +157,7 @@ const RegisterPage = () => {
           <div className="mt-6">
             {step === 10 && (
               <WorkingHours
-                nextStep={v => handleNextStep(v)} 
+                nextStep={v => handleNextStep(v)}
                 values={state}
                 stepTitle={v => setStepTitle(v)}
               />
@@ -162,7 +166,7 @@ const RegisterPage = () => {
           <div className="mt-6">
             {step === 11 && (
               <LoginPage
-                nextStep={v => handleNextStep(v)} 
+                nextStep={v => handleNextStep(v)}
                 values={state}
                 stepTitle={null}
               />

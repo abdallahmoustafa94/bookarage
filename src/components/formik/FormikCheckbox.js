@@ -3,6 +3,7 @@ import {Field} from 'formik'
 import {Form} from 'semantic-ui-react'
 
 function FormikCheckbox({label, name, className, ...props}) {
+  console.log(name)
   return (
     <>
       <label htmlFor={name} className="font-bold text-base mt-4 text-primary">
