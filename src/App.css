@@ -131,3 +131,6 @@ div[role='listbox'].dropdown {
   font-size: 25px !important;
   padding: 7px !important;
 }
+.secondary-text-color{
+  color:#f2421b !important;
+}

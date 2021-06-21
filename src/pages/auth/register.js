@@ -1,9 +1,14 @@
 import {Fragment, useState} from 'react'
 import RoleSelectionStep from '../../components/auth/RegisterSteps/roleSelection'
 import PersonalInfoStep from '../../components/auth/RegisterSteps/personalInfo'
+import LocationInformation from '../../components/auth/RegisterSteps/LocationInformation'
+import LegalInformation from '../../components/auth/RegisterSteps/LegalInformation'
+import BrandsAndServices from '../../components/auth/RegisterSteps/BrandsAndServices'
+import WorkingHours from '../../components/auth/RegisterSteps/WorkingHours'
 import PhoneStep from '../../components/auth/RegisterSteps/phoneStep'
 import VerifyOTP from '../../components/auth/RegisterSteps/verifyOTP'
 import SuccessAccount from '../../components/auth/RegisterSteps/successAccount'
+import LoginPage from '../auth/Login'
 import {
   buildStyles,
   CircularProgressbar,
@@ -112,9 +117,54 @@ const RegisterPage = () => {
           <div className="mt-6">
             {step === 6 && (
               <ShopInfoStep
-                nextStep={v => handleNextStep(v)}
+                nextStep={v => handleNextStep(v)} 
                 values={state}
                 stepTitle={v => setStepTitle(v)}
+              />
+            )}
+          </div>
+          <div className="mt-6">
+            {step === 7 && (
+              <LocationInformation
+                nextStep={v => handleNextStep(v)} 
+                values={state}
+                stepTitle={v => setStepTitle(v)}
+              />
+            )}
+          </div>
+          <div className="mt-6">
+            {step === 8 && (
+              <LegalInformation
+                nextStep={v => handleNextStep(v)} 
+                values={state}
+                stepTitle={v => setStepTitle(v)}
+              />
+            )}
+          </div>
+          <div className="mt-6">
+            {step === 9 && (
+              <BrandsAndServices
+                nextStep={v => handleNextStep(v)} 
+                values={state}
+                stepTitle={v => setStepTitle(v)}
+              />
+            )}
+          </div>
+          <div className="mt-6">
+            {step === 10 && (
+              <WorkingHours
+                nextStep={v => handleNextStep(v)} 
+                values={state}
+                stepTitle={v => setStepTitle(v)}
+              />
+            )}
+          </div>
+          <div className="mt-6">
+            {step === 11 && (
+              <LoginPage
+                nextStep={v => handleNextStep(v)} 
+                values={state}
+                stepTitle={null}
               />
             )}
           </div>

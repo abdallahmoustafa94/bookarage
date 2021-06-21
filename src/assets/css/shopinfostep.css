@@ -1,0 +1,60 @@
+.shop-logo{
+    display: inline-block !important;
+    margin-right: 5px;
+
+}
+.file-upload{
+    margin-top: 5px;
+}
+
+.select-label{
+    background-color:transparent !important;
+    color:#000 !important;
+    margin-bottom: 5px !important;
+}
+
+.add{
+    color:#f2421b;
+    font-weight: 500;
+    cursor: pointer;
+}
+.ui.modal{
+    width:35% !important;
+}
+
+.brands-selection{
+    display: block !important;
+    background-color:transparent !important;
+    text-align: left;
+}
+
+.brands-options{
+    width: 100% !important;
+    margin-bottom: 8rem;
+}
+.brands-title{
+    padding-top:2rem !important;
+    font-weight: 700 !important;
+}
+.brands-buttons{
+    text-align: center;
+}
+div[role='listbox'].dropdown{
+    border-radius: 0% !important;
+    padding: 3px !important;
+}
+.hours-label{
+    padding-right: 0 !important;
+    padding-left:0 !important;
+}
+
+.ui.checkbox input.hidden+label{
+    padding-top: 0px !important;
+}
+.ui.dropdown>.dropdown.icon:before{
+    color:#f2421b
+}
+
+#radio-toggle.ui.toggle.checkbox input:checked~.box:before, .ui.toggle.checkbox input:checked~label:before{
+    background-color:#f2421b !important ;
+}
