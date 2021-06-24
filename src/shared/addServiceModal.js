@@ -21,7 +21,13 @@ const AddServiceModal = () => {
     key: 'erepair',
       value: 'erepair',
       text: 'Electric Repair',
-  }]
+  },
+
+]
+
+  const handleOnSubmit = (e) =>{
+    console.log(e)
+  }
   return (
     <Modal
       onClose={() => setShowModal({modalName: '', data: null})}
@@ -29,23 +35,22 @@ const AddServiceModal = () => {
       open={open}
     >
       <Modal.Content>
-        <div>
+        <div className="px-40">
         <p className="brands-title text-center text-bold font-bold text-2xl text-labelColor mb-1">
-            Add Brands
+            Add Service
           </p>
-          <p className="text-center text-labelColor text-base font-normal">
-            Brands that you provide services for
-          </p>
-          <div className="my-20 ">
+        
+          <div>
             <Formik initialValues={{services: ''}} onSubmit={handleOnSubmit}>
               {formik => (
                 <Form onSubmit={formik.submitForm}>
-                  <div className="flex items-center w-full">
+                  <div className="flex items-center justify-center">
+                  <div className="w-1/2">
                   <Form.Field>
                     <FormikControl
                       control="dropdown"
                       name="services"
-                      fluid
+                      className="rounded-lg "
                       multiple
                       selection
                       label="Selected Service"
@@ -53,25 +58,41 @@ const AddServiceModal = () => {
                       options={ServicesOptions}
                     />
                   </Form.Field>
-                  <Form.Field>
+                  </div>
+                  <div className="w-1/4 p-2">
+                    <Form.Field>
                     <FormikControl
                     label="Cost Start From"
-                     name="CostStartFrom"
-                     placeholder="Cost Start From"
+                     name="Cost"
+                     placeholder="Cost"
                      control="input"
+                     className="rounded leading-tight px-1"
                     />
                   </Form.Field>
+                    </div>
                   </div>
-                  <div>
+                  <div className="w-3/4 mx-auto">
                   <Form.Field>
                     <FormikControl
                     label="Service Details"
                      name="serviceDetails"
                      placeholder="Write the details about the service"
                      control="textarea"
+                     rows="8"
                     />
                   </Form.Field>
                   </div>
+                  <div className="flex items-center w-full py-8 ">
+          <p className="mb-0 w-1/1 mx-auto">Service Availability</p>
+          <div className="flex justify-end w-1/1 -mt-3 mx-auto">
+             <FormikControl
+               name='availability'
+               control="checkbox"
+               toggle
+             />
+           </div>
+          
+        </div>
                   
                 </Form>
               )}
@@ -85,9 +106,10 @@ const AddServiceModal = () => {
 
       </Modal.Content>
       <Modal.Actions>
-        <div className="brands-buttons">
-          <Button content="Add" className="btn-primary" />
+        <div className="text-center">
+          <Button content="Add" className="btn-primary mx-5" />
           <Button
+          className="btn-declined mx-5"
             color="transparent"
             onClick={() => setShowModal({modalName: '', data: null})}
           >

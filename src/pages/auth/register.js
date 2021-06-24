@@ -18,9 +18,11 @@ import 'react-circular-progressbar/dist/styles.css'
 import ShopInfoStep from '../../components/auth/RegisterSteps/shopInfoStep'
 import AddBrandModal from '../../shared/addBrandModal'
 import AddServiceModal from '../../shared/addServiceModal'
+import DeleteServiceModal from '../../shared/deleteServiceModal'
+
 
 const RegisterPage = () => {
-  const [step, setStep] = useState(10)
+  const [step, setStep] = useState(1)
   const [state, setState] = useState({
     role: '',
     nameEN: '',
@@ -61,6 +63,7 @@ const RegisterPage = () => {
     <div className={step === 1 ? 'px-20 py-10' : 'py-10'}>
       <AddBrandModal />
       <AddServiceModal />
+      <DeleteServiceModal />
       {step === 1 && <RoleSelectionStep nextStep={v => handleNextStep(v)} />}
       {step === 2 && (
         <PersonalInfoStep

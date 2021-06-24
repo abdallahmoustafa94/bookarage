@@ -4,24 +4,18 @@ import {Modal, Form, Button} from 'semantic-ui-react'
 import {Formik} from 'formik'
 import FormikControl from '../components/formik/FormikControl'
 
-const AddBrandModal = () => {
+const DeleteServiceModal = () => {
   const [open, setOpen] = useState(false)
   const {showModal, setShowModal} = useContext(StateContext)
   useEffect(() => {
-    if (['registerBrand', 'addBrand'].includes(showModal.modalName)) {
+    if (['deleteService', 'removeService'].includes(showModal.modalName)) {
       setOpen(true)
     } else {
       setOpen(false)
     }
   }, [showModal])
 
-  const BrandsOptions = [
-    {
-      key: 'Honda',
-      value: 'Honda',
-      text: 'Honda',
-    },
-  ]
+  
 
   const handleOnSubmit = values => {
     console.log(values)
@@ -35,38 +29,29 @@ const AddBrandModal = () => {
       <Modal.Content>
         <div className="px-32">
           <p className="brands-title text-center text-bold font-bold text-2xl text-labelColor mb-1">
-            Add Brands
+            Delete Service
           </p>
           <p className="text-center text-labelColor text-base font-normal">
-            Brands that you provide services for
+            Are you sure you want to delete this service?
           </p>
-          <div className="my-20 w-1/2 mx-auto">
-            <Formik initialValues={{brands: ''}} onSubmit={handleOnSubmit}>
-              {formik => (
-                <Form onSubmit={formik.submitForm}>
-                  <Form.Field>
-                    <FormikControl
-                      control="dropdown"
-                      name="brands"
-                      fluid
-                      multiple
-                      selection
-                      label="Select Brand"
-                      clearable
-                      options={BrandsOptions}
-                    />
-                  </Form.Field>
-                </Form>
-              )}
-            </Formik>
-          </div>
+          <p className="text-center text-labelColor text-base font-normal py-2">
+            Selected Service
+          </p>
+                      <div className="text-center">
+                      <span className="primary-text-color w-auto bg-gray-100 rounded-full py-2 px-4">
+                        Electric Repair
+                      </span>
+                      </div>
+                     
+                     
+                     
 
           {/* <Form.Field>
                       <Label className="font-bold text-base mt-4 text-primary brands-selection">
                         Select Brand
                       </Label>
                     </Form.Field> */}
-          <div className="text-center">
+          <div className="text-center py-10">
             <Button content="Add" className="btn-primary mx-5" type="submit" />
             <Button
               className="btn-declined mx-5"
@@ -81,4 +66,4 @@ const AddBrandModal = () => {
   )
 }
 
-export default AddBrandModal
+export default DeleteServiceModal
