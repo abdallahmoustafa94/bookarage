@@ -21,7 +21,7 @@ import AddServiceModal from '../../shared/addServiceModal'
 import DeleteServiceModal from '../../shared/deleteServiceModal'
 
 const RegisterPage = () => {
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(10)
   const [state, setState] = useState({
     role: '',
     nameEN: '',
