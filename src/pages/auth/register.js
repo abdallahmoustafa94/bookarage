@@ -20,7 +20,6 @@ import AddBrandModal from '../../shared/addBrandModal'
 import AddServiceModal from '../../shared/addServiceModal'
 import DeleteServiceModal from '../../shared/deleteServiceModal'
 
-
 const RegisterPage = () => {
   const [step, setStep] = useState(1)
   const [state, setState] = useState({
@@ -86,6 +85,7 @@ const RegisterPage = () => {
           nextStep={v => handleNextStep(v)}
         />
       )}
+      {/* TODO: Add legal license step in this line */}
 
       {step === 5 && <SuccessAccount nextStep={v => handleNextStep(v)} />}
 
@@ -139,6 +139,9 @@ const RegisterPage = () => {
               />
             )}
           </div>
+
+          {/* TODO: Remove legal license from this step */}
+
           <div className="mt-6">
             {step === 8 && (
               <LegalInformation
