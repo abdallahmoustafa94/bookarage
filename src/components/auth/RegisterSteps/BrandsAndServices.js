@@ -33,7 +33,7 @@ const BrandsAndServices = ({
   const {setShowModal} = useContext(StateContext)
 
   useEffect(() => {
-    stepTitle({title: 'Legal Information', desc: 'Vat number, Trading license'})
+    stepTitle({title: 'Brands And Services', desc: 'Add brands and services you provide'})
   }, [])
 
   const handleOnSubmit = () => {

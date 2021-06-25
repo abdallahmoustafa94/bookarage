@@ -21,7 +21,7 @@ import AddServiceModal from '../../shared/addServiceModal'
 import DeleteServiceModal from '../../shared/deleteServiceModal'
 
 const RegisterPage = () => {
-  const [step, setStep] = useState(10)
+  const [step, setStep] = useState(1)
   const [state, setState] = useState({
     role: '',
     nameEN: '',
@@ -86,15 +86,24 @@ const RegisterPage = () => {
         />
       )}
       {/* TODO: Add legal license step in this line */}
+      <div className="mt-6">
+            {step === 5 && (
+              <LegalInformation
+                nextStep={v => handleNextStep(v)}
+                values={state}
+                stepTitle={v => setStepTitle(v)}
+              />
+            )}
+          </div>
 
-      {step === 5 && <SuccessAccount nextStep={v => handleNextStep(v)} />}
+      {step === 6 && <SuccessAccount nextStep={v => handleNextStep(v)} />}
 
-      {step > 5 && (
+      {step > 6 && (
         <Fragment>
           <div className="bg-blue-50 p-5 flex justify-center items-center rounded-2xl">
             <CircularProgressbarWithChildren
               minValue={0}
-              maxValue={5}
+              maxValue={4}
               strokeWidth={3}
               className="w-24"
               styles={buildStyles({
@@ -102,12 +111,12 @@ const RegisterPage = () => {
                 pathColor: '#f2421b',
                 trailColor: 'transparent',
               })}
-              value={step - 5}
+              value={step - 6}
               background={true}
               counterClockwise={true}
             >
               <p className="text-3xl text-primaryRedColor-default font-light">
-                <span className="font-medium">{step - 5}</span>/5
+                <span className="font-medium">{step - 6}</span>/4
               </p>
             </CircularProgressbarWithChildren>
 
@@ -122,7 +131,7 @@ const RegisterPage = () => {
           </div>
 
           <div className="mt-6">
-            {step === 6 && (
+            {step === 7 && (
               <ShopInfoStep
                 nextStep={v => handleNextStep(v)}
                 values={state}
@@ -131,7 +140,7 @@ const RegisterPage = () => {
             )}
           </div>
           <div className="mt-6">
-            {step === 7 && (
+            {step === 8 && (
               <LocationInformation
                 nextStep={v => handleNextStep(v)}
                 values={state}
@@ -142,15 +151,7 @@ const RegisterPage = () => {
 
           {/* TODO: Remove legal license from this step */}
 
-          <div className="mt-6">
-            {step === 8 && (
-              <LegalInformation
-                nextStep={v => handleNextStep(v)}
-                values={state}
-                stepTitle={v => setStepTitle(v)}
-              />
-            )}
-          </div>
+         
           <div className="mt-6">
             {step === 9 && (
               <BrandsAndServices
