@@ -1,11 +1,11 @@
 import {useContext, useEffect, useState} from 'react'
 import {Form, Button} from 'semantic-ui-react'
-import StateContext from '../../../context/stateContext'
+import StateContext from '../../context/stateContext'
 import {useHistory} from 'react-router-dom'
 import {TimeInput} from 'semantic-ui-calendar-react'
-import {formatTime} from '../../../utils/date-format'
+import {formatTime} from '../../utils/date-format'
 import moment from 'moment'
-import {capitalize} from '../../../utils/capitalize-text'
+import {capitalize} from '../../utils/capitalize-text'
 
 const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
   const [state, setState] = useState([
@@ -64,9 +64,7 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
 
   const history = useHistory()
 
-  useEffect(() => {
-    stepTitle({title: 'Shop Information', desc: 'Shop logo, Description'})
-  }, [])
+  
 
   const handleOnSubmit = () => {
     console.log(state)
@@ -94,19 +92,53 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
 
   return (
     <div>
+        <div className="flex mb-4">
+            <p className="flex justify-start w-1/2">Working Hours</p>
+            <Button
+              content="Save"
+              className="bg-transparent font-normal text-primaryRedColor-default flex justify-end w-1/2"
+              
+            />
+
+        </div>
+        <div className="flex  mb-6 bg-blue-100 w-full items-center rounded-full p-3 font-medium	text-gray-500">
+            <span className="flex justify-start w-1/2  ">Days</span>
+            <span className="flex justify-end w-1/2  ">Shop Status</span>
+
+        </div>
       <Form loading={loading}>
         <ul>
           {state.map((item, i) => (
             <li key={item.id} className="mb-3">
               <div className="flex items-center">
-                <p className="mb-0 w-2/12">{capitalize(item.day)}</p>
-                <div className="w-4/12 justify-start">
+                <p className="mb-0 w-1/2">{capitalize(item.day)}</p>
+                
+
+                <div className="w-1/2">
+                  <div className="flex  justify-end">
+                    <label className="mx-3 text-gray-400">
+                      {item?.isOpened ? 'Opened' : 'Closed'}
+                    </label>
+                    <div className="-mt-3">
+                      <Form.Checkbox
+                        toggle
+                        checked={item.isOpened}
+                        onChange={(e, {value, checked}) =>
+                          handleOnChangeCheckBox(i, checked)
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center">
+              <div className="w-1/2 justify-start">
                   {/* {console.log(Object.keys(item))} */}
                   <div>
                     <Form.Group widths="equal" className="mb-0">
                       <Form.Field>
                         <div className={`flex items-center`}>
-                          <label htmlFor={``} className="mx-3 text-gray-400">
+                          <label htmlFor={``} className="text-gray-400">
                             From
                           </label>
                           {/* {formatTime(item.startTime)} */}
@@ -147,35 +179,17 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
                     </Form.Group>
                   </div>
                 </div>
-
-                <div className="w-6/12">
-                  <div className="flex  justify-end">
-                    <label className="mx-3 text-gray-400">
-                      {item?.isOpened ? 'Opened' : 'Closed'}
-                    </label>
-                    <div className="-mt-3">
-                      <Form.Checkbox
-                        toggle
-                        checked={item.isOpened}
-                        onChange={(e, {value, checked}) =>
-                          handleOnChangeCheckBox(i, checked)
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
               </div>
             </li>
           ))}
         </ul>
-        <div className="my-10 text-center">
+        <div className="my-10 text-center flex justify-start">
           <Button
-            content="Finish"
+            content="Save"
             type="submit"
             className="btn-primary"
             onClick={handleOnSubmit}
           />
-          <Button className="btn-declined mx-5">Setup Later</Button>
         </div>
       </Form>
     </div>

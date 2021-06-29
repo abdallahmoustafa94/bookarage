@@ -19,10 +19,12 @@ import {BsPeopleCircle} from 'react-icons/bs'
 import useAsync from '../hooks/useAsync'
 import {useUser} from '../context/UserContext'
 import {Link, NavLink} from 'react-router-dom'
-import routes from '../routes'
+import routes, { myAccount } from '../routes'
 import logo from '../assets/images/logo.svg'
 import {IoChatboxEllipsesOutline} from 'react-icons/io5'
 import DashboardPage from '../pages/Dashborad'
+import Myaccount from '../pages/Myaccount'
+import Management from '../pages/Management'
 import notifyImage from '../assets/images/sample.jpeg'
 import {logout} from '../services/AuthServices'
 import {useToasts} from 'react-toast-notifications'
@@ -321,6 +323,8 @@ const DashboardLayout = () => {
       <div className="p-10">
         <Switch>
           <Route exact path={routes.dashboard} component={DashboardPage} />
+          <Route exact path={routes.myAccount} component={Myaccount} />
+          <Route exact path={routes.management} component={Management} />
           <Redirect to={routes.dashboard} />
         </Switch>
       </div>

@@ -4,6 +4,7 @@ import PrivateRoute from '../components/privateRoutes'
 import {useLanguage} from '../context/languageContext'
 import AuthLayout from '../layout/AuthLayout'
 import DashboardLayout from '../layout/DashboardLayout'
+import { myAccount } from '../pages/Myaccount'
 
 const Routes = () => {
   const [lang] = useLanguage()

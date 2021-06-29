@@ -41,7 +41,7 @@ const BrandsAndServices = ({
   }
 
   return (
-    <div className="px-32">
+    <div className="px-8">
       <div className="my-20">
         <div className="flex items-center w-full">
           <p className="mb-0 w-1/2">Brands Services For</p>
