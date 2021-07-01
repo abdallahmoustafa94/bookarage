@@ -10,7 +10,7 @@ import verifyImage from '../../../assets/images/verifyMobile.svg'
 const VerifyOTP = ({handleBack, nextStep, values, loading}) => {
   const handleOnSubmit = values => {
     console.log(values)
-    nextStep({type: 'submit', value: values})
+    nextStep({type: 'step', value: values})
   }
   return (
     <div>

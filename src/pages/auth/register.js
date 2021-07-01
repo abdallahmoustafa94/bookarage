@@ -19,6 +19,10 @@ import ShopInfoStep from '../../components/auth/RegisterSteps/shopInfoStep'
 import AddBrandModal from '../../shared/addBrandModal'
 import AddServiceModal from '../../shared/addServiceModal'
 import DeleteServiceModal from '../../shared/deleteServiceModal'
+import useAsync from '../../hooks/useAsync'
+import {signup,verifyAndSendOTP,verifyOTPCode} from '../../services/AuthServices'
+import Auth from '../../config/auth'
+import {useToasts} from 'react-toast-notifications'
 
 const RegisterPage = () => {
   const [step, setStep] = useState(1)
@@ -30,11 +34,17 @@ const RegisterPage = () => {
     referralCode: '',
     phoneNumber: '',
     code: '',
+    VATNumber : '',
+    licenseFile : ''
+   
   })
   const [stepTitle, setStepTitle] = useState({
     title: '',
     desc: '',
   })
+
+  const {run, isLoading} = useAsync()
+  const {addToast} = useToasts()
 
   const handleNextStep = value => {
     switch (value.type) {
@@ -57,6 +67,65 @@ const RegisterPage = () => {
         setState({...state, code: value.value.code})
         setStep(prev => prev + 1)
     }
+
+    run(signup(state))
+      .then(({data}) => {
+        console.log(data)
+        setState(
+          JSON.stringify({
+            role : data.data.role,
+            nameEN: data.data.nameEN,
+            email: data.data.email,
+            password: data.data.password,
+            confirmPassword: data.data.confirmPassword,
+            referralCode: data.data.referralCode,
+            VATNumber : '123',
+            licenseFile : 'test.csv'
+            // vatNumber:data.data.vatNumber,
+            // fileUpload:data.data.fileUpload
+
+            // phoneNumber: data.data.phoneNumber,
+            // code: data.data.code,
+          }),
+        )
+          console.log(state)
+      })
+      .catch(e => {
+        console.log(e)
+        e && e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
+      })
+
+      // run(verifyAndSendOTP(state))
+      // .then(({data}) => {
+      //   console.log(data)
+      //   setState(
+      //     JSON.stringify({
+           
+      //       ...state ,phoneNumber: data.data.phoneNumber
+      //     }),
+      //   )
+      //     console.log(state)
+      // })
+      // .catch(e => {
+      //   console.log(e)
+      //   e && e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
+      // })
+
+      // run(verifyOTPCode(state))
+      // .then(({data}) => {
+      //   console.log(data)
+      //   setState(
+      //     JSON.stringify({
+           
+      //       ...state ,phoneNumber: data.data.phoneNumber,code:data.data.code
+      //     }),
+      //   )
+      //     console.log(state)
+      // })
+      // .catch(e => {
+      //   console.log(e)
+      //   e && e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
+      // })
   }
   return (
     <div className={step === 1 ? 'px-20 py-10' : 'py-10'}>

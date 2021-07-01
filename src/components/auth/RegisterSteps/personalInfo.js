@@ -1,9 +1,17 @@
+import { useState } from 'react'
 import {Header, Icon, Form, Button} from 'semantic-ui-react'
 import {IoArrowBack} from 'react-icons/io5'
 import {Formik} from 'formik'
 import FormikControl from '../../formik/FormikControl'
 import * as Yup from 'yup'
+import useAsync from '../../../hooks/useAsync'
+import {signup} from '../../../services/AuthServices'
+import Auth from '../../../config/auth'
 import {useToasts} from 'react-toast-notifications'
+
+
+
+
 
 const PersonalInfoStep = ({handleBack, nextStep, values, loading}) => {
   // const {addToast} = useToasts()
@@ -17,9 +25,42 @@ const PersonalInfoStep = ({handleBack, nextStep, values, loading}) => {
   //     .required('Enter confirm Password')
   //     .oneOf([Yup.ref('password'), null], 'Password is not match'),
   // })
+  const {run, isLoading} = useAsync()
+  const {addToast} = useToasts()
+
+
+
+  const [state, setState] = useState({
+    nameEN: '',
+    email: '',
+    password: '',
+    confirmPassword:'',
+    referralCode:''
+
+
+  })
 
   const handleOnSubmit = values => {
     console.log(values)
+    // run(signup(state))
+    //   .then(({data}) => {
+    //     console.log(data)
+    //     setState(
+    //       JSON.stringify({
+    //         nameEN: data.data.nameEN,
+    //         email: data.data.email,
+    //         password: data.data.password,
+    //         confirmPassword: data.data.confirmPassword,
+    //         referralCode: data.data.referralCode,
+    //       }),
+    //     )
+    //     nextStep({type: 'step', value: values})
+
+    //   })
+    //   .catch(e => {
+    //     console.log(e)
+    //     e && e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
+    //   })
     nextStep({type: 'step', value: values})
   }
   return (
@@ -43,13 +84,9 @@ const PersonalInfoStep = ({handleBack, nextStep, values, loading}) => {
       <div className="my-16 px-40">
         <Formik
           // validationSchema={personalSchema}
-          initialValues={{
-            nameEN: values.nameEN || '',
-            email: values.email || '',
-            password: values.password || '',
-            confirmPassword: values.confirmPassword || '',
-            referralCode: values.referralCode || '',
-          }}
+          initialValues={
+            state
+          }
           onSubmit={handleOnSubmit}
         >
           {formik => (

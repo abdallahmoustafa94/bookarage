@@ -5,7 +5,11 @@ import AccInfo from '../components/Dashboard/AccInfo'
 
 
 
+
+
+
 const Myaccount =() => {
+
 return(
 
     <div className="flex  w-full space-x-8" >
@@ -37,7 +41,7 @@ return(
           <p className="text-gray-300 font-medium -mt-2">mathew.gray@mail.com</p>
         </div>
         <div className=" w-1/4 flex justify-end ">
-          <Button content="Edit" className="bg-transparent text-blue-700 font-semibold  py-2 px-4 border border-gray-500  "/>
+          <Button  content="Edit" className="bg-transparent text-blue-700 font-semibold  py-2 px-4 border border-gray-500  "/>
         </div>
       </div>
       <div className="flex mt-8">
