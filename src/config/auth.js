@@ -2,18 +2,30 @@ import jwt_decode from 'jwt-decode'
 import {keys} from './keys'
 
 let token = localStorage.getItem('token')
+let signupToken = localStorage.getItem('signupToken')
 
 const Auth = {
   isAuth: () => {
     return Boolean(token)
   },
+  isSignupAuth: () => {
+    return Boolean(signupToken)
+  },
   getToken: () => {
     return token
+  },
+  getSignupToken: () => {
+    return signupToken
   },
   setToken: val => {
     token = val
     localStorage.setItem('token', token)
     return token
+  },
+  setSignupToken: val => {
+    signupToken = val
+    localStorage.setItem('signupToken', signupToken)
+    return signupToken
   },
   getUserId: () => {
     const userId = JSON.parse(localStorage.getItem('user') || '[]')

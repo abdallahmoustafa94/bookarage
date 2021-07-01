@@ -79,6 +79,14 @@ const LocationInformation = ({step, values, nextStep, loading, stepTitle}) => {
                 control="input"
                 label="Shop Address"
               />
+              <small className="text-red-600">
+                Google maps will be imported very soon, Please pick your
+                location from{' '}
+                <a href="https://www.google.com/maps/" target="_blank">
+                  google maps
+                </a>{' '}
+                site then paste your address here.
+              </small>
             </Form.Field>
 
             <div className="my-10 text-center">

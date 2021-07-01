@@ -19,7 +19,7 @@ import {BsPeopleCircle} from 'react-icons/bs'
 import useAsync from '../hooks/useAsync'
 import {useUser} from '../context/UserContext'
 import {Link, NavLink} from 'react-router-dom'
-import routes, { myAccount } from '../routes'
+import routes, {myAccount} from '../routes'
 import logo from '../assets/images/logo.svg'
 import {IoChatboxEllipsesOutline} from 'react-icons/io5'
 import DashboardPage from '../pages/Dashborad'
@@ -104,7 +104,7 @@ const DashboardLayout = () => {
             value: s._id,
           })
         })
-        setUser(JSON.stringify({...parsedUser, shopId: shop[0]?.value}))
+
         setShops(shop)
       })
       .catch(e => {
@@ -117,6 +117,9 @@ const DashboardLayout = () => {
       history.push('/auth/login')
       return
     }
+    const shopId = shops[0]?.value
+    console.log(shopId)
+    setUser(JSON.stringify({...parsedUser, shopId}))
     setUserData(parsedUser)
     document.body.classList.add('bg-gray-100')
 
@@ -124,7 +127,7 @@ const DashboardLayout = () => {
       document.body.classList.remove('bg-gray-100')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
+  }, [user, shops])
 
   const handleSelectedShop = id => {
     setUser(JSON.stringify({...parsedUser, shopId: id}))

@@ -67,7 +67,7 @@ const VerifyOTP = ({handleBack, nextStep, values, loading}) => {
 
               <div className="my-10 text-center">
                 <Button
-                  content="Signup"
+                  content="Continue"
                   disabled={formik.values.code?.length === 6 ? false : true}
                   type="submit"
                   className="btn-primary"

@@ -3,13 +3,19 @@ import StateContext from '../context/stateContext'
 import {Modal, Form, Button} from 'semantic-ui-react'
 import {Formik} from 'formik'
 import FormikControl from '../components/formik/FormikControl'
+import useAsync from '../hooks/useAsync'
+import {getAllBrands} from '../services/ShopService'
 
 const AddBrandModal = () => {
   const [open, setOpen] = useState(false)
   const {showModal, setShowModal} = useContext(StateContext)
+  const {run, isLoading} = useAsync()
   useEffect(() => {
     if (['registerBrand', 'addBrand'].includes(showModal.modalName)) {
       setOpen(true)
+      run(getAllBrands()).then(({data}) => {
+        console.log(data)
+      })
     } else {
       setOpen(false)
     }

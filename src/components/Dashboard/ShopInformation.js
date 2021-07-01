@@ -1,12 +1,10 @@
 import {Formik} from 'formik'
-import {useEffect} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import {Form, Image, Button} from 'semantic-ui-react'
 import FormikControl from '../formik/FormikControl'
 import photoImage from '../../assets/images/photo-ic.svg'
 
 const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
-  
-
   const handleOnSubmit = values => {
     console.log(values)
     nextStep({type: 'step', value: values})
@@ -22,10 +20,15 @@ const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
         onSubmit={handleOnSubmit}
       >
         {formik => (
-          <Form loading={loading} onSubmit={formik.submitForm} className="w-2/4">
-              <Form.Group widths="equal" className="flex">
+          <Form
+            loading={loading}
+            onSubmit={formik.submitForm}
+            className="w-2/4"
+          >
+            <Form.Group widths="equal" className="flex">
               <Form.Field>
-                <div>
+                <div>{/* <Image src={} /> */}</div>
+                <div className="mt-5">
                   <label className="block text-sm font-medium text-gray-700">
                     Logo
                   </label>
@@ -54,7 +57,7 @@ const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
                 </div>
               </Form.Field>
               <Form.Field>
-                <div>
+                <div className="mt-5">
                   <label className="block text-sm font-medium text-gray-700">
                     Cover
                   </label>
@@ -83,7 +86,7 @@ const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
                 </div>
               </Form.Field>
             </Form.Group>
-            <p class="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-gray-500">
               File details size maximum 2mb extension .jpg.png
             </p>
             <Form.Field>
@@ -101,7 +104,6 @@ const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
                 label="Shop Description"
               />
             </Form.Field>
-            
           </Form>
         )}
       </Formik>

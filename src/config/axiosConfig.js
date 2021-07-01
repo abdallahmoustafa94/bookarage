@@ -10,7 +10,9 @@ const AuthAxios = Axios.create()
 
 AuthAxios.interceptors.request.use(config => {
   console.log(Auth.getToken())
-  let accessToken = Auth.getToken()
+  let accessToken = Auth.getToken() || Auth.getSignupToken()
+
+  console.log(accessToken)
 
   if (Auth.isExpired(accessToken)) {
     Auth.logout()

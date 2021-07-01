@@ -1,8 +1,7 @@
 import {authAxios, axios} from '../config/axiosConfig'
 
-
 export const login = loginData => {
-  return axios.post('https://bookrage-server.herokuapp.com/auth/login', loginData, {
+  return axios.post('/auth/login', loginData, {
     headers: {
       'Access-Control-Allow-Origin': '*',
       mode: 'no-cors',
@@ -15,7 +14,7 @@ export const logout = () => {
 }
 
 export const signup = signupData => {
-  return axios.post('https://bookrage-server.herokuapp.com/auth/signup', signupData, {
+  return axios.post('/auth/signup', signupData, {
     headers: {
       'Access-Control-Allow-Origin': '*',
       mode: 'no-cors',
@@ -42,12 +41,10 @@ export const signup = signupData => {
 // }
 
 export const createShop = createShopData => {
-  return axios.post('https://bookrage-server.herokuapp.com/shops/createShop', createShopData, {
+  return axios.post('/shops/createShop', createShopData, {
     headers: {
       'Access-Control-Allow-Origin': '*',
       mode: 'no-cors',
     },
-    
   })
 }
-

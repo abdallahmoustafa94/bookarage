@@ -1,4 +1,4 @@
-import {Fragment, useState} from 'react'
+import {Fragment, useEffect, useState} from 'react'
 import RoleSelectionStep from '../../components/auth/RegisterSteps/roleSelection'
 import PersonalInfoStep from '../../components/auth/RegisterSteps/personalInfo'
 import LocationInformation from '../../components/auth/RegisterSteps/LocationInformation'
@@ -20,12 +20,18 @@ import AddBrandModal from '../../shared/addBrandModal'
 import AddServiceModal from '../../shared/addServiceModal'
 import DeleteServiceModal from '../../shared/deleteServiceModal'
 import useAsync from '../../hooks/useAsync'
-import {signup,verifyAndSendOTP,verifyOTPCode} from '../../services/AuthServices'
+import {
+  signup,
+  verifyAndSendOTP,
+  verifyOTPCode,
+} from '../../services/AuthServices'
 import Auth from '../../config/auth'
 import {useToasts} from 'react-toast-notifications'
+import {useUser} from '../../context/UserContext'
 
 const RegisterPage = () => {
   const [step, setStep] = useState(1)
+  const [user, setUser] = useUser()
   const [state, setState] = useState({
     role: '',
     nameEN: '',
@@ -34,9 +40,8 @@ const RegisterPage = () => {
     referralCode: '',
     phoneNumber: '',
     code: '',
-    VATNumber : '',
-    licenseFile : ''
-   
+    VATNumber: '',
+    licenseFile: '',
   })
   const [stepTitle, setStepTitle] = useState({
     title: '',
@@ -45,6 +50,11 @@ const RegisterPage = () => {
 
   const {run, isLoading} = useAsync()
   const {addToast} = useToasts()
+
+  useEffect(() => {
+    if (!Auth.isSignupAuth()) return
+    setStep(7)
+  }, [])
 
   const handleNextStep = value => {
     switch (value.type) {
@@ -64,68 +74,82 @@ const RegisterPage = () => {
         setStep(prev => prev + 1)
         return
       case 'submit':
-        setState({...state, code: value.value.code})
-        setStep(prev => prev + 1)
+        // setState({...state, code: value.value.code})
+        // setStep(prev => prev + 1)
+        const newUser = new FormData()
+
+        newUser.append('nameEN', state.nameEN)
+        newUser.append('nameAR', state.nameEN)
+        newUser.append('email', state.email)
+        newUser.append('password', state.password)
+        newUser.append('phoneNumber', state.phoneNumber)
+        newUser.append('referralCode', state.referralCode)
+        newUser.append('role', JSON.parse(localStorage.getItem('role')))
+        newUser.append('isApproved', false)
+        newUser.append('country', 'Egypt')
+        newUser.append('city', 'Alexandria')
+        newUser.append('VATNumber', value.value.VATNumber)
+        newUser.append('licenseFile', value.value.licenseFile)
+
+        run(signup(newUser))
+          .then(({data}) => {
+            console.log(data)
+            setUser(
+              JSON.stringify({
+                nameEN: data.data.nameEN,
+                nameAR: data.data.nameAR,
+                role: data.data.role,
+                avatar: data.data?.avatar,
+                _id: data.data._id,
+              }),
+            )
+            Auth.setSignupToken(data.data.token)
+            setStep(6)
+          })
+          .catch(e => {
+            console.log(e)
+            e &&
+              e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
+          })
+        return
+      case 'submitShop':
+        console.log(state)
+        return
+      default:
+        return state
     }
 
-    run(signup(state))
-      .then(({data}) => {
-        console.log(data)
-        setState(
-          JSON.stringify({
-            role : data.data.role,
-            nameEN: data.data.nameEN,
-            email: data.data.email,
-            password: data.data.password,
-            confirmPassword: data.data.confirmPassword,
-            referralCode: data.data.referralCode,
-            VATNumber : '123',
-            licenseFile : 'test.csv'
-            // vatNumber:data.data.vatNumber,
-            // fileUpload:data.data.fileUpload
+    // run(verifyAndSendOTP(state))
+    // .then(({data}) => {
+    //   console.log(data)
+    //   setState(
+    //     JSON.stringify({
 
-            // phoneNumber: data.data.phoneNumber,
-            // code: data.data.code,
-          }),
-        )
-          console.log(state)
-      })
-      .catch(e => {
-        console.log(e)
-        e && e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
-      })
+    //       ...state ,phoneNumber: data.data.phoneNumber
+    //     }),
+    //   )
+    //     console.log(state)
+    // })
+    // .catch(e => {
+    //   console.log(e)
+    //   e && e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
+    // })
 
-      // run(verifyAndSendOTP(state))
-      // .then(({data}) => {
-      //   console.log(data)
-      //   setState(
-      //     JSON.stringify({
-           
-      //       ...state ,phoneNumber: data.data.phoneNumber
-      //     }),
-      //   )
-      //     console.log(state)
-      // })
-      // .catch(e => {
-      //   console.log(e)
-      //   e && e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
-      // })
+    // run(verifyOTPCode(state))
+    // .then(({data}) => {
+    //   console.log(data)
+    //   setState(
+    //     JSON.stringify({
 
-      // run(verifyOTPCode(state))
-      // .then(({data}) => {
-      //   console.log(data)
-      //   setState(
-      //     JSON.stringify({
-           
-      //       ...state ,phoneNumber: data.data.phoneNumber,code:data.data.code
-      //     }),
-      //   )
-      //     console.log(state)
-      // })
-      // .catch(e => {
-      //   console.log(e)
-      //   e && e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
-      // })
+    //       ...state ,phoneNumber: data.data.phoneNumber,code:data.data.code
+    //     }),
+    //   )
+    //     console.log(state)
+    // })
+    // .catch(e => {
+    //   console.log(e)
+    //   e && e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
+    // })
   }
   return (
     <div className={step === 1 ? 'px-20 py-10' : 'py-10'}>
@@ -154,16 +178,16 @@ const RegisterPage = () => {
           nextStep={v => handleNextStep(v)}
         />
       )}
-      {/* TODO: Add legal license step in this line */}
       <div className="mt-6">
-            {step === 5 && (
-              <LegalInformation
-                nextStep={v => handleNextStep(v)}
-                values={state}
-                stepTitle={v => setStepTitle(v)}
-              />
-            )}
-          </div>
+        {step === 5 && (
+          <LegalInformation
+            nextStep={v => handleNextStep(v)}
+            values={state}
+            stepTitle={v => setStepTitle(v)}
+            loading={isLoading}
+          />
+        )}
+      </div>
 
       {step === 6 && <SuccessAccount nextStep={v => handleNextStep(v)} />}
 
@@ -220,7 +244,6 @@ const RegisterPage = () => {
 
           {/* TODO: Remove legal license from this step */}
 
-         
           <div className="mt-6">
             {step === 9 && (
               <BrandsAndServices

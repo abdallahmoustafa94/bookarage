@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useState} from 'react'
 import {Header, Icon, Form, Button} from 'semantic-ui-react'
 import {IoArrowBack} from 'react-icons/io5'
 import {Formik} from 'formik'
@@ -9,35 +9,27 @@ import {signup} from '../../../services/AuthServices'
 import Auth from '../../../config/auth'
 import {useToasts} from 'react-toast-notifications'
 
-
-
-
-
 const PersonalInfoStep = ({handleBack, nextStep, values, loading}) => {
   // const {addToast} = useToasts()
-  // const personalSchema = Yup.object({
-  //   nameEN: Yup.string().required('Empty name'),
-  //   email: Yup.string()
-  //     .required('Empty email address')
-  //     .email('Invalid Email Address'),
-  //   password: Yup.string().required('Empty Password'),
-  //   confirmPassword: Yup.string()
-  //     .required('Enter confirm Password')
-  //     .oneOf([Yup.ref('password'), null], 'Password is not match'),
-  // })
+  const personalSchema = Yup.object({
+    nameEN: Yup.string().required('Empty name'),
+    email: Yup.string()
+      .required('Empty email address')
+      .email('Invalid Email Address'),
+    password: Yup.string().required('Empty Password'),
+    confirmPassword: Yup.string()
+      .required('Enter confirm Password')
+      .oneOf([Yup.ref('password'), null], 'Password is not match'),
+  })
   const {run, isLoading} = useAsync()
   const {addToast} = useToasts()
-
-
 
   const [state, setState] = useState({
     nameEN: '',
     email: '',
     password: '',
-    confirmPassword:'',
-    referralCode:''
-
-
+    confirmPassword: '',
+    referralCode: '',
   })
 
   const handleOnSubmit = values => {
@@ -83,10 +75,8 @@ const PersonalInfoStep = ({handleBack, nextStep, values, loading}) => {
       </div>
       <div className="my-16 px-40">
         <Formik
-          // validationSchema={personalSchema}
-          initialValues={
-            state
-          }
+          validationSchema={personalSchema}
+          initialValues={state}
           onSubmit={handleOnSubmit}
         >
           {formik => (

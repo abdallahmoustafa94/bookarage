@@ -102,7 +102,7 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
                 </div>
               </Form.Field>
             </Form.Group>
-            <p class="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-gray-500">
               File details size maximum 2mb extension .jpg.png
             </p>
             <div className="my-10 text-center">
