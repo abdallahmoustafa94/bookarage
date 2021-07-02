@@ -33,6 +33,7 @@ import DetailsModal from '../components/Dashboard/modals/details.modal'
 import useMediaQuery from '../hooks/use-media-query'
 import {capitalize} from '../utils/capitalize-text'
 import {getMyShops} from '../services/ShopService'
+import {useShop} from '../context/ShopContext'
 
 const sidebarNav = [
   {
@@ -84,6 +85,7 @@ const DashboardLayout = () => {
   const [userData, setUserData] = useState()
   const [showNotification, setShowNotification] = useState(false)
   const [user, setUser] = useUser()
+  const [shop, setShop] = useShop()
   const parsedUser = JSON.parse(user)
   const {pathname} = useLocation()
   const [visible, setVisible] = useState(false)
@@ -96,30 +98,43 @@ const DashboardLayout = () => {
     run(getMyShops())
       .then(({data}) => {
         console.log(data)
-        let shop = []
-        data.data.map((s, i) => {
-          shop.push({
-            key: i,
-            text: s['name' + lang.toUpperCase()],
-            value: s._id,
+        let shopArr = []
+        if (data.data?.length > 0) {
+          data.data.map((s, i) => {
+            shopArr.push({
+              key: i,
+              text: s['name' + lang.toUpperCase()],
+              value: s._id,
+            })
           })
-        })
+        } else {
+          shopArr.push({
+            key: 0,
+            text: 'No Branches',
+            value: 0,
+            disabled: true,
+          })
+        }
 
-        setShops(shop)
+        if (JSON.parse(shop) === 0) {
+          setShop(JSON.stringify(shopArr[0].value))
+        }
+        setShops(shopArr)
       })
       .catch(e => {
         console.log(e)
       })
-  }, [])
+  }, [shop])
 
   useEffect(() => {
     if (!user) {
       history.push('/auth/login')
       return
     }
-    const shopId = shops[0]?.value
-    console.log(shopId)
-    setUser(JSON.stringify({...parsedUser, shopId}))
+    // if (JSON.parse(shop) ===)
+    // const shopId = shops[0]?.value
+    // console.log(shopId)
+    // setShop(JSON.stringify(shopId))
     setUserData(parsedUser)
     document.body.classList.add('bg-gray-100')
 
@@ -127,10 +142,10 @@ const DashboardLayout = () => {
       document.body.classList.remove('bg-gray-100')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, shops])
+  }, [user])
 
   const handleSelectedShop = id => {
-    setUser(JSON.stringify({...parsedUser, shopId: id}))
+    setShop(JSON.stringify(id))
   }
 
   const handleOnClickLogout = () => {

@@ -19,7 +19,7 @@ AuthAxios.interceptors.request.use(config => {
     window.location.pathname = '/auth/login'
   }
 
-  config.headers = {Authorization: `Bearer ${Auth.getToken()}`}
+  config.headers = {Authorization: `Bearer ${accessToken}`}
   return config
 })
 

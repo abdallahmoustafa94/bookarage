@@ -71,7 +71,7 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
   const handleOnSubmit = () => {
     console.log(state)
 
-    // nextStep({type: 'step', value: values})
+    nextStep({type: 'submitShop', value: state})
   }
 
   const handleOnChangeCheckBox = (i, checked) => {
@@ -175,7 +175,12 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
             className="btn-primary"
             onClick={handleOnSubmit}
           />
-          <Button className="btn-declined mx-5">Setup Later</Button>
+          <Button
+            className="btn-declined mx-5"
+            onClick={() => nextStep({type: 'submitShop', value: null})}
+          >
+            Setup Later
+          </Button>
         </div>
       </Form>
     </div>

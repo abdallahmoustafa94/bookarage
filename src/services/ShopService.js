@@ -14,3 +14,13 @@ export const getShopById = id => {
 export const getAllBrands = () => {
   return authAxios.get('/shops/allBrands')
 }
+
+// Get all services
+export const getAllServices = () => {
+  return authAxios.get('/services/allServices')
+}
+
+// Create new shop
+export const createNewShop = newShop => {
+  return authAxios.post('/shops/createShop', newShop)
+}

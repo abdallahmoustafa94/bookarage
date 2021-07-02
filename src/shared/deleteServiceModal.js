@@ -4,7 +4,7 @@ import {Modal, Form, Button} from 'semantic-ui-react'
 import {Formik} from 'formik'
 import FormikControl from '../components/formik/FormikControl'
 
-const DeleteServiceModal = () => {
+const DeleteServiceModal = ({deletedService}) => {
   const [open, setOpen] = useState(false)
   const {showModal, setShowModal} = useContext(StateContext)
   useEffect(() => {
@@ -15,10 +15,9 @@ const DeleteServiceModal = () => {
     }
   }, [showModal])
 
-  
-
-  const handleOnSubmit = values => {
-    console.log(values)
+  const handleOnSubmit = () => {
+    deletedService(showModal?.data?.index)
+    setShowModal({modalName: '', data: null})
   }
   return (
     <Modal
@@ -37,14 +36,11 @@ const DeleteServiceModal = () => {
           <p className="text-center text-labelColor text-base font-normal py-2">
             Selected Service
           </p>
-                      <div className="text-center">
-                      <span className="primary-text-color w-auto bg-gray-100 rounded-full py-2 px-4">
-                        Electric Repair
-                      </span>
-                      </div>
-                     
-                     
-                     
+          <div className="text-center">
+            <span className="primary-text-color w-auto bg-gray-100 rounded-full py-2 px-4">
+              Electric Repair
+            </span>
+          </div>
 
           {/* <Form.Field>
                       <Label className="font-bold text-base mt-4 text-primary brands-selection">
@@ -52,7 +48,11 @@ const DeleteServiceModal = () => {
                       </Label>
                     </Form.Field> */}
           <div className="text-center py-10">
-            <Button content="Add" className="btn-primary mx-5" type="submit" />
+            <Button
+              content="Add"
+              className="btn-primary mx-5"
+              onClick={handleOnSubmit}
+            />
             <Button
               className="btn-declined mx-5"
               onClick={() => setShowModal({modalName: '', data: null})}

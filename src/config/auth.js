@@ -109,7 +109,9 @@ const Auth = {
   },
   logout: () => {
     token = ''
+    signupToken = ''
     localStorage.setItem('token', '')
+    localStorage.setItem('signupToken', '')
   },
 }
 

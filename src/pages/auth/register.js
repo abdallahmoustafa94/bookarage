@@ -28,6 +28,9 @@ import {
 import Auth from '../../config/auth'
 import {useToasts} from 'react-toast-notifications'
 import {useUser} from '../../context/UserContext'
+import {createNewShop} from '../../services/ShopService'
+import routes from '../../routes'
+import {useHistory} from 'react-router-dom'
 
 const RegisterPage = () => {
   const [step, setStep] = useState(1)
@@ -42,7 +45,10 @@ const RegisterPage = () => {
     code: '',
     VATNumber: '',
     licenseFile: '',
+    services: [],
+    brands: [],
   })
+  const history = useHistory()
   const [stepTitle, setStepTitle] = useState({
     title: '',
     desc: '',
@@ -113,49 +119,89 @@ const RegisterPage = () => {
           })
         return
       case 'submitShop':
-        console.log(state)
+        console.log(state, value.value)
+        const newShop = new FormData()
+        newShop.append('nameEN', state?.shopName)
+        newShop.append('nameAR', state?.shopName)
+        newShop.append('country', state?.country)
+        newShop.append('city', state?.city)
+        newShop.append('address', state?.shopAddress)
+        newShop.append('description', state?.shopDesc)
+        newShop.append('logo', state?.logo)
+        newShop.append('coverPhoto', state?.coverPhoto)
+        newShop.append('hasRecovery', false)
+        newShop.append('shopType', JSON.parse(user).role)
+        newShop.append('isAgent', false)
+        state.services.map((s, i) => {
+          console.log(Number(s?.serviceId.split('-')[0]))
+          newShop.append(
+            'services[' + i + '][serviceId]',
+            Number(s?.serviceId.split('-')[0]),
+          )
+          newShop.append('services[' + i + '][cost]', s?.cost)
+          newShop.append('services[' + i + '][details]', s?.details)
+          newShop.append('services[' + i + '][isAvailable]', s?.isAvailable)
+        })
+        state.brands.map((b, i) => {
+          newShop.append('brands[' + i + '][name]', b)
+        })
+        value.value?.map((wh, i) => {
+          if (wh.isOpened) {
+            newShop.append('workingHrs[' + i + '][day]', wh?.day)
+            newShop.append('workingHrs[' + i + '][startTime]', wh?.startTime)
+            newShop.append('workingHrs[' + i + '][endTime]', wh?.endTime)
+            newShop.append('workingHrs[' + i + '][isOpened]', wh?.isOpened)
+          }
+        })
+
+        run(createNewShop(newShop))
+          .then(({data}) => {
+            console.log(data.data)
+            addToast(data.message, {appearance: 'success'})
+            Auth.logout()
+            history.push(routes.login)
+          })
+          .catch(e => {
+            console.log(e)
+          })
         return
       default:
         return state
     }
+  }
 
-    // run(verifyAndSendOTP(state))
-    // .then(({data}) => {
-    //   console.log(data)
-    //   setState(
-    //     JSON.stringify({
+  const handleService = v => {
+    let serviceArr = [...state.services]
+    const index = serviceArr.findIndex(o => o.serviceId === v.serviceId)
 
-    //       ...state ,phoneNumber: data.data.phoneNumber
-    //     }),
-    //   )
-    //     console.log(state)
-    // })
-    // .catch(e => {
-    //   console.log(e)
-    //   e && e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
-    // })
+    if (index === -1) {
+      serviceArr = [...serviceArr, v]
+    } else {
+      serviceArr.splice(index, 1)
+      serviceArr = [...serviceArr, v]
+    }
 
-    // run(verifyOTPCode(state))
-    // .then(({data}) => {
-    //   console.log(data)
-    //   setState(
-    //     JSON.stringify({
+    setState({...state, services: serviceArr})
+  }
 
-    //       ...state ,phoneNumber: data.data.phoneNumber,code:data.data.code
-    //     }),
-    //   )
-    //     console.log(state)
-    // })
-    // .catch(e => {
-    //   console.log(e)
-    //   e && e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
-    // })
+  const handleDeleteService = i => {
+    let serviceArr = [...state.services]
+    serviceArr.splice(i, 1)
+    setState({...state, services: serviceArr})
+  }
+
+  const handleDeleteBrand = i => {
+    let brandsArr = [...state.brands]
+    brandsArr.splice(i, 1)
+    setState({...state, brands: brandsArr})
   }
   return (
     <div className={step === 1 ? 'px-20 py-10' : 'py-10'}>
-      <AddBrandModal />
-      <AddServiceModal />
-      <DeleteServiceModal />
+      <AddBrandModal
+        brandValues={v => setState({...state, brands: v.brands})}
+      />
+      <AddServiceModal serviceValues={v => handleService(v)} />
+      <DeleteServiceModal deletedService={handleDeleteService} />
       {step === 1 && <RoleSelectionStep nextStep={v => handleNextStep(v)} />}
       {step === 2 && (
         <PersonalInfoStep
@@ -250,6 +296,8 @@ const RegisterPage = () => {
                 nextStep={v => handleNextStep(v)}
                 values={state}
                 stepTitle={v => setStepTitle(v)}
+                loading={isLoading}
+                deletedBrand={v => handleDeleteBrand(v)}
               />
             )}
           </div>
@@ -259,6 +307,7 @@ const RegisterPage = () => {
                 nextStep={v => handleNextStep(v)}
                 values={state}
                 stepTitle={v => setStepTitle(v)}
+                loading={isLoading}
               />
             )}
           </div>

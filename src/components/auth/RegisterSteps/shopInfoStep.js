@@ -1,18 +1,29 @@
 import {Formik} from 'formik'
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import {Form, Image, Button} from 'semantic-ui-react'
 import FormikControl from '../../formik/FormikControl'
 import photoImage from '../../../assets/images/photo-ic.svg'
 // import '../../../assets/css/shopinfostep.css'
 
 const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
+  const [state, setState] = useState({
+    logo: '',
+    coverPhoto: '',
+  })
+
   useEffect(() => {
     stepTitle({title: 'Shop Information', desc: 'Shop logo, Description'})
   }, [])
 
+  const handleOnChangeImage = (type, e) => {
+    console.log(type, e.target.files[0])
+    setState({...state, [type]: e.target.files[0]})
+  }
+
   const handleOnSubmit = values => {
     console.log(values)
-    nextStep({type: 'step', value: values})
+    const shopInfo = {...values, ...state}
+    nextStep({type: 'step', value: shopInfo})
   }
 
   return (
@@ -51,7 +62,7 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
                   <div className="space-y-1 text-center">
                     <div className="flex text-sm col-span-6 sm:col-span-3">
                       <label
-                        for="file-upload"
+                        for="logo-upload"
                         className="relative cursor-pointer bg-white rounded-md font-medium file-upload"
                       >
                         <Image
@@ -62,10 +73,15 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
                           Select logo
                         </span>
                         <input
-                          id="file-upload"
-                          name="file-upload"
+                          id="logo-upload"
+                          name="logo-upload"
                           type="file"
+                          accept="image/*"
                           className="sr-only"
+                          onChange={e => handleOnChangeImage('logo', e)}
+                          onClick={e => {
+                            e.target.value = null
+                          }}
                         />
                       </label>
                     </div>
@@ -80,7 +96,7 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
                   <div className="space-y-1 text-center">
                     <div className="flex text-sm col-span-6 sm:col-span-3">
                       <label
-                        for="file-upload"
+                        for="coverPhoto-upload"
                         className="relative cursor-pointer bg-white rounded-md font-medium file-upload"
                       >
                         <Image
@@ -91,10 +107,15 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
                           Select cover
                         </span>
                         <input
-                          id="file-upload"
-                          name="file-upload"
+                          id="coverPhoto-upload"
+                          name="coverPhoto-upload"
                           type="file"
+                          accept="image/*"
                           className="sr-only"
+                          onChange={e => handleOnChangeImage('coverPhoto', e)}
+                          onClick={e => {
+                            e.target.value = null
+                          }}
                         />
                       </label>
                     </div>
