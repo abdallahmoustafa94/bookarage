@@ -1,8 +1,12 @@
 import {Menu, Button} from 'semantic-ui-react'
 
+
+
 const ManagementTabs = ({activeMenu, setActiveMenu}) => {
+
   return (
     <div className="flex flex-col w-1/4 text-gray-700 bg-white  p-10  h-screen sticky top-0 rounded">
+     
       <Button
         icon="bookmark"
         content="Shop Information"

@@ -52,7 +52,7 @@ const DeleteServiceModal = () => {
                       </Label>
                     </Form.Field> */}
           <div className="text-center py-10">
-            <Button content="Add" className="btn-primary mx-5" type="submit" />
+            <Button content="delete" className="btn-primary mx-5" type="submit" />
             <Button
               className="btn-declined mx-5"
               onClick={() => setShowModal({modalName: '', data: null})}

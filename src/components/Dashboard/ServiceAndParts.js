@@ -1,7 +1,8 @@
 import {Formik} from 'formik'
 import {IoArrowBack} from 'react-icons/io5'
 
-
+import addBrandModal from '../../shared/addBrandModal'
+import addServiceModal from '../../shared/addServiceModal'
 import {useContext, useEffect, useState} from 'react'
 import {RiDeleteBin6Line} from 'react-icons/ri'
 import {MdModeEdit} from 'react-icons/md'
@@ -28,12 +29,16 @@ const ServicesAndParts = ({
   loading,
   stepTitle,
 }) => {
+
   const {setShowModal} = useContext(StateContext)
 
- 
   
   return (
+    
     <div className="px-8">
+       <addBrandModal />
+      <addServiceModal />
+        
       <div >
         <div className="flex items-center w-full">
           <p className="mb-0 w-1/2">Brands Services & Parts For</p>
@@ -43,7 +48,7 @@ const ServicesAndParts = ({
               icon="plus"
               className="bg-transparent font-normal text-primaryRedColor-default"
               onClick={() =>
-                setShowModal({modalName: 'registerBrand', data: null})
+                setShowModal({modalName:'registerBrand', data: null})
               }
             />
           </div>
@@ -129,8 +134,7 @@ const ServicesAndParts = ({
                         size={16}
                         className="text-gray-400 mr-1"
                       />
-                     <Button className="text-gray-400 text-base bg-transparent font-normal p-0" content="edit" onClick={() =>
-                setShowModal({modalName: 'registerService', data: null})
+                     <Button className="text-gray-400 text-base bg-transparent font-normal p-0" content="edit" onClick={() =>setShowModal({modalName: 'registerService', data: null})
               } />
                      
                      

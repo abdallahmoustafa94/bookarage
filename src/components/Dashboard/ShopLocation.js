@@ -20,6 +20,7 @@ const ShopLocation = ({step, values, nextStep, loading, stepTitle}) => {
     setRegion: '',
   })
   
+  const [inputs,setInputs]=useState(['input-0'])
 
   const handleOnSubmit = values => {
     console.log(values)
@@ -33,6 +34,11 @@ const ShopLocation = ({step, values, nextStep, loading, stepTitle}) => {
   const selectRegion = val => {
     setRegion({...region, setRegion: val})
   }
+
+  const appendInput = () => {
+    let newInput = `input-${inputs.length}`;
+    setInputs(prevState => ({ inputs: prevState.inputs.concat([newInput]) }));
+}
 
   return (
     <div>
@@ -54,18 +60,21 @@ const ShopLocation = ({step, values, nextStep, loading, stepTitle}) => {
               content="add Number"
               icon="plus"
               className="bg-transparent font-normal text-primaryRedColor-default"
-              
+              onClick={ () => appendInput() }
             />
             </div>
             
             
             </div>
-            <Form.Field>
+            {inputs.map(input => <Form.Field>
               <FormikControl
                 name="phoneNumber"
                 control="input"
+                key={input}
               />
-            </Form.Field>
+            </Form.Field>)}
+
+            
 
             
             <Form.Field>

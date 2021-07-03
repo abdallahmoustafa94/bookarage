@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useState,useContext} from 'react'
 import {Form, Button, Image} from 'semantic-ui-react'
 import ManagementTabs from '../components/Dashboard/ManagementTabs'
 import ShopInformation from '../components/Dashboard/ShopInformation'
@@ -11,6 +11,13 @@ import CustomerLists from '../components/Dashboard/CustomerLists'
 import {useUser} from '../context/UserContext'
 import useAsync from '../hooks/useAsync'
 import {getShopById} from '../services/ShopService'
+
+import StateContext from '../context/stateContext'
+import AddBrandModal from '../shared/addBrandModal'
+import AddServiceModal from '../shared/addServiceModal'
+import DeleteServiceModal from '../shared/deleteServiceModal'
+import AddEmployeeModal from '../shared/AddEmployeeModal'
+import EditEmployeeModal from '../shared/EditEmployeeModal'
 
 const Management = () => {
   const [activeMenu, setActiveMenu] = useState('shopInformation')
@@ -30,12 +37,24 @@ const Management = () => {
       })
   }, [user])
 
+  const {setShowModal} = useContext(StateContext)
+
   return (
+
+   
+    
     <div className="flex  w-full space-x-8 p-10">
+      
       <ManagementTabs
         activeMenu={activeMenu}
         setActiveMenu={value => setActiveMenu(value)}
       />
+      <AddBrandModal />
+      <AddServiceModal />
+      <DeleteServiceModal />
+      <AddEmployeeModal />
+      <EditEmployeeModal />
+
       <div className="flex flex-col w-3/4">
         {activeMenu === 'shopInformation' && (
           <div className=" p-10 bg-white w-full">

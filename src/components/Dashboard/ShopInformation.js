@@ -5,9 +5,23 @@ import FormikControl from '../formik/FormikControl'
 import photoImage from '../../assets/images/photo-ic.svg'
 
 const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
+  const [state,setState] = useState({
+    selectedLogo : null,
+    isLogoPicked : false,
+    selectedCover : null,
+    isCoverPicked : false
+  })
   const handleOnSubmit = values => {
     console.log(values)
     nextStep({type: 'step', value: values})
+  }
+
+  const logoHandler = event => {
+    setState({ ...state,selectedLogo: event.target.files[0], isLogoPicked:true })
+  }
+
+  const coverHandler = event => {
+    setState({ ...state ,selectedCover: event.target.files[0],isCoverPicked:true})
   }
 
   return (
@@ -35,7 +49,7 @@ const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
                   <div className="space-y-1 text-center">
                     <div className="flex text-sm col-span-6 sm:col-span-3">
                       <label
-                        for="file-upload"
+                        for="logo-upload"
                         className="relative cursor-pointer bg-white rounded-md font-medium file-upload"
                       >
                         <Image
@@ -46,15 +60,25 @@ const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
                           Select logo
                         </span>
                         <input
-                          id="file-upload"
-                          name="file-upload"
+                          onChange={logoHandler}
+                          id="logo-upload"
+                          name="logo"
                           type="file"
                           className="sr-only"
                         />
                       </label>
+                     
                     </div>
+                   
                   </div>
                 </div>
+                {state.isLogoPicked ? (
+                    <div>
+                      <p> {state.selectedLogo.name}</p>
+                    </div>
+                  ) : (
+                    null
+                  )}
               </Form.Field>
               <Form.Field>
                 <div className="mt-5">
@@ -64,7 +88,7 @@ const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
                   <div className="space-y-1 text-center">
                     <div className="flex text-sm col-span-6 sm:col-span-3">
                       <label
-                        for="file-upload"
+                        for="cover-upload"
                         className="relative cursor-pointer bg-white rounded-md font-medium file-upload"
                       >
                         <Image
@@ -75,15 +99,25 @@ const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
                           Select cover
                         </span>
                         <input
-                          id="file-upload"
-                          name="file-upload"
+                        onChange={coverHandler}
+                          id="cover-upload"
+                          name="cover"
                           type="file"
                           className="sr-only"
                         />
                       </label>
+                     
                     </div>
+                    
                   </div>
                 </div>
+                {state.isCoverPicked ? (
+                    <div>
+                      <p> {state.selectedCover.name}</p>
+                    </div>
+                  ) : (
+                   null
+                  )}
               </Form.Field>
             </Form.Group>
             <p className="mt-2 text-sm text-gray-500">

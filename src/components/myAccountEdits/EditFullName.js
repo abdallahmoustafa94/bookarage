@@ -1,4 +1,3 @@
-import { useHistory } from "react-router"
 const EditFullName = () => {
     <div>
           <div className="flex flex-col w-1/4 text-gray-700 bg-white flex-initial p-10">
