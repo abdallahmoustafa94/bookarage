@@ -14,13 +14,13 @@ import {getShopById} from '../services/ShopService'
 import StateContext from '../context/stateContext'
 import CreateShopModal from '../shared/createShopModal'
 import {useShop} from '../context/ShopContext'
-
-import StateContext from '../context/stateContext'
 import AddBrandModal from '../shared/addBrandModal'
 import AddServiceModal from '../shared/addServiceModal'
 import DeleteServiceModal from '../shared/deleteServiceModal'
 import AddEmployeeModal from '../shared/AddEmployeeModal'
 import EditEmployeeModal from '../shared/EditEmployeeModal'
+import Auth from '../config/auth'
+import {BsFillPlusCircleFill} from 'react-icons/bs'
 
 const Management = () => {
   const [activeMenu, setActiveMenu] = useState('shopInformation')
@@ -33,7 +33,7 @@ const Management = () => {
 
   useEffect(() => {
     if (!user) return
-    console.log(JSON.parse(user)?.shopId)
+    console.log(Auth.getShopId(), shop)
     if (JSON.parse(shop) !== 0) {
       run(getShopById(JSON.parse(shop)))
         .then(({data}) => {
@@ -44,19 +44,21 @@ const Management = () => {
           console.log(e)
         })
     } else {
-      setShowModal({modalName: 'createShop', data: null})
+      if (Auth.isAuth()) {
+        console.log('no branches')
+        setShowModal({modalName: 'createShop', data: null})
+      }
     }
   }, [shop])
-
-  const handleCreateBranch = () => {
-    setShowModal({modalName: 'createShop', data: null})
-  }
-
-  const {setShowModal} = useContext(StateContext)
 
   return (
     <div className="flex  w-full space-x-8 p-10">
       <CreateShopModal />
+      <AddBrandModal />
+      <AddServiceModal />
+      <AddEmployeeModal />
+      <DeleteServiceModal />
+      <EditEmployeeModal />
       {JSON.parse(shop) !== 0 && (
         <Fragment>
           <ManagementTabs
@@ -64,12 +66,15 @@ const Management = () => {
             setActiveMenu={value => setActiveMenu(value)}
           />
 
-          <AddBrandModal />
-          <AddServiceModal />
-          <AddEmployeeModal />
-          <DeleteServiceModal />
-          <EditEmployeeModal />
-
+          <div
+            className="fixed bottom-10 right-10 z-10 rounded-full p-3 cursor-pointer"
+            onClick={() => setShowModal({modalName: 'createShop', data: null})}
+          >
+            <BsFillPlusCircleFill
+              size={55}
+              className="bg-white rounded-full text-primaryRedColor-default"
+            />
+          </div>
           <div className="flex flex-col w-3/4">
             <Form loading={isLoading}>
               {activeMenu === 'shopInformation' && (

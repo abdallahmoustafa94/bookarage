@@ -1,12 +1,13 @@
-import React from 'react'
+import {createContext, useContext} from 'react'
 import useLocalStorage from '../hooks/use-local-storage'
 import PropTypes from 'prop-types'
 
-const ShopContext = React.createContext()
+const ShopContext = createContext()
 ShopContext.displayName = 'ShopContext' // react dev tools doesn't display the name of the context
 
 function ShopProvider({children}) {
-  const [shop, setLocalStorageShop] = useLocalStorage('shop', null)
+  const [shop, setLocalStorageShop] = useLocalStorage('shop', 0)
+  // console.log(shop)
 
   function setShop(shop) {
     setLocalStorageShop(shop)
@@ -24,7 +25,8 @@ ShopProvider.propTypes = {
 }
 
 function useShop() {
-  const context = React.useContext(ShopContext)
+  const context = useContext(ShopContext)
+  // console.log(context)
   if (!context) {
     throw new Error('useShop must be used within a ShopProvider')
   }

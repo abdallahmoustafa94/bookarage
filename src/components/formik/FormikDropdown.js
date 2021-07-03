@@ -5,10 +5,7 @@ import {Form} from 'semantic-ui-react'
 function FormikDropdown({label, name, className, ...props}) {
   return (
     <>
-      <label
-        htmlFor={name}
-        className="font-normal text-base mt-4 text-labelColor"
-      >
+      <label htmlFor={name} className="font-normal text-base text-labelColor">
         {label}
       </label>
       <Field name={name}>

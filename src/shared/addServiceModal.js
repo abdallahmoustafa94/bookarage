@@ -53,7 +53,7 @@ const AddServiceModal = ({serviceValues}) => {
             Add Service
           </p>
 
-          <div>
+          <div className="my-10">
             <Formik
               initialValues={{
                 serviceId: modalData?.serviceId || '',
@@ -70,7 +70,6 @@ const AddServiceModal = ({serviceValues}) => {
                       <FormikControl
                         control="dropdown"
                         name="serviceId"
-                        className="rounded-lg "
                         selection
                         label="Selected Service"
                         clearable
@@ -84,7 +83,6 @@ const AddServiceModal = ({serviceValues}) => {
                         name="cost"
                         placeholder="Cost"
                         control="input"
-                        className="rounded leading-tight px-1"
                       />
                     </Form.Field>
                   </Form.Group>

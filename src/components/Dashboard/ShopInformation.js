@@ -4,7 +4,7 @@ import {Form, Image, Button, TextArea} from 'semantic-ui-react'
 import FormikControl from '../formik/FormikControl'
 import photoImage from '../../assets/images/photo-ic.svg'
 
-const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
+const ShopInformation = ({step, values, nextStep, shopInfo}) => {
   const [state, setState] = useState({
     selectedLogo: null,
     isLogoPicked: false,
@@ -52,7 +52,7 @@ const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
                   <div className="space-y-1 text-center">
                     <div className="flex text-sm col-span-6 sm:col-span-3">
                       <label
-                        for="logo-upload"
+                        for="editLogo-upload"
                         className="relative cursor-pointer bg-white rounded-md font-medium file-upload"
                       >
                         <Image
@@ -64,7 +64,7 @@ const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
                         </span>
                         <input
                           onChange={logoHandler}
-                          id="logo-upload"
+                          id="editLogo-upload"
                           name="logo"
                           type="file"
                           className="sr-only"
@@ -93,8 +93,8 @@ const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
                   <div className="space-y-1 text-center">
                     <div className="flex text-sm col-span-6 sm:col-span-3">
                       <label
-                        for="cover-upload"
-                        className="relative cursor-pointer bg-white rounded-md font-medium file-upload"
+                        for="editCover-upload"
+                        className="relative cursor-pointer bg-white rounded-md font-medium"
                       >
                         <Image
                           src={photoImage}
@@ -105,7 +105,7 @@ const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
                         </span>
                         <input
                           onChange={coverHandler}
-                          id="cover-upload"
+                          id="editCover-upload"
                           name="cover"
                           type="file"
                           className="sr-only"

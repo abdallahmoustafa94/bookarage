@@ -48,13 +48,13 @@ const BrandsAndServices = ({
               />
             </div>
           </div>
-          <div className="space-y-1 text-center  ">
-            <div className="flex text-sm col-span-6 sm:col-span-3 mt-5">
-              <Grid columns={5} doubling verticalAlign="middle">
+          <div className="my-2 text-center">
+            <div className="text-sm mt-5">
+              <Grid columns={3} doubling verticalAlign="middle">
                 <Grid.Row>
                   {values?.brands?.map((b, i) => (
                     <Grid.Column>
-                      <div className="relative rounded-full bg-gray-100 px-5 py-3 flex items-center justify-center">
+                      <div className="relative rounded-full bg-gray-100 px-5 py-3 flex items-center justify-center mb-2">
                         <span className="primary-text-color rtl:ml-3 ltr:mr-3 ">
                           {b}
                         </span>

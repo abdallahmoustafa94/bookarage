@@ -91,6 +91,7 @@ const DashboardLayout = () => {
   const [visible, setVisible] = useState(false)
   const isSmall = useMediaQuery('(max-width: 992px)')
   const [shops, setShops] = useState([])
+  const [selectedShop, setSelectedShop] = useState(JSON.parse(shop) || '')
 
   const history = useHistory()
 
@@ -115,14 +116,13 @@ const DashboardLayout = () => {
             disabled: true,
           })
         }
+        console.log(JSON.parse(shop))
 
-        if (JSON.parse(shop)) {
-          if (JSON.parse(shop) === 0) {
-            setShop(JSON.stringify(shopArr[0].value))
-          }
-        } else {
-          setShop(JSON.stringify(0))
+        if (JSON.parse(shop) === 0) {
+          setSelectedShop(shopArr[0].value)
+          setShop(JSON.stringify(shopArr[0].value))
         }
+
         setShops(shopArr)
       })
       .catch(e => {
@@ -149,6 +149,7 @@ const DashboardLayout = () => {
   }, [user])
 
   const handleSelectedShop = id => {
+    setSelectedShop(id)
     setShop(JSON.stringify(id))
   }
 
@@ -157,6 +158,7 @@ const DashboardLayout = () => {
       .then(({data}) => {
         addToast(data.message, {appearance: 'success'})
         Auth.logout()
+        setShop(JSON.stringify(0))
         history.push(routes.login)
       })
       .catch(e => {
@@ -209,7 +211,7 @@ const DashboardLayout = () => {
               className=" mx-8 flex items-center border-blue-700 text-labelColor"
               selection
               options={shops}
-              value={shops[0]?.value}
+              defaultValue={selectedShop}
               onChange={(e, {value}) => handleSelectedShop(value)}
             />
           </li>

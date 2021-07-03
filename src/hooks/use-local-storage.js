@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from 'react'
 
-export default function useLocalStorage(key, defaultValue = "") {
+export default function useLocalStorage(key, defaultValue = '') {
   const [state, setState] = useState(
-    () => window.localStorage.getItem(key) || defaultValue
-  );
+    () => window.localStorage.getItem(key) || defaultValue,
+  )
 
   useEffect(() => {
-    window.localStorage.setItem(key, state);
-  }, [key, state]);
+    window.localStorage.setItem(key, state)
+  }, [key, state])
 
-  return [state, setState];
+  return [state, setState]
 }
