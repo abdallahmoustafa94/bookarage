@@ -5,8 +5,11 @@ import {Formik} from 'formik'
 import FormikControl from '../components/formik/FormikControl'
 import useAsync from '../hooks/useAsync'
 import {getAllBrands} from '../services/ShopService'
+import useMediaQuery from '../hooks/use-media-query'
 
 const AddBrandModal = ({brandValues}) => {
+  const isSmall = useMediaQuery('(max-width: 992px)')
+
   const [open, setOpen] = useState(false)
   const {showModal, setShowModal} = useContext(StateContext)
   const {run, isLoading} = useAsync()
@@ -51,14 +54,14 @@ const AddBrandModal = ({brandValues}) => {
       open={open}
     >
       <Modal.Content>
-        <div className="px-32">
+        <div className={isSmall ? 'px-5' : 'px-32'}>
           <p className="brands-title text-center text-bold font-bold text-2xl text-labelColor mb-1">
             Add Brands
           </p>
           <p className="text-center text-labelColor text-base font-normal">
             Brands that you provide services for
           </p>
-          <div className="my-20 w-1/2 mx-auto">
+          <div className={`${isSmall ? 'w-full' : 'w-1/2'} my-20 mx-auto`}>
             <Formik initialValues={{brands: ''}} onSubmit={handleOnSubmit}>
               {formik => (
                 <Form onSubmit={formik.submitForm} loading={isLoading}>

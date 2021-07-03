@@ -54,15 +54,21 @@ const Management = () => {
             activeMenu={activeMenu}
             setActiveMenu={value => setActiveMenu(value)}
           />
+
           <div className="flex flex-col w-3/4">
-            {activeMenu === 'shopInformation' && (
-              <div className=" p-10 bg-white w-full">
-                <p className="font-medium text-gray-700">Basic Information</p>
-                <ShopInformation loading={isLoading} shopInfo={selectedShop} />
-                <ShopLocation />
-                <LegalInformation />
-              </div>
-            )}
+            <Form loading={isLoading}>
+              {activeMenu === 'shopInformation' && (
+                <div className=" p-10 bg-white w-full">
+                  <p className="font-medium text-gray-700">Basic Information</p>
+                  <ShopInformation
+                    loading={isLoading}
+                    shopInfo={selectedShop}
+                  />
+                  <ShopLocation />
+                  <LegalInformation />
+                </div>
+              )}
+            </Form>
 
             {activeMenu === 'workingHours' && (
               <div className=" p-10 bg-white w-full">

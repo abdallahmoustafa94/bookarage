@@ -1,12 +1,13 @@
 import {useContext, useEffect, useState} from 'react'
 import StateContext from '../context/stateContext'
-import {Modal, Form, Button} from 'semantic-ui-react'
-import {Formik} from 'formik'
-import FormikControl from '../components/formik/FormikControl'
+import {Modal, Button} from 'semantic-ui-react'
+import useMediaQuery from '../hooks/use-media-query'
 
 const DeleteServiceModal = ({deletedService}) => {
   const [open, setOpen] = useState(false)
   const {showModal, setShowModal} = useContext(StateContext)
+  const isSmall = useMediaQuery('(max-width: 992px)')
+
   useEffect(() => {
     if (['deleteService', 'removeService'].includes(showModal.modalName)) {
       setOpen(true)
@@ -26,7 +27,7 @@ const DeleteServiceModal = ({deletedService}) => {
       open={open}
     >
       <Modal.Content>
-        <div className="px-32">
+        <div className={isSmall ? 'px-5' : 'px-32'}>
           <p className="brands-title text-center text-bold font-bold text-2xl text-labelColor mb-1">
             Delete Service
           </p>
@@ -50,7 +51,7 @@ const DeleteServiceModal = ({deletedService}) => {
           <div className="text-center py-10">
             <Button
               content="Add"
-              className="btn-primary mx-5"
+              className={`btn-primary ${isSmall ? 'mb-2' : 'mx-5'}`}
               onClick={handleOnSubmit}
             />
             <Button

@@ -8,9 +8,12 @@ import useAsync from '../../../hooks/useAsync'
 import {signup} from '../../../services/AuthServices'
 import Auth from '../../../config/auth'
 import {useToasts} from 'react-toast-notifications'
+import useMediaQuery from '../../../hooks/use-media-query'
 
 const PersonalInfoStep = ({handleBack, nextStep, values, loading}) => {
   // const {addToast} = useToasts()
+  const isSmall = useMediaQuery('(max-width: 992px)')
+
   const personalSchema = Yup.object({
     nameEN: Yup.string().required('Empty name'),
     email: Yup.string()
@@ -25,11 +28,11 @@ const PersonalInfoStep = ({handleBack, nextStep, values, loading}) => {
   const {addToast} = useToasts()
 
   const [state, setState] = useState({
-    nameEN: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    referralCode: '',
+    nameEN: values.nameEN || '',
+    email: values.email || '',
+    password: values.password || '',
+    confirmPassword: values.confirmPassword || '',
+    referralCode: values.referralCode || '',
   })
 
   const handleOnSubmit = values => {
@@ -73,7 +76,7 @@ const PersonalInfoStep = ({handleBack, nextStep, values, loading}) => {
           </Header>
         </div>
       </div>
-      <div className="my-16 px-40">
+      <div className={isSmall ? 'my-16 px-5' : 'my-16 px-40'}>
         <Formik
           validationSchema={personalSchema}
           initialValues={state}

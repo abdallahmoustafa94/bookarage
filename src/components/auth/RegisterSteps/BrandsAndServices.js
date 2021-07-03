@@ -1,11 +1,13 @@
 import {useContext, useEffect, useState} from 'react'
 import {RiDeleteBin6Line} from 'react-icons/ri'
 import {MdModeEdit} from 'react-icons/md'
-import {Button, Form} from 'semantic-ui-react'
+import {Button, Form, Grid} from 'semantic-ui-react'
 import {BsWrench} from 'react-icons/bs'
+import {RiCloseCircleFill} from 'react-icons/ri'
 
 // import '../../../assets/css/shopinfostep.css'
 import StateContext from '../../../context/stateContext'
+import useMediaQuery from '../../../hooks/use-media-query'
 
 const BrandsAndServices = ({
   values,
@@ -14,6 +16,8 @@ const BrandsAndServices = ({
   deletedBrand,
   loading,
 }) => {
+  const isSmall = useMediaQuery('(max-width: 992px)')
+
   const {setShowModal} = useContext(StateContext)
 
   useEffect(() => {
@@ -28,7 +32,7 @@ const BrandsAndServices = ({
   }
 
   return (
-    <div className="px-8">
+    <div className={isSmall ? '' : 'px-8'}>
       <Form loading={loading}>
         <div className="my-20">
           <div className="flex items-center w-full">
@@ -45,19 +49,27 @@ const BrandsAndServices = ({
             </div>
           </div>
           <div className="space-y-1 text-center  ">
-            <div className="flex text-sm col-span-6 sm:col-span-3 	">
-              {values?.brands?.map((b, i) => (
-                <div className="rounded-full bg-gray-100 py-1 px-2  flex">
-                  <span className="primary-text-color  rtl:ml-3 ltr:mr-3 ">
-                    {b}
-                  </span>
-                  <RiDeleteBin6Line
-                    size={16}
-                    className="text-primaryRedColor-default cursor-pointer"
-                    onClick={() => deletedBrand(i)}
-                  />
-                </div>
-              ))}
+            <div className="flex text-sm col-span-6 sm:col-span-3 mt-5">
+              <Grid columns={5} doubling verticalAlign="middle">
+                <Grid.Row>
+                  {values?.brands?.map((b, i) => (
+                    <Grid.Column>
+                      <div className="relative rounded-full bg-gray-100 px-5 py-3 flex items-center justify-center">
+                        <span className="primary-text-color rtl:ml-3 ltr:mr-3 ">
+                          {b}
+                        </span>
+                        <div className="absolute top-0 ltr:right-0 rtl:left-0">
+                          <RiCloseCircleFill
+                            size={22}
+                            className="text-primaryRedColor-default cursor-pointer"
+                            onClick={() => deletedBrand(i)}
+                          />
+                        </div>
+                      </div>
+                    </Grid.Column>
+                  ))}
+                </Grid.Row>
+              </Grid>
             </div>
           </div>
           <div className="flex items-center w-full py-4">
@@ -74,18 +86,18 @@ const BrandsAndServices = ({
             </div>
           </div>
           {values?.services?.map((s, i) => (
-            <div className="border border-grey-300 w-full p-2 mb-3">
+            <div className="border border-gray-300 w-full p-2 mb-3">
               <div className="flex items-center ">
                 <div className="flex items-center mb-0 w-1/2">
                   <BsWrench
                     size={17}
                     className="text-primaryRedColor-default ltr:mr-3 rtl:ml-3"
                   />
-                  <span className="primary-text-color  rtl:mr-3 ">
+                  <span className="primary-text-color rtl:mr-3 ">
                     {/[^-]*$/.exec(s?.serviceId)[0]}
                   </span>
                 </div>
-                <div className=" flex justify-end    w-full mr-4 ">
+                <div className="flex justify-end w-1/2 mr-4">
                   <span className=" bg-red-50 px-6 py-2 rounded-full">
                     {s?.isAvailable ? 'Available' : 'Not Available'}
                   </span>

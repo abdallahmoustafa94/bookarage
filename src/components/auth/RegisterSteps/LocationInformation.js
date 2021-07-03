@@ -1,17 +1,14 @@
 import {Formik} from 'formik'
 import {useEffect, useState} from 'react'
-import {Form, Image, Button, Select, Label} from 'semantic-ui-react'
-import {
-  CountryDropdown,
-  RegionDropdown,
-  CountryRegionData,
-} from 'react-country-region-selector'
+import {Form, Button} from 'semantic-ui-react'
+import {CountryDropdown, RegionDropdown} from 'react-country-region-selector'
 
 import FormikControl from '../../formik/FormikControl'
-import photoImage from '../../../assets/images/photo-ic.svg'
-// import '../../../assets/css/shopinfostep.css'
+import useMediaQuery from '../../../hooks/use-media-query'
 
 const LocationInformation = ({step, values, nextStep, loading, stepTitle}) => {
+  const isSmall = useMediaQuery('(max-width: 992px)')
+
   const [country, setCountry] = useState({
     country: '',
     setCountry: '',
@@ -49,7 +46,7 @@ const LocationInformation = ({step, values, nextStep, loading, stepTitle}) => {
   }
 
   return (
-    <div className="px-32">
+    <div className={isSmall ? 'px-5' : 'px-32'}>
       <Formik
         initialValues={{
           country: values.country || '',

@@ -116,8 +116,12 @@ const DashboardLayout = () => {
           })
         }
 
-        if (JSON.parse(shop) === 0) {
-          setShop(JSON.stringify(shopArr[0].value))
+        if (JSON.parse(shop)) {
+          if (JSON.parse(shop) === 0) {
+            setShop(JSON.stringify(shopArr[0].value))
+          }
+        } else {
+          setShop(JSON.stringify(0))
         }
         setShops(shopArr)
       })

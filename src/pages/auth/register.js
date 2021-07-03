@@ -11,7 +11,6 @@ import SuccessAccount from '../../components/auth/RegisterSteps/successAccount'
 import LoginPage from '../auth/Login'
 import {
   buildStyles,
-  CircularProgressbar,
   CircularProgressbarWithChildren,
 } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
@@ -20,17 +19,14 @@ import AddBrandModal from '../../shared/addBrandModal'
 import AddServiceModal from '../../shared/addServiceModal'
 import DeleteServiceModal from '../../shared/deleteServiceModal'
 import useAsync from '../../hooks/useAsync'
-import {
-  signup,
-  verifyAndSendOTP,
-  verifyOTPCode,
-} from '../../services/AuthServices'
+import {signup} from '../../services/AuthServices'
 import Auth from '../../config/auth'
 import {useToasts} from 'react-toast-notifications'
 import {useUser} from '../../context/UserContext'
 import {createNewShop} from '../../services/ShopService'
 import routes from '../../routes'
 import {useHistory} from 'react-router-dom'
+import useMediaQuery from '../../hooks/use-media-query'
 
 const RegisterPage = () => {
   const [step, setStep] = useState(1)
@@ -53,9 +49,9 @@ const RegisterPage = () => {
     title: '',
     desc: '',
   })
-
   const {run, isLoading} = useAsync()
   const {addToast} = useToasts()
+  const isSmall = useMediaQuery('(max-width: 992px)')
 
   useEffect(() => {
     if (!Auth.isSignupAuth()) return
@@ -129,9 +125,9 @@ const RegisterPage = () => {
         newShop.append('description', state?.shopDesc)
         newShop.append('logo', state?.logo)
         newShop.append('coverPhoto', state?.coverPhoto)
-        newShop.append('hasRecovery', false)
+        newShop.append('hasRecovery', state?.hasRecovery)
         newShop.append('shopType', JSON.parse(user).role)
-        newShop.append('isAgent', false)
+        newShop.append('isAgent', state?.isAgent)
         state.services.map((s, i) => {
           console.log(Number(s?.serviceId.split('-')[0]))
           newShop.append(
@@ -196,7 +192,11 @@ const RegisterPage = () => {
     setState({...state, brands: brandsArr})
   }
   return (
-    <div className={step === 1 ? 'px-20 py-10' : 'py-10'}>
+    <div
+      className={
+        step === 1 ? (isSmall ? 'px-10 py-10' : 'px-20 py-10') : 'py-10'
+      }
+    >
       <AddBrandModal
         brandValues={v => setState({...state, brands: v.brands})}
       />

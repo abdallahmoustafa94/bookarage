@@ -1,11 +1,13 @@
 import {Formik} from 'formik'
 import {useEffect, useState} from 'react'
-import {Form, Image, Button} from 'semantic-ui-react'
+import {Form, Image, Button, Label} from 'semantic-ui-react'
 import FormikControl from '../../formik/FormikControl'
 import photoImage from '../../../assets/images/photo-ic.svg'
+import useMediaQuery from '../../../hooks/use-media-query'
 // import '../../../assets/css/shopinfostep.css'
 
 const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
+  const isSmall = useMediaQuery('(max-width: 992px)')
   const [state, setState] = useState({
     logo: '',
     coverPhoto: '',
@@ -27,11 +29,13 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
   }
 
   return (
-    <div className="px-32">
+    <div className={isSmall ? 'px-5' : 'px-32'}>
       <Formik
         initialValues={{
           shopName: values.shopName || '',
           shopDesc: values.shopDesc || '',
+          isAgent: values.isAgent || false,
+          hasRecovery: values.hasRecovery || false,
         }}
         onSubmit={handleOnSubmit}
       >
@@ -53,7 +57,25 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
               />
             </Form.Field>
 
-            <Form.Group widths="equal" className="flex">
+            <Form.Field>
+              <FormikControl
+                name="isAgent"
+                label="My shop is able to sell spare parts."
+                control="checkbox"
+              />
+            </Form.Field>
+
+            <Form.Field>
+              <FormikControl
+                name="hasRecovery"
+                label="My shop has recovery service for cars."
+                control="checkbox"
+              />
+            </Form.Field>
+
+            <hr className="my-4" />
+
+            <Form.Group widths="equal">
               <Form.Field>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
@@ -65,24 +87,26 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
                         for="logo-upload"
                         className="relative cursor-pointer bg-white rounded-md font-medium file-upload"
                       >
-                        <Image
-                          src={photoImage}
-                          className="w-10 h-10 shop-logo"
-                        />
-                        <span className="secondary-text-color">
-                          Select logo
-                        </span>
-                        <input
-                          id="logo-upload"
-                          name="logo-upload"
-                          type="file"
-                          accept="image/*"
-                          className="sr-only"
-                          onChange={e => handleOnChangeImage('logo', e)}
-                          onClick={e => {
-                            e.target.value = null
-                          }}
-                        />
+                        <div className="flex items-center">
+                          <Image
+                            src={photoImage}
+                            className="w-10 h-10 shop-logo"
+                          />
+                          <span className="secondary-text-color">
+                            Select logo
+                          </span>
+                          <input
+                            id="logo-upload"
+                            name="logo-upload"
+                            type="file"
+                            accept="image/*"
+                            className="sr-only"
+                            onChange={e => handleOnChangeImage('logo', e)}
+                            onClick={e => {
+                              e.target.value = null
+                            }}
+                          />
+                        </div>
                       </label>
                     </div>
                   </div>
@@ -99,33 +123,35 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
                         for="coverPhoto-upload"
                         className="relative cursor-pointer bg-white rounded-md font-medium file-upload"
                       >
-                        <Image
-                          src={photoImage}
-                          className="w-300 h-10 shop-logo"
-                        />
-                        <span className="secondary-text-color">
-                          Select cover
-                        </span>
-                        <input
-                          id="coverPhoto-upload"
-                          name="coverPhoto-upload"
-                          type="file"
-                          accept="image/*"
-                          className="sr-only"
-                          onChange={e => handleOnChangeImage('coverPhoto', e)}
-                          onClick={e => {
-                            e.target.value = null
-                          }}
-                        />
+                        <div className="flex items-center">
+                          <Image
+                            src={photoImage}
+                            className="w-300 h-10 shop-logo"
+                          />
+                          <span className="secondary-text-color">
+                            Select cover
+                          </span>
+                          <input
+                            id="coverPhoto-upload"
+                            name="coverPhoto-upload"
+                            type="file"
+                            accept="image/*"
+                            className="sr-only"
+                            onChange={e => handleOnChangeImage('coverPhoto', e)}
+                            onClick={e => {
+                              e.target.value = null
+                            }}
+                          />
+                        </div>
                       </label>
                     </div>
                   </div>
                 </div>
               </Form.Field>
             </Form.Group>
-            <p className="mt-2 text-sm text-gray-500">
+            <small className="mt-2 text-gray-500">
               File details size maximum 2mb extension .jpg.png
-            </p>
+            </small>
             <div className="my-10 text-center">
               <Button
                 content="Continue"

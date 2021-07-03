@@ -5,6 +5,7 @@ import {Formik} from 'formik'
 import FormikControl from '../components/formik/FormikControl'
 import useAsync from '../hooks/useAsync'
 import {getAllServices} from '../services/ShopService'
+import useMediaQuery from '../hooks/use-media-query'
 
 const AddServiceModal = ({serviceValues}) => {
   const [open, setOpen] = useState(false)
@@ -12,6 +13,7 @@ const AddServiceModal = ({serviceValues}) => {
   const [servicesOptions, setServicesOptions] = useState([])
   const [modalData, setModalData] = useState({})
   const {run, isLoading} = useAsync()
+  const isSmall = useMediaQuery('(max-width: 992px)')
 
   useEffect(() => {
     if (['registerService', 'addService'].includes(showModal.modalName)) {
@@ -46,7 +48,7 @@ const AddServiceModal = ({serviceValues}) => {
       open={open}
     >
       <Modal.Content>
-        <div className="px-40">
+        <div className={isSmall ? 'px-5' : 'px-40'}>
           <p className="brands-title text-center text-bold font-bold text-2xl text-labelColor mb-1">
             Add Service
           </p>
@@ -63,33 +65,31 @@ const AddServiceModal = ({serviceValues}) => {
             >
               {formik => (
                 <Form onSubmit={formik.submitForm} loading={isLoading}>
-                  <div className="flex items-center justify-center">
-                    <div className="w-1/2">
-                      <Form.Field>
-                        <FormikControl
-                          control="dropdown"
-                          name="serviceId"
-                          className="rounded-lg "
-                          selection
-                          label="Selected Service"
-                          clearable
-                          options={servicesOptions}
-                        />
-                      </Form.Field>
-                    </div>
-                    <div className="w-1/4 p-2">
-                      <Form.Field>
-                        <FormikControl
-                          label="Cost Start From"
-                          name="cost"
-                          placeholder="Cost"
-                          control="input"
-                          className="rounded leading-tight px-1"
-                        />
-                      </Form.Field>
-                    </div>
-                  </div>
-                  <div className="w-3/4 mx-auto">
+                  <Form.Group widths="equal">
+                    <Form.Field>
+                      <FormikControl
+                        control="dropdown"
+                        name="serviceId"
+                        className="rounded-lg "
+                        selection
+                        label="Selected Service"
+                        clearable
+                        options={servicesOptions}
+                      />
+                    </Form.Field>
+
+                    <Form.Field>
+                      <FormikControl
+                        label="Cost Start From"
+                        name="cost"
+                        placeholder="Cost"
+                        control="input"
+                        className="rounded leading-tight px-1"
+                      />
+                    </Form.Field>
+                  </Form.Group>
+
+                  <div className={isSmall ? '' : 'w-3/4 mx-auto'}>
                     <Form.Field>
                       <FormikControl
                         label="Service Details"
@@ -100,7 +100,7 @@ const AddServiceModal = ({serviceValues}) => {
                       />
                     </Form.Field>
                   </div>
-                  <div className="flex items-center w-full py-8 ">
+                  <div className="flex items-center justify-center w-full py-8 ">
                     <p className="mb-0 w-1/1 mx-auto">Service Availability</p>
                     <div className="flex justify-end w-1/1 -mt-3 mx-auto">
                       <FormikControl
@@ -112,11 +112,11 @@ const AddServiceModal = ({serviceValues}) => {
                     </div>
                   </div>
 
-                  <div className="text-center my-20">
+                  <div className={`text-center my-20`}>
                     <Button
                       content={showModal.data ? 'Edit' : 'Add'}
                       type="submit"
-                      className="btn-primary mx-5"
+                      className={`btn-primary mx-5 ${isSmall ? 'mb-5' : ''}`}
                     />
                     <Button
                       className="btn-declined mx-5"

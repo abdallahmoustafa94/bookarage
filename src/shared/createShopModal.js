@@ -59,9 +59,9 @@ const CreateShopModal = () => {
         newShop.append('description', state.shopDesc)
         newShop.append('logo', state.logo)
         newShop.append('coverPhoto', state.coverPhoto)
-        newShop.append('hasRecovery', false)
+        newShop.append('hasRecovery', state.hasRecovery)
         newShop.append('shopType', JSON.parse(user).role)
-        newShop.append('isAgent', false)
+        newShop.append('isAgent', state.isAgent)
 
         run(createNewShop(newShop))
           .then(({data}) => {
