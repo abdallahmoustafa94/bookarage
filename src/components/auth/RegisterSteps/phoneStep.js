@@ -5,8 +5,11 @@ import FormikControl from '../../formik/FormikControl'
 import * as Yup from 'yup'
 import useAsync from '../../../hooks/useAsync'
 import {useToasts} from 'react-toast-notifications'
+import useMediaQuery from '../../../hooks/use-media-query'
 
 const PhoneStep = ({handleBack, nextStep, values, loading}) => {
+  const isSmall = useMediaQuery('(max-width: 992px)')
+
   const handleOnSubmit = values => {
     console.log(values)
     nextStep({type: 'sendOTP', value: values})
@@ -30,13 +33,13 @@ const PhoneStep = ({handleBack, nextStep, values, loading}) => {
           >
             Create New Account
           </Header>
-          <p className="px-40 text-center mt-2">
+          <p className={`${isSmall ? 'px-5' : 'px-40'} text-center mt-2`}>
             Please enter your phone number and wait for activation code.
           </p>
         </div>
       </div>
 
-      <div className="px-40">
+      <div className={`${isSmall ? 'px-5' : 'px-40'}`}>
         <Formik
           initialValues={{
             phoneNumber: values?.phoneNumber || '',

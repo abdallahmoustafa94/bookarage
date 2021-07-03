@@ -1,24 +1,21 @@
 import {Formik} from 'formik'
 import {useEffect, useState} from 'react'
-import {Form, Image, Button, Select, Label} from 'semantic-ui-react'
-import {
-  CountryDropdown,
-  RegionDropdown,
-  CountryRegionData,
-} from 'react-country-region-selector'
+import {Form, Button} from 'semantic-ui-react'
+import {CountryDropdown, RegionDropdown} from 'react-country-region-selector'
 
 import FormikControl from '../../formik/FormikControl'
-import photoImage from '../../../assets/images/photo-ic.svg'
-// import '../../../assets/css/shopinfostep.css'
+import useMediaQuery from '../../../hooks/use-media-query'
 
 const LocationInformation = ({step, values, nextStep, loading, stepTitle}) => {
+  const isSmall = useMediaQuery('(max-width: 992px)')
+
   const [country, setCountry] = useState({
     country: '',
     setCountry: '',
   })
-  const [region, setRegion] = useState({
-    region: '',
-    setRegion: '',
+  const [city, setCity] = useState({
+    city: '',
+    setCity: '',
   })
   useEffect(() => {
     stepTitle({
@@ -29,23 +26,31 @@ const LocationInformation = ({step, values, nextStep, loading, stepTitle}) => {
 
   const handleOnSubmit = values => {
     console.log(values)
-    nextStep({type: 'step', value: values})
+    const locationInfo = {
+      ...values,
+      country: country.setCountry,
+      city: city.setCity,
+    }
+    nextStep({
+      type: window.location.pathname.startsWith('/auth') ? 'step' : 'submit',
+      value: locationInfo,
+    })
   }
 
   const selectCountry = val => {
     setCountry({...country, setCountry: val})
   }
 
-  const selectRegion = val => {
-    setRegion({...region, setRegion: val})
+  const selectCity = val => {
+    setCity({...city, setCity: val})
   }
 
   return (
-    <div className="px-32">
+    <div className={isSmall ? 'px-5' : 'px-32'}>
       <Formik
         initialValues={{
           country: values.country || '',
-          region: values.region || '',
+          city: values.city || '',
           shopAddress: values.shopAddress,
         }}
         onSubmit={handleOnSubmit}
@@ -57,7 +62,7 @@ const LocationInformation = ({step, values, nextStep, loading, stepTitle}) => {
                 Country
               </label>
               <CountryDropdown
-                name="selectedCountry"
+                name="country"
                 value={country.setCountry}
                 onChange={val => selectCountry(val)}
               />
@@ -67,10 +72,10 @@ const LocationInformation = ({step, values, nextStep, loading, stepTitle}) => {
                 City
               </label>
               <RegionDropdown
-                name="selectedRegion"
+                name="city"
                 country={country.setCountry}
-                value={region.setRegion}
-                onChange={val => selectRegion(val)}
+                value={city.setCity}
+                onChange={val => selectCity(val)}
               />
             </Form.Field>
             <Form.Field>

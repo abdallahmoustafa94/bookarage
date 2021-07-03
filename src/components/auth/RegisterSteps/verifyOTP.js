@@ -2,12 +2,12 @@ import {Header, Icon, Form, Button, Image} from 'semantic-ui-react'
 import {IoArrowBack} from 'react-icons/io5'
 import {Formik} from 'formik'
 import FormikControl from '../../formik/FormikControl'
-import * as Yup from 'yup'
-import useAsync from '../../../hooks/useAsync'
-import {useToasts} from 'react-toast-notifications'
 import verifyImage from '../../../assets/images/verifyMobile.svg'
+import useMediaQuery from '../../../hooks/use-media-query'
 
 const VerifyOTP = ({handleBack, nextStep, values, loading}) => {
+  const isSmall = useMediaQuery('(max-width: 992px)')
+
   const handleOnSubmit = values => {
     console.log(values)
     nextStep({type: 'step', value: values})
@@ -37,12 +37,12 @@ const VerifyOTP = ({handleBack, nextStep, values, loading}) => {
         <div>
           <Image src={verifyImage} className="m-auto w-60 h-60" />
         </div>
-        <p className="px-20 text-center mt-2">
+        <p className={`${isSmall ? 'px-5' : 'px-20'} text-center mt-2`}>
           Please enter the recieved activation code on your phone
         </p>
       </div>
 
-      <div className="px-20">
+      <div className={`${isSmall ? 'px-5' : 'px-20'}`}>
         <Formik
           initialValues={{code: values?.code || ''}}
           onSubmit={handleOnSubmit}

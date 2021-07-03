@@ -3,12 +3,8 @@ import {Field} from 'formik'
 import {Form} from 'semantic-ui-react'
 
 function FormikCheckbox({label, name, className, ...props}) {
-  console.log(name)
   return (
     <>
-      <label htmlFor={name} className="font-bold text-base mt-4 text-primary">
-        {label}
-      </label>
       <Field name={name}>
         {({form, field}) => {
           const {errors, touched} = form
@@ -17,7 +13,15 @@ function FormikCheckbox({label, name, className, ...props}) {
               id={name}
               {...field}
               {...props}
-              className={`block mt-2 ${className}`}
+              label={
+                <label
+                  htmlFor={name}
+                  className="text-base text-labelColor font-normal"
+                >
+                  <p className="ml-1">{label}</p>
+                </label>
+              }
+              className={`block ${className}`}
               error={touched[name] && errors[name]}
             />
           )

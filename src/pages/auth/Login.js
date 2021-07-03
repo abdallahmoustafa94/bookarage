@@ -5,6 +5,7 @@ import {Button, Form, Image} from 'semantic-ui-react'
 import logo from '../../assets/images/logo.svg'
 import Auth from '../../config/auth'
 import useLocalStorage from '../../hooks/use-local-storage'
+import useMediaQuery from '../../hooks/use-media-query'
 import useAsync from '../../hooks/useAsync'
 import routes from '../../routes'
 import {login} from '../../services/AuthServices'
@@ -14,6 +15,7 @@ const LoginPage = () => {
   const {addToast} = useToasts()
   const [user, setUser] = useLocalStorage('user', '')
   const history = useHistory()
+  const isSmall = useMediaQuery('(max-width: 992px)')
   const [state, setState] = useState({
     emailOrPhoneNumber: '',
     password: '',
@@ -23,6 +25,12 @@ const LoginPage = () => {
     run(login(state))
       .then(({data}) => {
         console.log(data)
+        if (data.data.role === 'user') {
+          addToast('This account for user not for providers', {
+            appearance: 'error',
+          })
+          return
+        }
         Auth.setToken(data.data.token)
         setUser(
           JSON.stringify({
@@ -43,7 +51,7 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="px-20 py-10">
+    <div className={`${isSmall ? 'px-5' : 'px-20'} py-10`}>
       <Image src={logo} className="mx-auto" width="150" />
 
       <div className="mt-16">

@@ -1,15 +1,15 @@
 import {Formik} from 'formik'
 import {useContext, useEffect, useState} from 'react'
-import {Form, Image, Button} from 'semantic-ui-react'
+import {Form, Image, Button, TextArea} from 'semantic-ui-react'
 import FormikControl from '../formik/FormikControl'
 import photoImage from '../../assets/images/photo-ic.svg'
 
 const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
-  const [state,setState] = useState({
-    selectedLogo : null,
-    isLogoPicked : false,
-    selectedCover : null,
-    isCoverPicked : false
+  const [state, setState] = useState({
+    selectedLogo: null,
+    isLogoPicked: false,
+    selectedCover: null,
+    isCoverPicked: false,
   })
   const handleOnSubmit = values => {
     console.log(values)
@@ -17,35 +17,38 @@ const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
   }
 
   const logoHandler = event => {
-    setState({ ...state,selectedLogo: event.target.files[0], isLogoPicked:true })
+    setState({
+      ...state,
+      selectedLogo: event.target.files[0],
+      isLogoPicked: true,
+    })
   }
 
   const coverHandler = event => {
-    setState({ ...state ,selectedCover: event.target.files[0],isCoverPicked:true})
+    setState({
+      ...state,
+      selectedCover: event.target.files[0],
+      isCoverPicked: true,
+    })
   }
 
   return (
     <div>
-      <Formik
-        // initialValues={{
-        //   shopName: values.shopName || '',
-        //   shopDesc: values.shopDesc || '',
-        // }}
-        onSubmit={handleOnSubmit}
-      >
+      <Formik initialValues={{state}}>
         {formik => (
-          <Form
-            loading={loading}
-            onSubmit={formik.submitForm}
-            className="w-2/4"
-          >
+          <Form className="w-2/4">
             <Form.Group widths="equal" className="flex">
               <Form.Field>
-                <div>{/* <Image src={} /> */}</div>
                 <div className="mt-5">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-lg font-medium text-gray-700">
                     Logo
                   </label>
+                  <div className="my-3">
+                    <Image
+                      src={shopInfo?.logo || photoImage}
+                      className="w-20 h-20 rounded-full object-cover"
+                    />
+                  </div>
                   <div className="space-y-1 text-center">
                     <div className="flex text-sm col-span-6 sm:col-span-3">
                       <label
@@ -67,24 +70,26 @@ const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
                           className="sr-only"
                         />
                       </label>
-                     
                     </div>
-                   
                   </div>
                 </div>
                 {state.isLogoPicked ? (
-                    <div>
-                      <p> {state.selectedLogo.name}</p>
-                    </div>
-                  ) : (
-                    null
-                  )}
+                  <div>
+                    <p> {state.selectedLogo.name}</p>
+                  </div>
+                ) : null}
               </Form.Field>
               <Form.Field>
                 <div className="mt-5">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-lg font-medium text-gray-700">
                     Cover
                   </label>
+                  <div className="my-3">
+                    <Image
+                      src={shopInfo?.coverPhoto || photoImage}
+                      className="w-52 h-20 rounded-xl object-contain"
+                    />
+                  </div>
                   <div className="space-y-1 text-center">
                     <div className="flex text-sm col-span-6 sm:col-span-3">
                       <label
@@ -99,44 +104,47 @@ const ShopInformation = ({step, values, nextStep, loading, stepTitle}) => {
                           Select cover
                         </span>
                         <input
-                        onChange={coverHandler}
+                          onChange={coverHandler}
                           id="cover-upload"
                           name="cover"
                           type="file"
                           className="sr-only"
                         />
                       </label>
-                     
                     </div>
-                    
                   </div>
                 </div>
                 {state.isCoverPicked ? (
-                    <div>
-                      <p> {state.selectedCover.name}</p>
-                    </div>
-                  ) : (
-                   null
-                  )}
+                  <div>
+                    <p> {state.selectedCover.name}</p>
+                  </div>
+                ) : null}
               </Form.Field>
             </Form.Group>
             <p className="mt-2 text-sm text-gray-500">
               File details size maximum 2mb extension .jpg.png
             </p>
+
+            <hr className="my-4" />
             <Form.Field>
-              <FormikControl
-                name="shopName"
-                control="input"
-                label="Shop Name"
+              <Form.Input
+                label={
+                  <label className="text-labelColor font-medium">
+                    Shop Name
+                  </label>
+                }
+                onChange={(e, {value}) => setState({...state, shopName: value})}
               />
             </Form.Field>
 
             <Form.Field>
-              <FormikControl
-                name="shopDesc"
-                control="textarea"
-                label="Shop Description"
-              />
+              <label className="text-labelColor font-medium">
+                Shop Description
+              </label>
+              <TextArea
+                rows={3}
+                onChange={(e, {value}) => setState({...state})}
+              ></TextArea>
             </Form.Field>
           </Form>
         )}

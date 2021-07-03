@@ -7,6 +7,7 @@ import ToastContainer from './components/ToastContainer'
 import {UserProvider} from './context/UserContext'
 import {useState} from 'react'
 import StateContext from './context/stateContext'
+import {ShopProvider} from './context/ShopContext'
 
 function App() {
   const [showModal, setShowModal] = useState({modalName: '', data: null})
@@ -18,11 +19,13 @@ function App() {
     >
       <StateContext.Provider value={{showModal, setShowModal}}>
         <UserProvider>
-          <LanguageProvider>
-            <div className="h-full main-font">
-              <Routes />
-            </div>
-          </LanguageProvider>
+          <ShopProvider>
+            <LanguageProvider>
+              <div className="h-full main-font">
+                <Routes />
+              </div>
+            </LanguageProvider>
+          </ShopProvider>
         </UserProvider>
       </StateContext.Provider>
     </ToastProvider>
