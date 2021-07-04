@@ -30,10 +30,11 @@ const Management = ({values}) => {
   const {run, isLoading} = useAsync()
   const [selectedShop, setSelectedShop] = useState({})
   const {showModal, setShowModal} = useContext(StateContext)
-  const [state,setState] = useState({
+  const [state, setState] = useState({
     services: [],
     brands: [],
   })
+  const [updateShop, setUpdateShop] = useState(false)
 
   useEffect(() => {
     if (!user) return
@@ -53,8 +54,7 @@ const Management = ({values}) => {
         setShowModal({modalName: 'createShop', data: null})
       }
     }
-  }, [shop])
-
+  }, [shop, updateShop])
 
   const handleService = v => {
     let serviceArr = [...state.services]
@@ -76,18 +76,17 @@ const Management = ({values}) => {
     setState({...state, services: serviceArr})
   }
 
-  const handleOnSubmit = (e) => {
-    console.log(e)
+  const handleOnSubmit = v => {
+    console.log(v)
   }
-
-
-  
 
   return (
     <div className="flex  w-full space-x-8 p-10">
       <CreateShopModal />
-      <AddBrandModal brandValues={v => setState({...state, brands: v.brands})}/>
-      <AddServiceModal serviceValues={v => handleService(v)}/>
+      <AddBrandModal
+        brandValues={v => setState({...state, brands: v.brands})}
+      />
+      <AddServiceModal serviceValues={v => handleService(v)} />
       <AddEmployeeModal />
       <DeleteServiceModal deletedService={handleDeleteService} />
       <EditEmployeeModal />
@@ -108,18 +107,17 @@ const Management = ({values}) => {
             />
           </div>
           <div className="flex flex-col w-3/4">
-            <Form loading={isLoading}>
-              {activeMenu === 'shopInformation' && (
-                <div className=" p-10 bg-white w-full">
-                  <p className="font-medium text-gray-700">Basic Information</p>
-                  <ShopInformation
-                    loading={isLoading}
-                    shopInfo={selectedShop}
-                  />
-           
-                </div>
-              )}
-            </Form>
+            {activeMenu === 'shopInformation' && (
+              <div className=" p-10 bg-white w-full">
+                <p className="font-medium text-gray-700">Basic Information</p>
+                <ShopInformation
+                  loading={isLoading}
+                  shopInfo={selectedShop}
+                  updateShop={v => setUpdateShop(prev => !prev)}
+                  nextStep={v => handleOnSubmit(v)}
+                />
+              </div>
+            )}
 
             {activeMenu === 'workingHours' && (
               <div className=" p-10 bg-white w-full">
@@ -145,10 +143,8 @@ const Management = ({values}) => {
               </div>
             )} */}
           </div>
-          
         </Fragment>
       )}
-           
     </div>
   )
 }

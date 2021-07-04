@@ -5,7 +5,6 @@ export const getMyShops = () => {
   return authAxios.get('/shops/myShops')
 }
 
-
 // Get shop by id
 export const getShopById = id => {
   return authAxios.post('/shops/getShopByShopId', {shopId: id})
@@ -41,4 +40,6 @@ export const getProfile = () => {
   return authAxios.get('/users/me')
 }
 
-
+export const uploadShopPhotos = imgData => {
+  return authAxios.post('/shops/uploadShopPhotos', imgData)
+}
