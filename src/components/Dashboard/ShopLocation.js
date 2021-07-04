@@ -20,7 +20,12 @@ const ShopLocation = ({step, values, nextStep, loading, stepTitle}) => {
     setRegion: '',
   })
   
-  const [inputs,setInputs]=useState(['input-0'])
+  
+  const [inputs,addInputs]=useState([])
+  const [vatInput,addVatInput] = useState([])
+  const [count,setCount]=useState(1)
+  const [isAgent,setIsAgent] = useState(false)
+  const [hasRecovery,setHasRecovery] = useState(false)
 
   const handleOnSubmit = values => {
     console.log(values)
@@ -35,9 +40,53 @@ const ShopLocation = ({step, values, nextStep, loading, stepTitle}) => {
     setRegion({...region, setRegion: val})
   }
 
-  const appendInput = () => {
-    let newInput = `input-${inputs.length}`;
-    setInputs(prevState => ({ inputs: prevState.inputs.concat([newInput]) }));
+  const appendInput = (e) => {
+    e.preventDefault()
+
+    addInputs([...inputs,''])
+}
+
+const appendVatInput = (e) => {
+  e.preventDefault()
+
+  addVatInput([...vatInput,''])
+}
+
+const handleAddInput = (e,id) => {
+
+  e.preventDefault()
+  inputs = e.target.value
+  addInputs(inputs)
+  
+}
+
+const handleAddVatInput = (e,id) => {
+
+  e.preventDefault()
+  inputs = e.target.value
+  addVatInput(vatInput)
+  
+}
+
+function handleRemove(id) {
+  const newInputs = inputs.filter((item) => item.id !== id);
+
+  addInputs(newInputs);
+  setCount(count+1)
+}
+
+function handleRemoveVat(id) {
+  const newInputs = vatInput.filter((item) => item.id !== id);
+
+  addVatInput(newInputs);
+}
+
+const handleOnChangeIsAgent = (checked) => {
+  setIsAgent(checked)
+}
+
+const handleOnChangeHasRecovery = (checked) => {
+  setHasRecovery(checked)
 }
 
   return (
@@ -60,19 +109,86 @@ const ShopLocation = ({step, values, nextStep, loading, stepTitle}) => {
               content="add Number"
               icon="plus"
               className="bg-transparent font-normal text-primaryRedColor-default"
-              onClick={ () => appendInput() }
+              onClick={ (e) => appendInput(e) }
             />
             </div>
             
             
             </div>
-            {inputs.map(input => <Form.Field>
-              <FormikControl
-                name="phoneNumber"
-                control="input"
-                key={input}
-              />
-            </Form.Field>)}
+            {inputs.map((input) => {
+                            return <> 
+
+            <div className="flex w-full">
+              <div className="w-1/2 flex">
+              <Form.Field key={count}>
+               
+               <FormikControl
+                 name="phoneNumber"
+                 control="input"
+                 value={input}
+                 onChange ={(e)=>this.handleAddInput(e)}
+                 
+               />
+             </Form.Field>
+             
+              </div>
+            <div className="flex justify-end w-1/2">
+            <Button
+              
+              icon="delete"
+              className="bg-transparent font-normal text-primaryRedColor-default w-1/3"
+              onClick={ () => handleRemove(input.id) }
+            />
+            </div>
+           
+            </div>
+           
+            </>
+            })}
+
+<div className="flex w-full">
+          <p className="mb-0 w-1/2">Vat</p>
+          <div className="flex justify-end w-1/2">
+            <Button
+              content="Add Vat"
+              icon="plus"
+              className="bg-transparent font-normal text-primaryRedColor-default"
+              onClick={ (e) => appendVatInput(e) }
+            />
+            </div>
+            
+            
+            </div>
+            {vatInput.map((vat,i) => {
+                            return <> 
+
+            <div className="flex w-full">
+              <div className="w-1/2 flex">
+              <Form.Field key={i}>
+               
+               <FormikControl
+                 name="phoneNumber"
+                 control="input"
+                 value={vat}
+                 onChange ={(e)=>this.handleAddVatInput(e)}
+                 
+               />
+             </Form.Field>
+             
+              </div>
+            <div className="flex justify-end w-1/2">
+            <Button
+              
+              icon="delete"
+              className="bg-transparent font-normal text-primaryRedColor-default w-1/3"
+              onClick={ () => handleRemoveVat(vat.id) }
+            />
+            </div>
+           
+            </div>
+           
+            </>
+            })}
 
             
 
@@ -105,6 +221,33 @@ const ShopLocation = ({step, values, nextStep, loading, stepTitle}) => {
                 label="Shop Address"
               />
             </Form.Field>
+            <Form.Field>
+              <FormikControl
+                name="isAgent"
+                label="My shop is able to sell spare parts."
+                control="checkbox"
+                onChange={handleOnChangeIsAgent}
+              />
+            </Form.Field>
+
+            <Form.Field>
+              <FormikControl
+                name="hasRecovery"
+                label="My shop has recovery service for cars."
+                control="checkbox"
+                onChange={handleOnChangeHasRecovery}
+              />
+            </Form.Field>
+            <div className="my-10 text-center flex justify-start">
+              
+          <Button
+            content="Save"
+            className="btn-primary"
+            onClick={handleOnSubmit}
+          />
+        </div>
+
+        
            
           </Form>
         )}

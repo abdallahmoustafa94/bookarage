@@ -72,7 +72,7 @@ const LegalInformation = ({nextStep, loading, stepTitle}) => {
             <div className={`space-y-1 ${isSmall ? '' : 'text-center'}`}>
               <div className="flex text-sm col-span-6 sm:col-span-3">
                 <label
-                  for="file-upload"
+                  htmlFor="file-upload"
                   className="relative flex flex-col cursor-pointer bg-white rounded-md font-medium file-upload"
                 >
                   <div className="flex items-center my-5 ">

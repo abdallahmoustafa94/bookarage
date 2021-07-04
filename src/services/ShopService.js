@@ -24,3 +24,22 @@ export const getAllServices = () => {
 export const createNewShop = newShop => {
   return authAxios.post('/shops/createShop', newShop)
 }
+
+export const addWorkingHrs = addWorkingHrs => {
+  return authAxios.post('/shops/addWorkingHrs', addWorkingHrs)
+}
+
+export const getAllEmployees = () => {
+  return authAxios.get('/users/employees/allEmployees')
+}
+
+export const changeAvatar = () => {
+  return authAxios.post('/users/changeAvatar')
+}
+export const getProfile = () => {
+  return authAxios.get('/users/me')
+}
+
+export const uploadShopPhotos = imgData => {
+  return authAxios.post('/shops/uploadShopPhotos', imgData)
+}

@@ -3,10 +3,14 @@ import StateContext from '../../../context/stateContext'
 import {Modal, Form, Button} from 'semantic-ui-react'
 import {Formik} from 'formik'
 import FormikControl from '../../formik/FormikControl'
+import useAsync from '../../../hooks/useAsync'
 
-const EditFullNames = () => {
+
+const EditFullNames = ({fullNameValue}) => {
     const [open, setOpen] = useState(false)
   const {showModal, setShowModal} = useContext(StateContext)
+  
+  const {run, isLoading} = useAsync()
   useEffect(() => {
     if (['editFullName', 'editFullName'].includes(showModal.modalName)) {
       setOpen(true)
@@ -18,6 +22,8 @@ const EditFullNames = () => {
   
   const handleOnSubmit = values => {
     console.log(values)
+    fullNameValue(values)
+    setShowModal({modalName: '', data: null})
   }
   return (
     <Modal
@@ -41,6 +47,15 @@ const EditFullNames = () => {
                       label="Full Name"
                     />
                   </Form.Field>
+                  <div className="flex text-center">
+            <Button content="Save" className="btn-primary mx-5" type="submit" />
+            <Button
+              className="btn-declined mx-5"
+              onClick={() => setShowModal({modalName: "", data: null})}
+            >
+              Cancel
+            </Button>
+          </div>
                 </Form>
               )}
             </Formik>
@@ -51,15 +66,7 @@ const EditFullNames = () => {
                         Select Brand
                       </Label>
                     </Form.Field> */}
-          <div className="text-center">
-            <Button content="Save" className="btn-primary mx-5" type="submit" />
-            <Button
-              className="btn-declined mx-5"
-              onClick={() => setShowModal({modalName: "", data: null})}
-            >
-              Cancel
-            </Button>
-          </div>
+         
         </div>
       </Modal.Content>
     </Modal>

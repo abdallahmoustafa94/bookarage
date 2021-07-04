@@ -18,7 +18,9 @@ const AddServiceModal = ({serviceValues}) => {
   useEffect(() => {
     if (['registerService', 'addService'].includes(showModal.modalName)) {
       setOpen(true)
-      setModalData(showModal.data)
+
+      // setModalData(showModal.data)
+
       run(getAllServices()).then(({data}) => {
         console.log(data)
         let servicesArr = []
@@ -56,10 +58,10 @@ const AddServiceModal = ({serviceValues}) => {
           <div className="my-10">
             <Formik
               initialValues={{
-                serviceId: modalData?.serviceId || '',
-                cost: modalData?.cost || '',
-                details: modalData?.details || '',
-                isAvailable: modalData?.isAvailable || false,
+                serviceId: showModal.data?.serviceId || '',
+                cost: showModal.data?.cost || '',
+                details: showModal.data?.details || '',
+                isAvailable: showModal.data?.isAvailable || false,
               }}
               onSubmit={handleOnSubmit}
             >

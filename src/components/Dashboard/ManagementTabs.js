@@ -55,7 +55,7 @@ const ManagementTabs = ({activeMenu, setActiveMenu}) => {
         onClick={() => setActiveMenu('employees')}
       ></Button>
 
-      <Button
+      {/* <Button
         icon="address book"
         content="Customer Lists"
         className={`${
@@ -65,7 +65,7 @@ const ManagementTabs = ({activeMenu, setActiveMenu}) => {
         } font-normal text-lg text-left pl-28`}
         active={activeMenu === 'customerLists'}
         onClick={() => setActiveMenu('customerLists')}
-      ></Button>
+      ></Button> */}
     </div>
   )
 }
