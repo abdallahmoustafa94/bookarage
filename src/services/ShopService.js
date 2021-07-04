@@ -5,6 +5,7 @@ export const getMyShops = () => {
   return authAxios.get('/shops/myShops')
 }
 
+
 // Get shop by id
 export const getShopById = id => {
   return authAxios.post('/shops/getShopByShopId', {shopId: id})
@@ -24,3 +25,20 @@ export const getAllServices = () => {
 export const createNewShop = newShop => {
   return authAxios.post('/shops/createShop', newShop)
 }
+
+export const addWorkingHrs = addWorkingHrs => {
+  return authAxios.post('/shops/addWorkingHrs', addWorkingHrs)
+}
+
+export const getAllEmployees = () => {
+  return authAxios.get('/users/employees/allEmployees')
+}
+
+export const changeAvatar = () => {
+  return authAxios.post('/users/changeAvatar')
+}
+export const getProfile = () => {
+  return authAxios.get('/users/me')
+}
+
+

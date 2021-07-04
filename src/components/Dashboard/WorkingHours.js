@@ -6,6 +6,11 @@ import {TimeInput} from 'semantic-ui-calendar-react'
 import {formatTime} from '../../utils/date-format'
 import moment from 'moment'
 import {capitalize} from '../../utils/capitalize-text'
+import { addWorkingHrs } from '../../services/ShopService'
+import useAsync from '../../hooks/useAsync'
+import Auth from '../../config/auth'
+import {useToasts} from 'react-toast-notifications'
+
 
 const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
   const [state, setState] = useState([
@@ -59,14 +64,40 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
       id: 7,
     },
   ])
+  const {addToast} = useToasts()
+
 
   const {setShowModal} = useContext(StateContext)
 
   const history = useHistory()
+  const {run, isLoading} = useAsync()
 
   
 
   const handleOnSubmit = () => {
+    const workingHrs= []
+   
+   
+      run(addWorkingHrs(workingHrs))
+      .then(({data}) => {
+        console.log(data)
+        data.data?.map((wh, i) => {
+          if (state.isOpened) {
+            workingHrs.push('workingHrs[' + i + '][day]', wh?.day)
+            workingHrs.push('workingHrs[' + i + '][startTime]', wh?.startTime)
+            workingHrs.push('workingHrs[' + i + '][endTime]', wh?.endTime)
+            workingHrs.push('workingHrs[' + i + '][isOpened]', wh?.isOpened)
+          }
+      })
+        addToast(data.message, {appearance: 'success'})
+
+       
+      .catch(e => {
+        console.log(e)
+        e &&
+          e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
+      })
+    })
     console.log(state)
 
     // nextStep({type: 'step', value: values})
@@ -106,39 +137,19 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
             <span className="flex justify-end w-1/2  ">Shop Status</span>
 
         </div>
-      <Form loading={loading}>
+        <Form loading={loading}>
         <ul>
           {state.map((item, i) => (
             <li key={item.id} className="mb-3">
               <div className="flex items-center">
-                <p className="mb-0 w-1/2">{capitalize(item.day)}</p>
-                
-
-                <div className="w-1/2">
-                  <div className="flex  justify-end">
-                    <label className="mx-3 text-gray-400">
-                      {item?.isOpened ? 'Opened' : 'Closed'}
-                    </label>
-                    <div className="-mt-3">
-                      <Form.Checkbox
-                        toggle
-                        checked={item.isOpened}
-                        onChange={(e, {value, checked}) =>
-                          handleOnChangeCheckBox(i, checked)
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center">
-              <div className="w-1/2 justify-start">
+                <p className="mb-0 w-2/12">{capitalize(item.day)}</p>
+                <div className="w-4/12 justify-start">
                   {/* {console.log(Object.keys(item))} */}
                   <div>
                     <Form.Group widths="equal" className="mb-0">
                       <Form.Field>
                         <div className={`flex items-center`}>
-                          <label htmlFor={``} className="text-gray-400">
+                          <label htmlFor={``} className="mx-3 text-gray-400">
                             From
                           </label>
                           {/* {formatTime(item.startTime)} */}
@@ -179,17 +190,40 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
                     </Form.Group>
                   </div>
                 </div>
+
+                <div className="w-6/12">
+                  <div className="flex  justify-end">
+                    <label className="mx-3 text-gray-400">
+                      {item?.isOpened ? 'Opened' : 'Closed'}
+                    </label>
+                    <div className="-mt-3">
+                      <Form.Checkbox
+                        toggle
+                        checked={item.isOpened}
+                        onChange={(e, {value, checked}) =>
+                          handleOnChangeCheckBox(i, checked)
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </li>
           ))}
         </ul>
-        <div className="my-10 text-center flex justify-start">
+        <div className="my-10 text-center">
           <Button
-            content="Save"
+            content="Finish"
             type="submit"
             className="btn-primary"
             onClick={handleOnSubmit}
           />
+          <Button
+            className="btn-declined mx-5"
+            onClick={() => nextStep({type: 'submitShop', value: null})}
+          >
+            Setup Later
+          </Button>
         </div>
       </Form>
     </div>

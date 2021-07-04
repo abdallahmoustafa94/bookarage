@@ -22,7 +22,7 @@ import EditEmployeeModal from '../shared/EditEmployeeModal'
 import Auth from '../config/auth'
 import {BsFillPlusCircleFill} from 'react-icons/bs'
 
-const Management = () => {
+const Management = ({values}) => {
   const [activeMenu, setActiveMenu] = useState('shopInformation')
   const [user, setUser] = useUser()
   const [shop, setShop] = useShop()
@@ -30,6 +30,10 @@ const Management = () => {
   const {run, isLoading} = useAsync()
   const [selectedShop, setSelectedShop] = useState({})
   const {showModal, setShowModal} = useContext(StateContext)
+  const [state,setState] = useState({
+    services: [],
+    brands: [],
+  })
 
   useEffect(() => {
     if (!user) return
@@ -51,13 +55,41 @@ const Management = () => {
     }
   }, [shop])
 
+
+  const handleService = v => {
+    let serviceArr = [...state.services]
+    const index = serviceArr.findIndex(o => o.serviceId === v.serviceId)
+
+    if (index === -1) {
+      serviceArr = [...serviceArr, v]
+    } else {
+      serviceArr.splice(index, 1)
+      serviceArr = [...serviceArr, v]
+    }
+
+    setState({...state, services: serviceArr})
+  }
+
+  const handleDeleteService = i => {
+    let serviceArr = [...state.services]
+    serviceArr.splice(i, 1)
+    setState({...state, services: serviceArr})
+  }
+
+  const handleOnSubmit = (e) => {
+    console.log(e)
+  }
+
+
+  
+
   return (
     <div className="flex  w-full space-x-8 p-10">
       <CreateShopModal />
-      <AddBrandModal />
-      <AddServiceModal />
+      <AddBrandModal brandValues={v => setState({...state, brands: v.brands})}/>
+      <AddServiceModal serviceValues={v => handleService(v)}/>
       <AddEmployeeModal />
-      <DeleteServiceModal />
+      <DeleteServiceModal deletedService={handleDeleteService} />
       <EditEmployeeModal />
       {JSON.parse(shop) !== 0 && (
         <Fragment>
@@ -84,8 +116,7 @@ const Management = () => {
                     loading={isLoading}
                     shopInfo={selectedShop}
                   />
-                  <ShopLocation />
-                  <LegalInformation />
+           
                 </div>
               )}
             </Form>
@@ -98,7 +129,7 @@ const Management = () => {
 
             {activeMenu === 'servicesAndParts' && (
               <div className=" p-10 bg-white w-full">
-                <ServicesAndParts />
+                <ServicesAndParts values={state} />
               </div>
             )}
 
@@ -108,14 +139,16 @@ const Management = () => {
               </div>
             )}
 
-            {activeMenu === 'customerLists' && (
+            {/* {activeMenu === 'customerLists' && (
               <div className=" p-10  w-full">
                 <CustomerLists />
               </div>
-            )}
+            )} */}
           </div>
+          
         </Fragment>
       )}
+           
     </div>
   )
 }

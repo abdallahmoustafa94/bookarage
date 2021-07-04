@@ -3,6 +3,11 @@ import {useContext, useEffect, useState} from 'react'
 import {Form, Image, Button, TextArea} from 'semantic-ui-react'
 import FormikControl from '../formik/FormikControl'
 import photoImage from '../../assets/images/photo-ic.svg'
+import {
+  CountryDropdown,
+  RegionDropdown,
+  CountryRegionData,
+} from 'react-country-region-selector'
 
 const ShopInformation = ({step, values, nextStep, shopInfo}) => {
   const [state, setState] = useState({
@@ -11,17 +16,96 @@ const ShopInformation = ({step, values, nextStep, shopInfo}) => {
     selectedCover: null,
     isCoverPicked: false,
   })
+
+  const [country, setCountry] = useState({
+    country: '',
+    setCountry: '',
+  })
+  const [region, setRegion] = useState({
+    region: '',
+    setRegion: '',
+  })
+  
+  
+  const [inputs,addInputs]=useState([])
+  const [vatInput,addVatInput] = useState([])
+  const [isAgent,setIsAgent] = useState(false)
+  const [hasRecovery,setHasRecovery] = useState(false)
+
   const handleOnSubmit = values => {
     console.log(values)
     nextStep({type: 'step', value: values})
   }
 
-  const logoHandler = event => {
-    setState({
-      ...state,
-      selectedLogo: event.target.files[0],
-      isLogoPicked: true,
-    })
+  const selectCountry = val => {
+    setCountry({...country, setCountry: val})
+  }
+
+  const selectRegion = val => {
+    setRegion({...region, setRegion: val})
+  }
+
+  const appendInput = (e) => {
+    e.preventDefault()
+
+    addInputs([...inputs,''])
+}
+
+const appendVatInput = (e) => {
+  e.preventDefault()
+
+  addVatInput([...vatInput,''])
+}
+
+const handleAddInput = (e,id) => {
+
+  e.preventDefault()
+  inputs = e.target.value
+  addInputs(inputs)
+  
+}
+
+const handleAddVatInput = (e,id) => {
+
+  e.preventDefault()
+  inputs = e.target.value
+  addVatInput(vatInput)
+  
+}
+
+function handleRemove(id) {
+  const newInputs = inputs.filter((item) => item.id !== id);
+
+  addInputs(newInputs);
+}
+
+function handleRemoveVat(id) {
+  const newInputs = vatInput.filter((item) => item.id !== id);
+
+  addVatInput(newInputs);
+}
+
+const handleOnChangeIsAgent = (checked) => {
+  setIsAgent(checked)
+}
+
+const handleOnChangeHasRecovery = (checked) => {
+  setHasRecovery(checked)
+}
+  // const handleOnSubmit = values => {
+  //   console.log(values)
+  // }
+
+  const logoHandler = e => {
+    if (e.target.files && e.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = (e) => {
+        setState({...state,SelectedLogo:e.target.result})
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+
+    setState({...state,IsLogoPicked:true})
   }
 
   const coverHandler = event => {
@@ -45,7 +129,7 @@ const ShopInformation = ({step, values, nextStep, shopInfo}) => {
                   </label>
                   <div className="my-3">
                     <Image
-                      src={shopInfo?.logo || photoImage}
+                      src={shopInfo?.logo || state.selectedLogo}
                       className="w-20 h-20 rounded-full object-cover"
                     />
                   </div>
@@ -56,6 +140,7 @@ const ShopInformation = ({step, values, nextStep, shopInfo}) => {
                         className="relative cursor-pointer bg-white rounded-md font-medium file-upload"
                       >
                         <Image
+                        
                           src={photoImage}
                           className="w-10 h-10 shop-logo"
                         />
@@ -146,6 +231,160 @@ const ShopInformation = ({step, values, nextStep, shopInfo}) => {
                 onChange={(e, {value}) => setState({...state})}
               ></TextArea>
             </Form.Field>
+            <p className="font-medium text-gray-700">Contact And Location</p>
+            <div className="flex w-full">
+          <p className="mb-0 w-1/2">Phone Numbers</p>
+          <div className="flex justify-end w-1/2">
+            <Button
+              content="add Number"
+              icon="plus"
+              className="bg-transparent font-normal text-primaryRedColor-default"
+              onClick={ (e) => appendInput(e) }
+            />
+            </div>
+            
+            
+            </div>
+            {inputs.map((input) => {
+                            return <> 
+
+            <div className="flex w-full">
+              <div className="w-1/2 flex">
+              <Form.Field>
+               
+               <FormikControl
+                 name="phoneNumber"
+                 control="input"
+                 value={input}
+                 onChange ={(e)=>this.handleAddInput(e)}
+                 
+               />
+             </Form.Field>
+             
+              </div>
+            <div className="flex justify-end w-1/2">
+            <Button
+              
+              icon="delete"
+              className="bg-transparent font-normal text-primaryRedColor-default w-1/3"
+              onClick={ () => handleRemove(input.id) }
+            />
+            </div>
+           
+            </div>
+           
+            </>
+            })}
+
+<div className="flex w-full">
+          <p className="mb-0 w-1/2">Vat</p>
+          <div className="flex justify-end w-1/2">
+            <Button
+              content="Add Vat"
+              icon="plus"
+              className="bg-transparent font-normal text-primaryRedColor-default"
+              onClick={ (e) => appendVatInput(e) }
+            />
+            </div>
+            
+            
+            </div>
+            {vatInput.map((vat,i) => {
+                            return <> 
+
+            <div className="flex w-full">
+              <div className="w-1/2 flex">
+              <Form.Field key={i}>
+               
+               <FormikControl
+                 name="phoneNumber"
+                 control="input"
+                 value={vat}
+                 onChange ={(e)=>this.handleAddVatInput(e)}
+                 
+               />
+             </Form.Field>
+             
+              </div>
+            <div className="flex justify-end w-1/2">
+            <Button
+              
+              icon="delete"
+              className="bg-transparent font-normal text-primaryRedColor-default w-1/3"
+              onClick={ () => handleRemoveVat(vat.id) }
+            />
+            </div>
+           
+            </div>
+           
+            </>
+            })}
+
+            
+
+            
+            <Form.Field>
+              <label className="text-labelColor text-base font-normal">
+                Country
+              </label>
+              <CountryDropdown
+                name="selectedCountry"
+                value={country.setCountry}
+                onChange={val => selectCountry(val)}
+              />
+            </Form.Field>
+            <Form.Field>
+              <label className="text-base font-normal text-labelColor">
+                City
+              </label>
+              <RegionDropdown
+                name="selectedRegion"
+                country={country.setCountry}
+                value={region.setRegion}
+                onChange={val => selectRegion(val)}
+              />
+            </Form.Field>
+            <Form.Field>
+              <FormikControl
+                name="shopAddress"
+                control="input"
+                label="Shop Address"
+              />
+              <small className="text-red-600">
+                Google maps will be imported very soon, Please pick your
+                location from{' '}
+                <a href="https://www.google.com/maps/" target="_blank">
+                  google maps
+                </a>{' '}
+                site then paste your address here.
+              </small>
+            </Form.Field>
+            <Form.Field>
+              <FormikControl
+                name="isAgent"
+                label="My shop is able to sell spare parts."
+                control="checkbox"
+                onChange={handleOnChangeIsAgent}
+              />
+            </Form.Field>
+
+            <Form.Field>
+              <FormikControl
+                name="hasRecovery"
+                label="My shop has recovery service for cars."
+                control="checkbox"
+                onChange={handleOnChangeHasRecovery}
+              />
+            </Form.Field>
+            <div className="my-10 text-center flex justify-start">
+              
+          <Button
+            content="Save"
+            className="btn-primary"
+            onClick={handleOnSubmit}
+          />
+        </div>
+
           </Form>
         )}
       </Formik>

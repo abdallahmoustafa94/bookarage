@@ -5,6 +5,7 @@ import { number } from 'yup'
 const Employees = () => {
     
     const {setShowModal} = useContext(StateContext)
+    
     return(
         <div>
             <div className="flex items-center w-full">

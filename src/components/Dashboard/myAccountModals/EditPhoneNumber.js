@@ -4,7 +4,7 @@ import {Modal, Form, Button} from 'semantic-ui-react'
 import {Formik} from 'formik'
 import FormikControl from '../../formik/FormikControl'
 
-const EditPhoneNumber = () => {
+const EditPhoneNumber = ({phoneNumberValue}) => {
     const [open, setOpen] = useState(false)
   const {showModal, setShowModal} = useContext(StateContext)
   useEffect(() => {
@@ -18,6 +18,9 @@ const EditPhoneNumber = () => {
   
   const handleOnSubmit = values => {
     console.log(values)
+    phoneNumberValue(values)
+    setShowModal({modalName: '', data: null})
+
   }
   return (
     <Modal
@@ -41,6 +44,15 @@ const EditPhoneNumber = () => {
                      label="Phone Number"
                     />
                   </Form.Field>
+                   <div className="flex w-full text-center">
+            <Button content="Save" className="btn-primary  w-1/2" type="submit" />
+            <Button
+              className="btn-declined  w-1/2"
+              onClick={() => setShowModal({modalName: "", data: null})}
+            >
+              Cancel
+            </Button>
+          </div>
                 </Form>
               )}
             </Formik>
@@ -51,15 +63,7 @@ const EditPhoneNumber = () => {
                         Select Brand
                       </Label>
                     </Form.Field> */}
-          <div className="text-center">
-            <Button content="Save" className="btn-primary mx-5" type="submit" />
-            <Button
-              className="btn-declined mx-5"
-              onClick={() => setShowModal({modalName: "", data: null})}
-            >
-              Cancel
-            </Button>
-          </div>
+         
         </div>
       </Modal.Content>
     </Modal>
