@@ -84,7 +84,7 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
                   <div className="space-y-1 text-center">
                     <div className="flex text-sm col-span-6 sm:col-span-3">
                       <label
-                        for="logo-upload"
+                        htmlFor="logo-upload"
                         className="relative cursor-pointer bg-white rounded-md font-medium file-upload"
                       >
                         <div className="flex items-center">
@@ -120,7 +120,7 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
                   <div className="space-y-1 text-center">
                     <div className="flex text-sm col-span-6 sm:col-span-3">
                       <label
-                        for="coverPhoto-upload"
+                        htmlFor="coverPhoto-upload"
                         className="relative cursor-pointer bg-white rounded-md font-medium file-upload"
                       >
                         <div className="flex items-center">

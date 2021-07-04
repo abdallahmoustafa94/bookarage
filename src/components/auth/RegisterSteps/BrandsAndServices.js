@@ -80,7 +80,7 @@ const BrandsAndServices = ({
                 icon="plus"
                 className="bg-transparent font-normal text-primaryRedColor-default"
                 onClick={() =>
-                  setShowModal({modalName: 'registerService', data: null})
+                  setShowModal({modalName: 'addService', data: null})
                 }
               />
             </div>
@@ -116,7 +116,7 @@ const BrandsAndServices = ({
                     className="text-gray-400 text-base bg-transparent font-normal p-0"
                     content="edit"
                     onClick={() =>
-                      setShowModal({modalName: 'registerService', data: s})
+                      setShowModal({modalName: 'addService', data: s})
                     }
                   />
                 </div>

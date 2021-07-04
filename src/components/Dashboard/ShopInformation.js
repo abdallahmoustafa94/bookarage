@@ -38,8 +38,8 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
       ...values,
       nameEN: values.shopName,
       nameAR: values.shopName,
-      country: country,
-      city: region,
+      country: country.setCountry,
+      city: region.setRegion,
       shopId: JSON.parse(shop),
     }
   }
@@ -124,7 +124,7 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
                   <div className="space-y-1 text-center">
                     <div className="flex text-sm col-span-6 sm:col-span-3">
                       <label
-                        for="editLogo-upload"
+                        htmlFor="editLogo-upload"
                         className="relative cursor-pointer bg-white rounded-md font-medium file-upload"
                       >
                         <Image
@@ -165,7 +165,7 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
                   <div className="space-y-1 text-center">
                     <div className="flex text-sm col-span-6 sm:col-span-3">
                       <label
-                        for="editCover-upload"
+                        htmlFor="editCover-upload"
                         className="relative cursor-pointer bg-white rounded-md font-medium"
                       >
                         <Image

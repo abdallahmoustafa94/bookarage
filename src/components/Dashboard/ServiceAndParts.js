@@ -8,7 +8,6 @@ import {RiDeleteBin6Line} from 'react-icons/ri'
 import {RiCloseCircleFill} from 'react-icons/ri'
 import {BsWrench} from 'react-icons/bs'
 
-
 import {MdModeEdit} from 'react-icons/md'
 import {
   Form,
@@ -18,7 +17,7 @@ import {
   Modal,
   Label,
   Select,
-  Grid
+  Grid,
 } from 'semantic-ui-react'
 
 import FormikControl from '../formik/FormikControl'
@@ -33,13 +32,12 @@ const ServicesAndParts = ({
   deletedBrand,
   loading,
 }) => {
-
   const {setShowModal} = useContext(StateContext)
-  const [state,setState] = useState({
+  const [state, setState] = useState({
     services: [],
     brands: [],
   })
- 
+
   const handleOnSubmit = () => {
     nextStep({type: 'step', value: values})
   }
@@ -69,15 +67,15 @@ const ServicesAndParts = ({
     brandsArr.splice(i, 1)
     setState({...state, brands: brandsArr})
   }
-  
-  return (
-    
-    <div className="px-8">
-       <AddBrandModal brandValues={v => setState({...state, brands: v.brands})}/>
-      <AddServiceModal serviceValues={v => handleService(v)} />
-      <DeleteServiceModal deletedService={handleDeleteService} />
 
-        
+  return (
+    <div className="px-8">
+      {/* <AddBrandModal
+        brandValues={v => setState({...state, brands: v.brands})}
+      />
+      <AddServiceModal serviceValues={v => handleService(v)} />
+      <DeleteServiceModal deletedService={handleDeleteService} /> */}
+
       <Form loading={loading}>
         <div className="my-20">
           <div className="flex items-center w-full">
@@ -125,7 +123,7 @@ const ServicesAndParts = ({
                 icon="plus"
                 className="bg-transparent font-normal text-primaryRedColor-default"
                 onClick={() =>
-                  setShowModal({modalName: 'registerService', data: null})
+                  setShowModal({modalName: 'addService', data: null})
                 }
               />
             </div>
@@ -161,7 +159,7 @@ const ServicesAndParts = ({
                     className="text-gray-400 text-base bg-transparent font-normal p-0"
                     content="edit"
                     onClick={() =>
-                      setShowModal({modalName: 'registerService', data: s})
+                      setShowModal({modalName: 'addService', data: s})
                     }
                   />
                 </div>
