@@ -27,9 +27,13 @@ import {createNewShop} from '../../services/ShopService'
 import routes from '../../routes'
 import {useHistory} from 'react-router-dom'
 import useMediaQuery from '../../hooks/use-media-query'
+import StayTunedStep from '../../components/auth/RegisterSteps/StayTunedStep'
+import {keys} from '../../config/keys'
 
 const RegisterPage = () => {
   const [step, setStep] = useState(1)
+  const [shopStep, setShopStep] = useState(1)
+  const [shopSteps, setShopSteps] = useState([0, 4])
   const [user, setUser] = useUser()
   const [state, setState] = useState({
     role: '',
@@ -55,13 +59,20 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (!Auth.isSignupAuth()) return
+    if (
+      ![keys.ROLES.serviceProvider, keys.ROLES.sparePart].includes(
+        JSON.parse(localStorage.getItem('role')),
+      )
+    ) {
+      setShopSteps([0, 3])
+    }
     setStep(7)
   }, [])
 
   const handleNextStep = value => {
     switch (value.type) {
       case 'step':
-        console.log(value.value)
+        // console.log(value.value)
         if (value.value !== null) {
           setState({...state, ...value.value})
         }
@@ -69,6 +80,13 @@ const RegisterPage = () => {
         //   console.log(v, Object.values(value.value)[i])
         //   setState({...state, [v]: Object.values(value.value)[i]})
         // })
+        setStep(prev => prev + 1)
+        return
+      case 'shopStep':
+        if (value.value !== null) {
+          setState({...state, ...value.value})
+        }
+        setShopStep(prev => prev + 1)
         setStep(prev => prev + 1)
         return
       case 'sendOTP':
@@ -95,7 +113,7 @@ const RegisterPage = () => {
 
         run(signup(newUser))
           .then(({data}) => {
-            console.log(data)
+            // console.log(data)
             setUser(
               JSON.stringify({
                 nameEN: data.data.nameEN,
@@ -106,6 +124,13 @@ const RegisterPage = () => {
               }),
             )
             Auth.setSignupToken(data.data.token)
+            if (
+              ![keys.ROLES.serviceProvider, keys.ROLES.sparePart].includes(
+                JSON.parse(localStorage.getItem('role')),
+              )
+            ) {
+              setShopSteps([0, 3])
+            }
             setStep(6)
           })
           .catch(e => {
@@ -115,33 +140,40 @@ const RegisterPage = () => {
           })
         return
       case 'submitShop':
-        console.log(state, value.value)
+        // console.log(state, value.value)
+        const setupShopContent = JSON.parse(
+          localStorage.getItem('registerDetails'),
+        )
         const newShop = new FormData()
-        newShop.append('nameEN', state?.shopName)
-        newShop.append('nameAR', state?.shopName)
-        newShop.append('country', state?.country)
-        newShop.append('city', state?.city)
-        newShop.append('address', state?.shopAddress)
-        newShop.append('description', state?.shopDesc)
+        newShop.append('nameEN', setupShopContent?.shopName)
+        newShop.append('nameAR', setupShopContent?.shopName)
+        newShop.append('country', setupShopContent?.country)
+        newShop.append('city', setupShopContent?.city)
+        newShop.append('address', setupShopContent?.shopAddress)
+        newShop.append('description', setupShopContent?.shopDesc)
         newShop.append('logo', state?.logo)
         newShop.append('coverPhoto', state?.coverPhoto)
-        newShop.append('hasRecovery', state?.hasRecovery)
+        if (Auth.isServiceProvider()) {
+          state.services.map((s, i) => {
+            // console.log(Number(s?.serviceId.split('-')[0]))
+            newShop.append(
+              'services[' + i + '][serviceId]',
+              Number(s?.serviceId.split('-')[0]),
+            )
+            newShop.append('services[' + i + '][cost]', s?.cost)
+            newShop.append('services[' + i + '][details]', s?.details)
+            newShop.append('services[' + i + '][isAvailable]', s?.isAvailable)
+          })
+          newShop.append('hasRecovery', setupShopContent?.hasRecovery)
+          newShop.append('isAgent', setupShopContent?.isAgent)
+        }
         newShop.append('shopType', JSON.parse(user).role)
-        newShop.append('isAgent', state?.isAgent)
-        state.services.map((s, i) => {
-          console.log(Number(s?.serviceId.split('-')[0]))
-          newShop.append(
-            'services[' + i + '][serviceId]',
-            Number(s?.serviceId.split('-')[0]),
-          )
-          newShop.append('services[' + i + '][cost]', s?.cost)
-          newShop.append('services[' + i + '][details]', s?.details)
-          newShop.append('services[' + i + '][isAvailable]', s?.isAvailable)
-        })
-        state.brands.map((b, i) => {
-          newShop.append('brands[' + i + '][name]', b)
-        })
-        value.value?.map((wh, i) => {
+        if (Auth.isServiceProvider() || Auth.isSparePart()) {
+          state?.brands.map((b, i) => {
+            newShop.append('brands[' + i + '][name]', b)
+          })
+        }
+        setupShopContent?.workingHrs?.map((wh, i) => {
           if (wh.isOpened) {
             newShop.append('workingHrs[' + i + '][day]', wh?.day)
             newShop.append('workingHrs[' + i + '][startTime]', wh?.startTime)
@@ -154,13 +186,20 @@ const RegisterPage = () => {
           .then(({data}) => {
             console.log(data.data)
             addToast(data.message, {appearance: 'success'})
+            localStorage.removeItem('registerDetails')
             Auth.logout()
-            history.push(routes.login)
+            setStep(11)
           })
           .catch(e => {
             console.log(e)
           })
         return
+      case 'stepToHrs':
+        if (value.value !== null) {
+          setState({...state, ...value.value})
+        }
+        setShopStep(prev => prev + 1)
+        setStep(10)
       default:
         return state
     }
@@ -193,9 +232,8 @@ const RegisterPage = () => {
   }
   return (
     <div
-      className={
-        step === 1 ? (isSmall ? 'px-10 py-10' : 'px-20 py-10') : 'py-10'
-      }
+      className={`
+        ${step === 1 ? (isSmall ? 'px-5 py-10' : 'px-20 py-10') : 'py-10'}`}
     >
       <AddBrandModal
         brandValues={v => setState({...state, brands: v.brands})}
@@ -237,12 +275,12 @@ const RegisterPage = () => {
 
       {step === 6 && <SuccessAccount nextStep={v => handleNextStep(v)} />}
 
-      {step > 6 && (
+      {step > 6 && step < 12 ? (
         <Fragment>
           <div className="bg-blue-50 p-5 flex justify-center items-center rounded-2xl">
             <CircularProgressbarWithChildren
-              minValue={0}
-              maxValue={4}
+              minValue={shopSteps[0]}
+              maxValue={shopSteps[1]}
               strokeWidth={3}
               className="w-24"
               styles={buildStyles({
@@ -250,12 +288,12 @@ const RegisterPage = () => {
                 pathColor: '#f2421b',
                 trailColor: 'transparent',
               })}
-              value={step - 6}
+              value={shopStep}
               background={true}
               counterClockwise={true}
             >
               <p className="text-3xl text-primaryRedColor-default font-light">
-                <span className="font-medium">{step - 6}</span>/4
+                <span className="font-medium">{shopStep}</span>/{shopSteps[1]}
               </p>
             </CircularProgressbarWithChildren>
 
@@ -291,7 +329,7 @@ const RegisterPage = () => {
           {/* TODO: Remove legal license from this step */}
 
           <div className="mt-6">
-            {step === 9 && (
+            {step === 9 && shopSteps[1] !== 3 ? (
               <BrandsAndServices
                 nextStep={v => handleNextStep(v)}
                 values={state}
@@ -299,7 +337,7 @@ const RegisterPage = () => {
                 loading={isLoading}
                 deletedBrand={v => handleDeleteBrand(v)}
               />
-            )}
+            ) : null}
           </div>
           <div className="mt-6">
             {step === 10 && (
@@ -311,17 +349,11 @@ const RegisterPage = () => {
               />
             )}
           </div>
-          <div className="mt-6">
-            {step === 11 && (
-              <LoginPage
-                nextStep={v => handleNextStep(v)}
-                values={state}
-                stepTitle={null}
-              />
-            )}
-          </div>
         </Fragment>
-      )}
+      ) : null}
+      <div className="mt-6">
+        {step === 11 && <StayTunedStep nextStep={v => handleNextStep(v)} />}
+      </div>
     </div>
   )
 }

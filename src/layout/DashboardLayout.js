@@ -249,7 +249,7 @@ const DashboardLayout = () => {
                           <p>4 min ago</p>
                         </div>
 
-                        <p className="text-labelColor">Welcome to Bookrage</p>
+                        <p className="text-labelColor">Welcome to Bookarage</p>
                       </div>
                     </div>
                   </li>

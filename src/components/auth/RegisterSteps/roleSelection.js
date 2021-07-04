@@ -1,4 +1,5 @@
 import {Header} from 'semantic-ui-react'
+import {keys} from '../../../config/keys'
 
 const RoleSelectionStep = ({nextStep}) => {
   const handleOnClickRole = type => {
@@ -15,31 +16,37 @@ const RoleSelectionStep = ({nextStep}) => {
         <ul>
           <li
             className="mb-5 text-primaryRedColor-default font-medium text-xl cursor-pointer"
-            onClick={() => handleOnClickRole('serviceProvider')}
+            onClick={() => handleOnClickRole(keys.ROLES.serviceProvider)}
           >
             Service Provider
           </li>
           <li
             className="mb-5 text-primaryRedColor-default font-medium text-xl cursor-pointer"
-            onClick={() => handleOnClickRole('showroom')}
+            onClick={() => handleOnClickRole(keys.ROLES.sparePart)}
+          >
+            Spare Parts Shop
+          </li>
+          <li
+            className="mb-5 text-primaryRedColor-default font-medium text-xl cursor-pointer"
+            onClick={() => handleOnClickRole(keys.ROLES.showRoom)}
           >
             Showroom
           </li>
           <li
             className="mb-5 text-primaryRedColor-default font-medium text-xl cursor-pointer"
-            onClick={() => handleOnClickRole('insurance')}
+            onClick={() => handleOnClickRole(keys.ROLES.insurance)}
           >
             Insurance
           </li>
           <li
             className="mb-5 text-primaryRedColor-default font-medium text-xl cursor-pointer"
-            onClick={() => handleOnClickRole('carRecovery')}
+            onClick={() => handleOnClickRole(keys.ROLES.carRecovery)}
           >
             Car Recovery
           </li>
           <li
             className="mb-5 text-primaryRedColor-default font-medium text-xl cursor-pointer"
-            onClick={() => handleOnClickRole('carRental')}
+            onClick={() => handleOnClickRole(keys.ROLES.carRental)}
           >
             Car Rental
           </li>

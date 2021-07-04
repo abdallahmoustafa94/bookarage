@@ -1,10 +1,10 @@
 import {Formik} from 'formik'
-import {useEffect, useState} from 'react'
-import {Form, Image, Button, Label} from 'semantic-ui-react'
+import {Fragment, useEffect, useState} from 'react'
+import {Form, Image, Button} from 'semantic-ui-react'
 import FormikControl from '../../formik/FormikControl'
 import photoImage from '../../../assets/images/photo-ic.svg'
 import useMediaQuery from '../../../hooks/use-media-query'
-// import '../../../assets/css/shopinfostep.css'
+import Auth from '../../../config/auth'
 
 const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
   const isSmall = useMediaQuery('(max-width: 992px)')
@@ -18,14 +18,19 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
   }, [])
 
   const handleOnChangeImage = (type, e) => {
-    console.log(type, e.target.files[0])
+    // console.log(type, e.target.files[0])
     setState({...state, [type]: e.target.files[0]})
   }
 
   const handleOnSubmit = values => {
-    console.log(values)
+    // console.log(values)
     const shopInfo = {...values, ...state}
-    nextStep({type: 'step', value: shopInfo})
+    const registerContent = JSON.parse(localStorage.getItem('registerDetails'))
+    localStorage.setItem(
+      'registerDetails',
+      JSON.stringify({...registerContent, ...shopInfo}),
+    )
+    nextStep({type: 'shopStep', value: shopInfo})
   }
 
   return (
@@ -57,21 +62,25 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
               />
             </Form.Field>
 
-            <Form.Field>
-              <FormikControl
-                name="isAgent"
-                label="My shop is able to sell spare parts."
-                control="checkbox"
-              />
-            </Form.Field>
+            {Auth.isServiceProvider() && (
+              <Fragment>
+                <Form.Field>
+                  <FormikControl
+                    name="isAgent"
+                    label="My shop is able to sell spare parts."
+                    control="checkbox"
+                  />
+                </Form.Field>
 
-            <Form.Field>
-              <FormikControl
-                name="hasRecovery"
-                label="My shop has recovery service for cars."
-                control="checkbox"
-              />
-            </Form.Field>
+                <Form.Field>
+                  <FormikControl
+                    name="hasRecovery"
+                    label="My shop has recovery service for cars."
+                    control="checkbox"
+                  />
+                </Form.Field>
+              </Fragment>
+            )}
 
             <hr className="my-4" />
 

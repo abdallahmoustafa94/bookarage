@@ -5,6 +5,7 @@ import {CountryDropdown, RegionDropdown} from 'react-country-region-selector'
 
 import FormikControl from '../../formik/FormikControl'
 import useMediaQuery from '../../../hooks/use-media-query'
+import {keys} from '../../../config/keys'
 
 const LocationInformation = ({step, values, nextStep, loading, stepTitle}) => {
   const isSmall = useMediaQuery('(max-width: 992px)')
@@ -31,8 +32,28 @@ const LocationInformation = ({step, values, nextStep, loading, stepTitle}) => {
       country: country.setCountry,
       city: city.setCity,
     }
+
+    const registerContent = JSON.parse(localStorage.getItem('registerDetails'))
+    localStorage.setItem(
+      'registerDetails',
+      JSON.stringify({...registerContent, ...locationInfo}),
+    )
+    let stepType = ''
+    if (
+      ![keys.ROLES.serviceProvider, keys.ROLES.sparePart].includes(
+        JSON.parse(localStorage.getItem('role')),
+      )
+    ) {
+      stepType = 'stepToHrs'
+    } else {
+      if (window.location.pathname.startsWith('/auth')) {
+        stepType = 'shopStep'
+      } else {
+        stepType = 'submitShop'
+      }
+    }
     nextStep({
-      type: window.location.pathname.startsWith('/auth') ? 'step' : 'submit',
+      type: stepType,
       value: locationInfo,
     })
   }

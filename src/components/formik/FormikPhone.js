@@ -23,7 +23,7 @@ function FormikPhone({label, name, className, containerClassName, ...props}) {
               {...props}
               error={touched[name] && errors[name]}
               onPhoneNumberChange={(isValid, phone, country) => {
-                console.log(phone)
+                // console.log(phone)
                 setFieldValue(name, phone.replace(' ', ''))
               }}
             />

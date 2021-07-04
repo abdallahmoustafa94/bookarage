@@ -23,12 +23,13 @@ const AuthLayout = () => {
   return (
     <div className="auth-bg">
       <div
-        className={`absolute left-1/2 top-1/2 bg-white max-w-4xl rounded-2xl ${
-          isSmall ? 'px-10' : 'px-16'
-        } my-5`}
+        className={`absolute overflow-y-auto left-1/2 top-1/2 bg-white max-w-4xl rounded-2xl ${
+          isSmall ? 'px-5' : 'px-16'
+        }`}
         style={{
           transform: 'translate(-50%, -50%)',
           height: 'auto',
+          maxHeight: '800px',
           width: isSmall ? '100%' : '50%',
         }}
       >

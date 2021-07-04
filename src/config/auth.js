@@ -44,7 +44,54 @@ const Auth = {
       return false
     }
   },
+  isServiceProvider: () => {
+    const userRole = JSON.parse(localStorage.getItem('user') || '[]')
 
+    if (![keys.ROLES.serviceProvider].includes(userRole.role)) {
+      return false
+    }
+    return true
+  },
+  isCarRental: () => {
+    const userRole = JSON.parse(localStorage.getItem('user') || '[]')
+
+    if (![keys.ROLES.carRental].includes(userRole.role)) {
+      return false
+    }
+    return true
+  },
+  isCarRecovery: () => {
+    const userRole = JSON.parse(localStorage.getItem('user') || '[]')
+
+    if (![keys.ROLES.carRecovery].includes(userRole.role)) {
+      return false
+    }
+    return true
+  },
+  isInsurance: () => {
+    const userRole = JSON.parse(localStorage.getItem('user') || '[]')
+
+    if (![keys.ROLES.insurance].includes(userRole.role)) {
+      return false
+    }
+    return true
+  },
+  isShowRoom: () => {
+    const userRole = JSON.parse(localStorage.getItem('user') || '[]')
+
+    if (![keys.ROLES.showRoom].includes(userRole.role)) {
+      return false
+    }
+    return true
+  },
+  isSparePart: () => {
+    const userRole = JSON.parse(localStorage.getItem('user') || '[]')
+
+    if (![keys.ROLES.sparePart].includes(userRole.role)) {
+      return false
+    }
+    return true
+  },
   logout: () => {
     token = ''
     signupToken = ''
