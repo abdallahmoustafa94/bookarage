@@ -2,7 +2,7 @@ import {Formik} from 'formik'
 import AddServiceModal from '../../shared/addServiceModal'
 import AddBrandModal from '../../shared/addBrandModal'
 import DeleteServiceModal from '../../shared/deleteServiceModal'
-import { addService,addBrand } from '../../services/ShopService'
+import {addService, addBrand} from '../../services/ShopService'
 
 import {useContext, useEffect, useState} from 'react'
 import {RiDeleteBin6Line} from 'react-icons/ri'
@@ -10,8 +10,7 @@ import {RiCloseCircleFill} from 'react-icons/ri'
 import {BsWrench} from 'react-icons/bs'
 import useAsync from '../../hooks/useAsync'
 import {useToasts} from 'react-toast-notifications'
-import { useShop } from '../../context/ShopContext'
-
+import {useShop} from '../../context/ShopContext'
 
 import {MdModeEdit} from 'react-icons/md'
 import {
@@ -48,56 +47,53 @@ const ServicesAndParts = ({
   })
 
   const handleOnSubmit = () => {
-    let addServices = []
-    state.services.map((s, i) => {
-      console.log(Number(s?.serviceId.split('-')[0]))
-      addServices.push(
-        'services[' + i + '][serviceId]',
-        Number(s?.serviceId.split('-')[0]),
-      )
-      addServices.push('services[' + i + '][cost]', s?.cost)
-      addServices.push('services[' + i + '][details]', s?.details)
-      addServices.push('services[' + i + '][isAvailable]', s?.isAvailable)
-    })
+    let servicesArr = []
+    console.log(state)
+    // state.services.map((s, i) => {
+    //   servicesArr.push({
+    //     shopId: JSON.parse(shop),
+    //     id: ,
+    //     cost: 300,
+    //     details: 'This service is for honda',
+    //     isAvailable: true,
+    //   })
+    // })
 
-    addServices.map(service =>
-      run(addService(service))
-      .then(({data}) => {
-        JSON.stringify({
-          shopId: JSON.parse(shop).id,
-          serviceId : data.data.service.serviceId,
-          cost:data.data.service.cost,
-          details:data.data.service.cost,
-          isAvailable : data.data.service.isAvailable
-        })
-        console.log(data.data)
-        addToast(data.message, {appearance: 'success'})
-      })
-      .catch(e => {
-        console.log(e)
-      })
-      
-      )
+    // addServices.map(service =>
+    //   run(addService(service))
+    //   .then(({data}) => {
+    //     // JSON.stringify({
+    //     //   shopId: JSON.parse(shop).id,
+    //     //   serviceId : data.data.service.serviceId,
+    //     //   cost:data.data.service.cost,
+    //     //   details:data.data.service.cost,
+    //     //   isAvailable : data.data.service.isAvailable
+    //     // })
+    //     console.log(data.data)
+    //     addToast(data.message, {appearance: 'success'})
+    //   })
+    //   .catch(e => {
+    //     console.log(e)
+    //   })
 
-      const addBrands = new FormData()
-      state.brands.map((b, i) => {
-        addBrands.append('brands[' + i + '][brand]', b)
-        addBrands.append('brandLogo[' + i + '][brandLogo]', b)
-      })
+    //   )
 
-      run(addBrand(addBrands))
-      .then(({data}) => {
-       
-        console.log(data.data)
-        addToast(data.message, {appearance: 'success'})
-      })
-      .catch(e => {
-        console.log(e)
-      })
+    // const addBrands = new FormData()
+    // state.brands.map((b, i) => {
+    //   addBrands.append('brands[' + i + '][brand]', b)
+    //   addBrands.append('brandLogo[' + i + '][brandLogo]', b)
+    // })
 
+    // run(addBrand(addBrands))
+    // .then(({data}) => {
+
+    //   console.log(data.data)
+    //   addToast(data.message, {appearance: 'success'})
+    // })
+    // .catch(e => {
+    //   console.log(e)
+    // })
   }
-
-  
 
   return (
     <div className="px-8">
@@ -130,7 +126,7 @@ const ServicesAndParts = ({
                     <Grid.Column>
                       <div className="relative rounded-full bg-gray-100 px-5 py-3 flex items-center justify-center mb-2">
                         <span className="primary-text-color rtl:ml-3 ltr:mr-3 ">
-                          {b}
+                          {b.name}
                         </span>
                         <div className="absolute top-0 ltr:right-0 rtl:left-0">
                           <RiCloseCircleFill
@@ -168,7 +164,7 @@ const ServicesAndParts = ({
                     className="text-primaryRedColor-default ltr:mr-3 rtl:ml-3"
                   />
                   <span className="primary-text-color rtl:mr-3 ">
-                    {/[^-]*$/.exec(s?.serviceId)[0]}
+                    {s.nameEN}
                   </span>
                 </div>
                 <div className="flex justify-end w-1/2 mr-4">
@@ -218,7 +214,6 @@ const ServicesAndParts = ({
             onClick={handleOnSubmit}
             className="btn-primary"
           />
-         
         </div>
       </Form>
     </div>

@@ -21,9 +21,9 @@ import AddEmployeeModal from '../shared/AddEmployeeModal'
 import EditEmployeeModal from '../shared/EditEmployeeModal'
 import Auth from '../config/auth'
 import {BsFillPlusCircleFill} from 'react-icons/bs'
-import { addService } from '../services/ShopService'
+import {addService} from '../services/ShopService'
 import {useToasts} from 'react-toast-notifications'
-import { removeBrand } from '../services/ShopService'
+import {removeBrand} from '../services/ShopService'
 
 const Management = ({values}) => {
   const {addToast} = useToasts()
@@ -49,6 +49,10 @@ const Management = ({values}) => {
         .then(({data}) => {
           console.log(data.data)
           setSelectedShop(data.data)
+          setState({
+            services: data.data?.[data.data.shopType]?.services || [],
+            brands: data.data?.[data.data.shopType]?.brands || [],
+          })
         })
         .catch(e => {
           console.log(e)
@@ -73,8 +77,6 @@ const Management = ({values}) => {
     }
 
     setState({...state, services: serviceArr})
-
-   
   }
 
   const handleDeleteService = i => {
@@ -90,7 +92,6 @@ const Management = ({values}) => {
 
     run(removeBrand(state))
       .then(({data}) => {
-       
         console.log(data.data)
         addToast(data.message, {appearance: 'success'})
       })
@@ -105,8 +106,15 @@ const Management = ({values}) => {
       <AddBrandModal
         brandValues={v => setState({...state, brands: v.brands})}
       />
-      <AddServiceModal serviceValues={v => handleService(v)} />
-      <AddEmployeeModal fullNameValue={v => setState({...state,email:v.email, nameEN: v.nameEN})} />
+      <AddServiceModal
+        serviceValues={v => handleService(v)}
+        updateService={v => setUpdateShop(prev => !prev)}
+      />
+      <AddEmployeeModal
+        fullNameValue={v =>
+          setState({...state, email: v.email, nameEN: v.nameEN})
+        }
+      />
       <DeleteServiceModal deletedService={handleDeleteService} />
       <EditEmployeeModal />
       {JSON.parse(shop) !== 0 && (
@@ -147,7 +155,10 @@ const Management = ({values}) => {
 
             {activeMenu === 'servicesAndParts' && (
               <div className=" p-10 bg-white w-full">
-                <ServicesAndParts values={state}  deletedBrand={v => handleDeleteBrand(v)}/>
+                <ServicesAndParts
+                  values={state}
+                  deletedBrand={v => handleDeleteBrand(v)}
+                />
               </div>
             )}
 
