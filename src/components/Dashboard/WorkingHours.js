@@ -10,9 +10,11 @@ import { addWorkingHrs } from '../../services/ShopService'
 import useAsync from '../../hooks/useAsync'
 import Auth from '../../config/auth'
 import {useToasts} from 'react-toast-notifications'
+import { useShop } from '../../context/ShopContext'
 
 
 const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
+  const [shop, setShop] = useShop()
   const [state, setState] = useState([
     {
       day: 'monday',
@@ -75,29 +77,29 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
   
 
   const handleOnSubmit = () => {
-    const workingHrs= []
-   
-   
-      run(addWorkingHrs(workingHrs))
-      .then(({data}) => {
-        console.log(data)
-        data.data?.map((wh, i) => {
-          if (state.isOpened) {
-            workingHrs.push('workingHrs[' + i + '][day]', wh?.day)
-            workingHrs.push('workingHrs[' + i + '][startTime]', wh?.startTime)
-            workingHrs.push('workingHrs[' + i + '][endTime]', wh?.endTime)
-            workingHrs.push('workingHrs[' + i + '][isOpened]', wh?.isOpened)
-          }
-      })
-        addToast(data.message, {appearance: 'success'})
+   let workingHours=[]
+    state.map((wh, i) => {
+      if (wh.isOpened) {
+        workingHours.push('workingHrs[' + i + '][day]', wh?.day)
+        workingHours.push('workingHrs[' + i + '][startTime]', wh?.startTime)
+        workingHours.push('workingHrs[' + i + '][endTime]', wh?.endTime)
+        workingHours.push('workingHrs[' + i + '][isOpened]', wh?.isOpened)
+      }
+    })
 
+    run(addWorkingHrs(workingHours))
+      .then(({data}) => {
+        console.log(data.data)
+        addToast(data.message, {appearance: 'success'})
        
+      })
       .catch(e => {
         console.log(e)
-        e &&
-          e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
       })
-    })
+ 
+
+
+
     console.log(state)
 
     // nextStep({type: 'step', value: values})
@@ -218,12 +220,7 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
             className="btn-primary"
             onClick={handleOnSubmit}
           />
-          <Button
-            className="btn-declined mx-5"
-            onClick={() => nextStep({type: 'submitShop', value: null})}
-          >
-            Setup Later
-          </Button>
+        
         </div>
       </Form>
     </div>

@@ -21,8 +21,13 @@ import AddEmployeeModal from '../shared/AddEmployeeModal'
 import EditEmployeeModal from '../shared/EditEmployeeModal'
 import Auth from '../config/auth'
 import {BsFillPlusCircleFill} from 'react-icons/bs'
+import { addService } from '../services/ShopService'
+import {useToasts} from 'react-toast-notifications'
+import { removeBrand } from '../services/ShopService'
 
 const Management = ({values}) => {
+  const {addToast} = useToasts()
+
   const [activeMenu, setActiveMenu] = useState('shopInformation')
   const [user, setUser] = useUser()
   const [shop, setShop] = useShop()
@@ -68,6 +73,8 @@ const Management = ({values}) => {
     }
 
     setState({...state, services: serviceArr})
+
+   
   }
 
   const handleDeleteService = i => {
@@ -76,8 +83,20 @@ const Management = ({values}) => {
     setState({...state, services: serviceArr})
   }
 
-  const handleOnSubmit = v => {
-    console.log(v)
+  const handleDeleteBrand = i => {
+    let brandsArr = [...state.brands]
+    brandsArr.splice(i, 1)
+    setState({...state, brands: brandsArr})
+
+    run(removeBrand(state))
+      .then(({data}) => {
+       
+        console.log(data.data)
+        addToast(data.message, {appearance: 'success'})
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
 
   return (
@@ -87,7 +106,7 @@ const Management = ({values}) => {
         brandValues={v => setState({...state, brands: v.brands})}
       />
       <AddServiceModal serviceValues={v => handleService(v)} />
-      <AddEmployeeModal />
+      <AddEmployeeModal fullNameValue={v => setState({...state,email:v.email, nameEN: v.nameEN})} />
       <DeleteServiceModal deletedService={handleDeleteService} />
       <EditEmployeeModal />
       {JSON.parse(shop) !== 0 && (
@@ -114,7 +133,8 @@ const Management = ({values}) => {
                   loading={isLoading}
                   shopInfo={selectedShop}
                   updateShop={v => setUpdateShop(prev => !prev)}
-                  nextStep={v => handleOnSubmit(v)}
+                  // nextStep={v => handleOnSubmit(v)
+                  // }
                 />
               </div>
             )}
@@ -127,7 +147,7 @@ const Management = ({values}) => {
 
             {activeMenu === 'servicesAndParts' && (
               <div className=" p-10 bg-white w-full">
-                <ServicesAndParts values={state} />
+                <ServicesAndParts values={state}  deletedBrand={v => handleDeleteBrand(v)}/>
               </div>
             )}
 

@@ -2,11 +2,16 @@ import {Formik} from 'formik'
 import AddServiceModal from '../../shared/addServiceModal'
 import AddBrandModal from '../../shared/addBrandModal'
 import DeleteServiceModal from '../../shared/deleteServiceModal'
+import { addService,addBrand } from '../../services/ShopService'
 
 import {useContext, useEffect, useState} from 'react'
 import {RiDeleteBin6Line} from 'react-icons/ri'
 import {RiCloseCircleFill} from 'react-icons/ri'
 import {BsWrench} from 'react-icons/bs'
+import useAsync from '../../hooks/useAsync'
+import {useToasts} from 'react-toast-notifications'
+import { useShop } from '../../context/ShopContext'
+
 
 import {MdModeEdit} from 'react-icons/md'
 import {
@@ -32,41 +37,67 @@ const ServicesAndParts = ({
   deletedBrand,
   loading,
 }) => {
+  const [shop, setShop] = useShop()
   const {setShowModal} = useContext(StateContext)
+  const {run, isLoading} = useAsync()
+  const {addToast} = useToasts()
+
   const [state, setState] = useState({
     services: [],
     brands: [],
   })
 
   const handleOnSubmit = () => {
-    nextStep({type: 'step', value: values})
+    let addServices = []
+    state.services.map((s, i) => {
+      console.log(Number(s?.serviceId.split('-')[0]))
+      addServices.push(
+        'services[' + i + '][serviceId]',
+        Number(s?.serviceId.split('-')[0]),
+      )
+      addServices.push('services[' + i + '][cost]', s?.cost)
+      addServices.push('services[' + i + '][details]', s?.details)
+      addServices.push('services[' + i + '][isAvailable]', s?.isAvailable)
+    })
+
+    addServices.map(service =>
+      run(addService(service))
+      .then(({data}) => {
+        JSON.stringify({
+          shopId: JSON.parse(shop).id,
+          serviceId : data.data.service.serviceId,
+          cost:data.data.service.cost,
+          details:data.data.service.cost,
+          isAvailable : data.data.service.isAvailable
+        })
+        console.log(data.data)
+        addToast(data.message, {appearance: 'success'})
+      })
+      .catch(e => {
+        console.log(e)
+      })
+      
+      )
+
+      const addBrands = new FormData()
+      state.brands.map((b, i) => {
+        addBrands.append('brands[' + i + '][brand]', b)
+        addBrands.append('brandLogo[' + i + '][brandLogo]', b)
+      })
+
+      run(addBrand(addBrands))
+      .then(({data}) => {
+       
+        console.log(data.data)
+        addToast(data.message, {appearance: 'success'})
+      })
+      .catch(e => {
+        console.log(e)
+      })
+
   }
 
-  const handleService = v => {
-    let serviceArr = [...state.services]
-    const index = serviceArr.findIndex(o => o.serviceId === v.serviceId)
-
-    if (index === -1) {
-      serviceArr = [...serviceArr, v]
-    } else {
-      serviceArr.splice(index, 1)
-      serviceArr = [...serviceArr, v]
-    }
-
-    setState({...state, services: serviceArr})
-  }
-
-  const handleDeleteService = i => {
-    let serviceArr = [...state.services]
-    serviceArr.splice(i, 1)
-    setState({...state, services: serviceArr})
-  }
-
-  const handleDeleteBrand = i => {
-    let brandsArr = [...state.brands]
-    brandsArr.splice(i, 1)
-    setState({...state, brands: brandsArr})
-  }
+  
 
   return (
     <div className="px-8">
@@ -183,16 +214,11 @@ const ServicesAndParts = ({
 
         <div className="my-10 text-center">
           <Button
-            content="Continue"
+            content="Save"
             onClick={handleOnSubmit}
             className="btn-primary"
           />
-          <Button
-            className="btn-declined mx-5"
-            onClick={() => nextStep({type: 'submitShop', value: null})}
-          >
-            Setup Later
-          </Button>
+         
         </div>
       </Form>
     </div>

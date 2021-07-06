@@ -2,9 +2,10 @@ import {useState,useContext} from 'react'
 import StateContext from '../../context/stateContext'
 import { Image, Button } from 'semantic-ui-react'
 import { number } from 'yup'
-const Employees = () => {
+const Employees = (values) => {
     
     const {setShowModal} = useContext(StateContext)
+  
     
     return(
         <div>
@@ -21,14 +22,15 @@ const Employees = () => {
           </div>
           
         </div>
-       
+
             <ul className="m-0">
+                
                 <li>
                     <div className="flex w-full bg-white items-center  p-8 rounded-lg">
                         <div className="w-1/6  ">
                         <div>
                         <Image src='https://react.semantic-ui.com/images/wireframe/square-image.png' avatar size="mini" verticalAlign="middle" />
-                         <span className="text-center">Jacob Roberts </span>
+                         <span className="text-center"></span>
                          </div>
                         </div>
                         <div className="w-1/6 flex-col justify-start items-center text-center mb-0 ">

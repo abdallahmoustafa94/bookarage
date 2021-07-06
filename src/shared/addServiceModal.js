@@ -6,8 +6,10 @@ import FormikControl from '../components/formik/FormikControl'
 import useAsync from '../hooks/useAsync'
 import {getAllServices} from '../services/ShopService'
 import useMediaQuery from '../hooks/use-media-query'
+import { useShop } from '../context/ShopContext'
 
 const AddServiceModal = ({serviceValues}) => {
+  const [shop, setShop] = useShop()
   const [open, setOpen] = useState(false)
   const {showModal, setShowModal} = useContext(StateContext)
   const [servicesOptions, setServicesOptions] = useState([])

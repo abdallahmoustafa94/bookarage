@@ -12,8 +12,13 @@ import useAsync from '../hooks/useAsync'
 import Auth from '../config/auth'
 import useLocalStorage from '../hooks/use-local-storage'
 import {changeAvatar, getProfile} from '../services/ShopService'
+import { useShop } from '../context/ShopContext'
+import { object } from 'yup/lib/locale'
+
 
 const Myaccount = ({values}) => {
+  const {run: uploadRun, isLoading: isUploading} = useAsync()
+
   const {addToast} = useToasts()
   const {run, isLoading} = useAsync()
   const [user, setUser] = useLocalStorage('user', '')
@@ -21,6 +26,7 @@ const Myaccount = ({values}) => {
   const {setShowModal} = useContext(StateContext)
   const [isAvatarPicked, setIsAvatarPicked] = useState(false)
   const [selectedAvatar, setSelectedAvatar] = useState(null)
+  const [shop, setShop] = useShop()
   const [state, setState] = useState({
     fullName: '',
     phoneNumber: '',
@@ -28,31 +34,21 @@ const Myaccount = ({values}) => {
     licenseFile: '',
   })
 
-  // useEffect(() => {
-  //   run(getProfile())
-  //   .then(({data}) => {
-  //     console.log(data)
+  useEffect(() => {
+    run(getProfile()).then(({data}) => {
+     console.log(data)
+     Object.values(data).map(item =>
+      setState({
+        fullName: item.nameEN,
+        phoneNumber:item.phoneNumber,
+        VATNumber:item.VATNumber,
+        licenseFile:item.licenseFile
+      })
+      )
+    
+    })
+}, [])
 
-  //     Auth.setToken(data.data.token)
-  //     setUser({
-  //         nameEN: data.data.fullName,
-  //         nameAR: data.data.fullName,
-  //         phoneNumber: data.data.phoneNumber,
-  //         _id: data.data._id,
-  //     })
-  //     addToast(data.message, {appearance: 'success'})
-  //   })
-  //   .catch(e => {
-  //     console.log(e)
-  //     e && e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
-  //   })
-
-  // }, [])
-  // const editUser = {}
-  // editUser.append('nameEN',state?.fullName)
-  // editUser.append('nameAR',state?.fullName)
-  // editUser.append('email','')
-  // editUser.append('phoneNumber',state?.phoneNumber)
 
   const handleOnSubmit = () => {
     run(editProfile(state))
@@ -70,20 +66,20 @@ const Myaccount = ({values}) => {
         console.log(e)
       })
 
-    const newAvatar = new FormData()
-    const onChangeAvatar = e => {
-      newAvatar.append('avatar', selectedAvatar?.selectedAvatar)
-      run(changeAvatar(newAvatar))
-        .then(({data}) => {
-          console.log(data.data)
-          addToast(data.message, {appearance: 'success'})
-        })
-        .catch(e => {
-          console.log(e)
-        })
+    // const newAvatar = new FormData()
+    // const onChangeAvatar = e => {
+    //   newAvatar.append('avatar', selectedAvatar?.selectedAvatar)
+    //   run(changeAvatar(newAvatar))
+    //     .then(({data}) => {
+    //       console.log(data.data)
+    //       addToast(data.message, {appearance: 'success'})
+    //     })
+    //     .catch(e => {
+    //       console.log(e)
+    //     })
       console.log(state, selectedAvatar)
     }
-  }
+  
 
   const changeHandler = event => {
     setState({...state, licenseFile: event.target.files[0]})
@@ -100,7 +96,22 @@ const Myaccount = ({values}) => {
     }
 
     setIsAvatarPicked(true)
+
+    const newAvatar = new FormData()
+    newAvatar.append('shopId', JSON.parse(shop.id))
+    newAvatar.append( e.target.files[0])
+
+    uploadRun(changeAvatar(newAvatar))
+      .then(({data}) => {
+        addToast(data.message, {appearance: 'success'})
+        setSelectedAvatar('')
+      })
+      .catch(e => {
+        console.log(e)
+      })
+    
   }
+  
   return (
     <div className="flex  w-full space-x-8">
       <EditFullName

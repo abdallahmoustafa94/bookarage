@@ -1,13 +1,14 @@
-import {Fragment, useState} from 'react'
+import {Fragment, useEffect, useState} from 'react'
 import {Form, Image, Button, TextArea, Icon} from 'semantic-ui-react'
 import photoImage from '../../assets/images/photo-ic.svg'
 import {CountryDropdown, RegionDropdown} from 'react-country-region-selector'
 import useAsync from '../../hooks/useAsync'
 import {useShop} from '../../context/ShopContext'
-import {uploadShopPhotos} from '../../services/ShopService'
+import {getProfile, uploadShopPhotos} from '../../services/ShopService'
 import {useToasts} from 'react-toast-notifications'
 import {FieldArray, Formik} from 'formik'
 import FormikControl from '../formik/FormikControl'
+import { updateShopProfile } from '../../services/ShopService'
 
 const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
   // console.log(shopInfo)
@@ -27,9 +28,13 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
     setRegion: '',
   })
 
-  const {run: uploadRun, isLoading: isUploading} = useAsync()
+
+ 
+  const {run: uploadRun, isLoading: isUploading,run} = useAsync()
 
   const {addToast} = useToasts()
+
+  
 
   const handleOnSubmit = values => {
     console.log(values)
@@ -42,6 +47,16 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
       city: region.setRegion,
       shopId: JSON.parse(shop),
     }
+    run(updateShopProfile(updateShop))
+    .then(({data}) => {
+      
+      console.log(data.data)
+      addToast(data.message, {appearance: 'success'})
+      
+    })
+    .catch(e => {
+      console.log(e)
+    })
   }
 
   const selectCountry = val => {

@@ -50,7 +50,7 @@ const DeleteServiceModal = ({deletedService}) => {
                     </Form.Field> */}
           <div className="text-center py-10">
             <Button
-              content="Add"
+              content="Delete"
               className={`btn-primary ${isSmall ? 'mb-2' : 'mx-5'}`}
               onClick={handleOnSubmit}
             />
