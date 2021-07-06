@@ -41,6 +41,8 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
       country: country.setCountry,
       city: region.setRegion,
       shopId: JSON.parse(shop),
+      isAgent: values.isAgentShop,
+      hasRecovery: values.hasRecoveryShop,
     }
   }
 
@@ -96,8 +98,8 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
           desc: shopInfo?.description || '',
           shopName: shopInfo?.nameEN || '',
           address: shopInfo?.address || '',
-          isAgent: shopInfo[shopInfo?.shopType]?.isAgent || false,
-          hasRecovery: shopInfo[shopInfo?.shopType]?.hasRecovery || false,
+          isAgentShop: shopInfo?.[shopInfo?.shopType]?.isAgent || false,
+          hasRecoveryShop: shopInfo?.[shopInfo?.shopType]?.hasRecovery || false,
         }}
         onSubmit={handleOnSubmit}
       >
@@ -344,7 +346,7 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
             </Form.Field>
             <Form.Field>
               <FormikControl
-                name="isAgent"
+                name="isAgentShop"
                 label="My shop is able to sell spare parts."
                 control="checkbox"
               />
@@ -352,7 +354,7 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
 
             <Form.Field>
               <FormikControl
-                name="hasRecovery"
+                name="hasRecoveryShop"
                 label="My shop has recovery service for cars."
                 control="checkbox"
               />

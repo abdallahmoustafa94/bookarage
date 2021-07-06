@@ -118,12 +118,13 @@ const DashboardLayout = () => {
         }
         console.log(JSON.parse(shop))
 
+        setShops(shopArr)
         if (JSON.parse(shop) === 0) {
           setSelectedShop(shopArr[0].value)
           setShop(JSON.stringify(shopArr[0].value))
+        } else {
+          setSelectedShop(JSON.parse(shop))
         }
-
-        setShops(shopArr)
       })
       .catch(e => {
         console.log(e)
@@ -211,6 +212,7 @@ const DashboardLayout = () => {
               className=" mx-8 flex items-center border-blue-700 text-labelColor"
               selection
               options={shops}
+              placeholder="Select Shop"
               defaultValue={selectedShop}
               onChange={(e, {value}) => handleSelectedShop(value)}
             />
@@ -237,6 +239,7 @@ const DashboardLayout = () => {
                 <ul>
                   <li className="bg-blue-100 p-3 border-b-2">
                     <div className="flex items-center">
+                      <p>{selectedShop}</p>
                       <Image
                         src={notifyImage}
                         className="rounded-full w-20 h-20"

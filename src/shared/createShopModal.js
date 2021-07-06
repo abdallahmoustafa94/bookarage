@@ -15,6 +15,7 @@ import useAsync from '../hooks/useAsync'
 import {createNewShop} from '../services/ShopService'
 import {useToasts} from 'react-toast-notifications'
 import {useShop} from '../context/ShopContext'
+import Auth from '../config/auth'
 
 const CreateShopModal = () => {
   const [open, setOpen] = useState(false)
@@ -43,11 +44,11 @@ const CreateShopModal = () => {
   const handleNextStep = values => {
     console.log(values)
     switch (values.type) {
-      case 'step':
+      case 'shopStep':
         setState({...state, ...values.value})
         setStep(prev => prev + 1)
         return
-      case 'submit':
+      case 'submitShop':
         console.log(state, values)
         const newShop = new FormData()
 
@@ -59,9 +60,11 @@ const CreateShopModal = () => {
         newShop.append('description', state.shopDesc)
         newShop.append('logo', state.logo)
         newShop.append('coverPhoto', state.coverPhoto)
-        newShop.append('hasRecovery', state.hasRecovery)
+        if (Auth.isServiceProvider()) {
+          newShop.append('isAgent', state.isAgent)
+          newShop.append('hasRecovery', state.hasRecovery)
+        }
         newShop.append('shopType', JSON.parse(user).role)
-        newShop.append('isAgent', state.isAgent)
 
         run(createNewShop(newShop))
           .then(({data}) => {

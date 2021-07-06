@@ -6,11 +6,10 @@ import {TimeInput} from 'semantic-ui-calendar-react'
 import {formatTime} from '../../utils/date-format'
 import moment from 'moment'
 import {capitalize} from '../../utils/capitalize-text'
-import { addWorkingHrs } from '../../services/ShopService'
+import {addWorkingHrs} from '../../services/ShopService'
 import useAsync from '../../hooks/useAsync'
 import Auth from '../../config/auth'
 import {useToasts} from 'react-toast-notifications'
-
 
 const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
   const [state, setState] = useState([
@@ -66,36 +65,27 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
   ])
   const {addToast} = useToasts()
 
-
   const {setShowModal} = useContext(StateContext)
 
   const history = useHistory()
   const {run, isLoading} = useAsync()
 
-  
-
   const handleOnSubmit = () => {
-    const workingHrs= []
-   
-   
-      run(addWorkingHrs(workingHrs))
-      .then(({data}) => {
-        console.log(data)
-        data.data?.map((wh, i) => {
-          if (state.isOpened) {
-            workingHrs.push('workingHrs[' + i + '][day]', wh?.day)
-            workingHrs.push('workingHrs[' + i + '][startTime]', wh?.startTime)
-            workingHrs.push('workingHrs[' + i + '][endTime]', wh?.endTime)
-            workingHrs.push('workingHrs[' + i + '][isOpened]', wh?.isOpened)
-          }
-      })
-        addToast(data.message, {appearance: 'success'})
+    const workingHrs = []
 
-       
-      .catch(e => {
+    run(addWorkingHrs(workingHrs)).then(({data}) => {
+      console.log(data)
+      data.data?.map((wh, i) => {
+        if (state.isOpened) {
+          workingHrs.push('workingHrs[' + i + '][day]', wh?.day)
+          workingHrs.push('workingHrs[' + i + '][startTime]', wh?.startTime)
+          workingHrs.push('workingHrs[' + i + '][endTime]', wh?.endTime)
+          workingHrs.push('workingHrs[' + i + '][isOpened]', wh?.isOpened)
+        }
+      })
+      addToast(data.message, {appearance: 'success'}).catch(e => {
         console.log(e)
-        e &&
-          e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
+        e && e.errors?.map(err => addToast(err.message, {appearance: 'error'}))
       })
     })
     console.log(state)
@@ -123,21 +113,18 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
 
   return (
     <div>
-        <div className="flex mb-4">
-            <p className="flex justify-start w-1/2">Working Hours</p>
-            <Button
-              content="Save"
-              className="bg-transparent font-normal text-primaryRedColor-default flex justify-end w-1/2"
-              
-            />
-
-        </div>
-        <div className="flex  mb-6 bg-blue-100 w-full items-center rounded-full p-3 font-medium	text-gray-500">
-            <span className="flex justify-start w-1/2  ">Days</span>
-            <span className="flex justify-end w-1/2  ">Shop Status</span>
-
-        </div>
-        <Form loading={loading}>
+      <div className="flex mb-4">
+        <p className="flex justify-start w-1/2">Working Hours</p>
+        <Button
+          content="Save"
+          className="bg-transparent font-normal text-primaryRedColor-default flex justify-end w-1/2"
+        />
+      </div>
+      <div className="flex  mb-6 bg-blue-100 w-full items-center rounded-full p-3 font-medium	text-gray-500">
+        <span className="flex justify-start w-1/2  ">Days</span>
+        <span className="flex justify-end w-1/2  ">Shop Status</span>
+      </div>
+      <Form loading={loading}>
         <ul>
           {state.map((item, i) => (
             <li key={item.id} className="mb-3">

@@ -68,6 +68,7 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
                   <FormikControl
                     name="isAgent"
                     label="My shop is able to sell spare parts."
+                    checked={formik.values.isAgent}
                     control="checkbox"
                   />
                 </Form.Field>
