@@ -6,10 +6,16 @@ import FormikControl from '../components/formik/FormikControl'
 import useAsync from '../hooks/useAsync'
 import {getAllBrands} from '../services/ShopService'
 import useMediaQuery from '../hooks/use-media-query'
+import {useToasts} from 'react-toast-notifications'
+import { addBrand } from '../services/ShopService'
+import { useShop } from '../context/ShopContext'
+import { object } from 'yup/lib/locale'
 
-const AddBrandModal = ({brandValues}) => {
+
+const AddBrandModal = ({brandValues, updateBrand}) => {
   const isSmall = useMediaQuery('(max-width: 992px)')
-
+  const [shop, setShop] = useShop()
+  const {addToast} = useToasts()
   const [open, setOpen] = useState(false)
   const {showModal, setShowModal} = useContext(StateContext)
   const {run, isLoading} = useAsync()
@@ -45,6 +51,28 @@ const AddBrandModal = ({brandValues}) => {
   const handleOnSubmit = values => {
     console.log(values)
     brandValues(values)
+
+    
+
+    const newBrands = new FormData()
+
+    Object.values(values).map(v => { 
+      newBrands.append("shopId",JSON.parse(shop))
+      newBrands.append("brand",v)
+    })
+      // console.log(`${key}: ${value}`);
+   
+    run(addBrand(newBrands))
+      .then(({data}) => {
+        addToast(data.message, {appearance: 'success'})
+      })
+      .catch(e => {
+        console.log(e)
+      })
+    
+   
+
+
     setShowModal({modalName: '', data: null})
   }
   return (

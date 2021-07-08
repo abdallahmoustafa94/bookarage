@@ -1,7 +1,7 @@
 import {useContext, useEffect, useState} from 'react'
 import StateContext from '../context/stateContext'
 import {Modal, Form, Button} from 'semantic-ui-react'
-import {Formik} from 'formik'
+import {Formik, validateYupSchema} from 'formik'
 import FormikControl from '../components/formik/FormikControl'
 import useAsync from '../hooks/useAsync'
 import {getAllEmployees} from '../services/ShopService'
@@ -10,17 +10,16 @@ import {useToasts} from 'react-toast-notifications'
 import { useShop } from '../context/ShopContext'
 
 
-const AddEmployeeModal = (employeeValue) => {
+const AddEmployeeModal = () => {
   const {addToast} = useToasts()
   const [shop, setShop] = useShop()
   const [open, setOpen] = useState(false)
   const {showModal, setShowModal} = useContext(StateContext)
   const {run, isLoading} = useAsync()
   const [state, setState] = useState({
-    shopId:'',
-    email:'',
+    email:"",
     isApproved:true,
-    nameEN: '',
+    nameEN:"",
     role: "tech"
   })
     // const [employeesOptions,setEmployeesOptions] = useState([])
@@ -54,16 +53,22 @@ const AddEmployeeModal = (employeeValue) => {
     },
   ]
 
-  const handleOnSubmit = () => {
+  const handleOnSubmit = value => {
+
+   setState({...state,nameEN:value.nameEN,email:value.email})
+
+
+   console.log(state)
+    
     run(addEmployee(state))
       .then(({data}) => {
         JSON.stringify({
-          shopId: JSON.parse(shop).id,
+          shopId: JSON.parse(shop),
           email:data.data.email,
-          isApproved:true,
+          isApproved:data.data.isApproved,
           nameEN: data.data.nameEN,
           nameAR: data.data.nameEN,
-          role: "tech"
+          role: data.data.role
           
         })
         console.log(data.data)
@@ -90,8 +95,7 @@ const AddEmployeeModal = (employeeValue) => {
             Invite employee to work in your shop
           </p>
           <div className="my-20 w-1/2 mx-auto">
-            <Formik initialValues={{email:'',
-          nameEN:''}} onSubmit={handleOnSubmit}>
+            <Formik initialValues={state} onSubmit={handleOnSubmit}>
               {formik => (
                 <Form onSubmit={formik.submitForm} loading={isLoading}>
                   <Form.Field>

@@ -50,8 +50,8 @@ export const updateShopProfile = updateShop => {
 
 //Service Provider
  //add service
- export const addService = addService => {
-  return authAxios.post('/shops/addServiceForShop', addService)
+ export const addServiceForShop = addServiceForShop => {
+  return authAxios.post('/shops/addServiceForShop', addServiceForShop)
 }
 
 //delete Service
@@ -74,8 +74,8 @@ export const addBrand = addBrand => {
   return authAxios.post('/shops/addBrand', addBrand)
 }
 
-export const removeBrand = removeBrand => { 
-  return authAxios.delete('/shops/deleteBrand', removeBrand)
+export const removeBrand = removedBrand => { 
+  return authAxios.delete('/shops/deleteBrand', removedBrand)
 }
 
 

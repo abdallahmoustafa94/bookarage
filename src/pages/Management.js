@@ -21,7 +21,6 @@ import AddEmployeeModal from '../shared/AddEmployeeModal'
 import EditEmployeeModal from '../shared/EditEmployeeModal'
 import Auth from '../config/auth'
 import {BsFillPlusCircleFill} from 'react-icons/bs'
-import {addService} from '../services/ShopService'
 import {useToasts} from 'react-toast-notifications'
 import {removeBrand} from '../services/ShopService'
 
@@ -40,6 +39,10 @@ const Management = ({values}) => {
     brands: [],
   })
   const [updateShop, setUpdateShop] = useState(false)
+  const [removeState,setRemoveState] = useState({
+    shopId: '',
+    brandName:''
+  })
 
   useEffect(() => {
     if (!user) return
@@ -87,11 +90,22 @@ const Management = ({values}) => {
 
   const handleDeleteBrand = i => {
     let brandsArr = [...state.brands]
-    brandsArr.splice(i, 1)
+   let remove = brandsArr.splice(i, 1)
     setState({...state, brands: brandsArr})
-
-    run(removeBrand(state))
+    console.log(state)
+    setRemoveState({
+      shopId : JSON.parse(shop),
+      brandName :  remove[0]["name"]
+    })
+   
+    console.log(removeState)
+   
+    run(removeBrand(removeState))
       .then(({data}) => {
+        JSON.stringify({
+          shopId : JSON.parse(shop),
+        brandName :  data.data.brandName
+        })
         console.log(data.data)
         addToast(data.message, {appearance: 'success'})
       })
@@ -105,15 +119,14 @@ const Management = ({values}) => {
       <CreateShopModal />
       <AddBrandModal
         brandValues={v => setState({...state, brands: v.brands})}
+        updateBrand={v => setUpdateShop(prev => !prev)}
       />
       <AddServiceModal
         serviceValues={v => handleService(v)}
         updateService={v => setUpdateShop(prev => !prev)}
       />
       <AddEmployeeModal
-        fullNameValue={v =>
-          setState({...state, email: v.email, nameEN: v.nameEN})
-        }
+        
       />
       <DeleteServiceModal deletedService={handleDeleteService} />
       <EditEmployeeModal />

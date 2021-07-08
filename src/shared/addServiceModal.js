@@ -4,7 +4,7 @@ import {Modal, Form, Button} from 'semantic-ui-react'
 import {Formik} from 'formik'
 import FormikControl from '../components/formik/FormikControl'
 import useAsync from '../hooks/useAsync'
-import {addService, getAllServices} from '../services/ShopService'
+import {addServiceForShop, getAllServices} from '../services/ShopService'
 import useMediaQuery from '../hooks/use-media-query'
 import {useShop} from '../context/ShopContext'
 import routes from '../routes'
@@ -48,16 +48,25 @@ const AddServiceModal = ({serviceValues, updateService}) => {
     if (window.location.pathname.includes(routes.register)) {
       serviceValues(values)
     } else {
-      const newService = {
-        shopId: JSON.parse(shop),
-        serviceId: /[^-]*$/.exec(values?.serviceId).index,
-        cost: Number(values.cost),
-        details: values.details,
-        isAvailable: values.isAvailable,
-      }
-
-      run(addService(newService))
+      const valueEntries = Object.entries(values);
+      const valueFromEntries =  Object.fromEntries(valueEntries);
+      valueFromEntries.shopId = JSON.parse(shop)
+      const valueFromEntriesStr = JSON.stringify(valueFromEntries)
+      
+        
+       console.log(valueFromEntriesStr)
+  
+     
+      run(addServiceForShop(valueFromEntries))
         .then(({data}) => {
+          JSON.stringify({
+            shopId : JSON.parse(shop),
+            serviceId: data.data.serviceId,
+             cost: data.data.cost,
+            details: data.data.details,
+             isAvailable: data.data.isAvailable
+            })
+
           console.log(data.data)
           addToast(data.message, {appearance: 'success'})
           updateService(true)
@@ -67,7 +76,7 @@ const AddServiceModal = ({serviceValues, updateService}) => {
           console.log(e)
         })
 
-      console.log(newService)
+      // console.log(newService)
     }
   }
   return (
