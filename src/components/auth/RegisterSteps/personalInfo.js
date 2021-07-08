@@ -5,8 +5,6 @@ import {Formik} from 'formik'
 import FormikControl from '../../formik/FormikControl'
 import * as Yup from 'yup'
 import useAsync from '../../../hooks/useAsync'
-import {signup} from '../../../services/AuthServices'
-import Auth from '../../../config/auth'
 import {useToasts} from 'react-toast-notifications'
 import useMediaQuery from '../../../hooks/use-media-query'
 

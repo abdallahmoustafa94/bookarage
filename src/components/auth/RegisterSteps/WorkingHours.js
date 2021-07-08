@@ -103,14 +103,16 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
             <li key={item.id} className={isSmall ? 'relative' : 'mb-3'}>
               <div
                 className={`flex ${
-                  isSmall ? 'flex-col justify-start w-full' : ''
+                  isSmall ? 'flex-col justify-start w-full' : 'justify-between'
                 } items-center`}
               >
-                <p className={`mb-0 ${isSmall ? 'w-full' : 'w-2/12'} `}>
+                <p className={`mb-0 ${isSmall ? 'w-full' : ''} `}>
                   {capitalize(item.day)}
                 </p>
                 <div
-                  className={`${isSmall ? 'w-full' : 'justify-start w-4/12'} `}
+                  className={`${
+                    isSmall ? 'w-full' : 'justify-items-start mx-5'
+                  } `}
                 >
                   {/* {console.log(Object.keys(item))} */}
                   <div className={isSmall ? 'my-5' : ''}>

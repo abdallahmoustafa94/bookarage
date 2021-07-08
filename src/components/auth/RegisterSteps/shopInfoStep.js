@@ -10,6 +10,8 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
   const isSmall = useMediaQuery('(max-width: 992px)')
   const [state, setState] = useState({
     logo: '',
+    selectedlogo: '',
+    selectedcoverPhoto: '',
     coverPhoto: '',
   })
 
@@ -19,6 +21,16 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
 
   const handleOnChangeImage = (type, e) => {
     // console.log(type, e.target.files[0])
+    if (e.target.files || e.target.files[0]) {
+      let reader = new FileReader()
+      reader.onload = e => {
+        setState({
+          ...state,
+          ['selected' + type]: e.target.result,
+        })
+      }
+      reader.readAsDataURL(e.target.files[0])
+    }
     setState({...state, [type]: e.target.files[0]})
   }
 
@@ -87,6 +99,12 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
 
             <Form.Group widths="equal">
               <Form.Field>
+                <div className="mb-3">
+                  <Image
+                    src={state.selectedlogo || photoImage}
+                    className="rounded-full w-20 h-20 object-cover"
+                  />
+                </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Logo
@@ -123,6 +141,12 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
                 </div>
               </Form.Field>
               <Form.Field>
+                <div className="mb-3">
+                  <Image
+                    src={state.selectedcoverPhoto || photoImage}
+                    className="rounded-lg w-52 h-20 object-cover"
+                  />
+                </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Cover

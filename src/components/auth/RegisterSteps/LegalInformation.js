@@ -1,9 +1,10 @@
 import {useEffect, useState} from 'react'
-import {Form, Button, Message} from 'semantic-ui-react'
+import {Form, Button, Message, Header} from 'semantic-ui-react'
 import {FiUpload} from 'react-icons/fi'
 import useMediaQuery from '../../../hooks/use-media-query'
+import {IoArrowBack} from 'react-icons/io5'
 
-const LegalInformation = ({nextStep, loading, stepTitle}) => {
+const LegalInformation = ({handleBack, nextStep, loading, stepTitle}) => {
   const isSmall = useMediaQuery('(max-width: 992px)')
   const [isFilePicked, setIsFilePicked] = useState(false)
   const [state, setState] = useState({
@@ -39,6 +40,22 @@ const LegalInformation = ({nextStep, loading, stepTitle}) => {
 
   return (
     <div className={`${isSmall ? 'px-5' : 'px-32'}`}>
+      <div className="flex items-center mb-10">
+        <div
+          className="flex justify-start cursor-pointer"
+          onClick={() => handleBack(true)}
+        >
+          <IoArrowBack
+            size={30}
+            className="text-labelColor text-lg text-left"
+          />
+        </div>
+        <div className="flex justify-center w-full">
+          <Header as="h3" className=" text-labelColor font-semibold m-0">
+            Add VAT License
+          </Header>
+        </div>
+      </div>
       {['all', 'license'].includes(state.errors) && (
         <Message
           icon="times"

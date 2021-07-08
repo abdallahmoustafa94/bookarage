@@ -6,6 +6,7 @@ import AssignTechModal from '../components/Dashboard/modals/assignTech.modal'
 import RequestTabs from '../components/Dashboard/requestTabs'
 import WorkInProgressTable from '../components/Dashboard/workInProgressTable'
 import Auth from '../config/auth'
+import {useShop} from '../context/ShopContext'
 import {useUser} from '../context/UserContext'
 import useAsync from '../hooks/useAsync'
 import {myRequests, updateRequest} from '../services/RequestService'
@@ -15,6 +16,7 @@ const DashboardPage = () => {
   const {run, isLoading} = useAsync()
   const [user, setUser] = useUser()
   const parsedUser = JSON.parse(user)
+  const [shop, setShop] = useShop()
   const [updateRequests, setUpdateRequests] = useState(false)
   const {addToast} = useToasts()
   const [state, setState] = useState({
@@ -27,8 +29,8 @@ const DashboardPage = () => {
   })
 
   useEffect(() => {
-    if (!parsedUser?.shopId) return
-    run(myRequests(parsedUser.shopId))
+    if (!Auth.getShopId() === 0) return
+    run(myRequests(Auth.getShopId()))
       .then(({data}) => {
         console.log(data)
         let requestTypes = {
@@ -70,7 +72,7 @@ const DashboardPage = () => {
       .catch(e => {
         console.log(e)
       })
-  }, [updateRequests, user])
+  }, [updateRequests, shop])
 
   const handleUpdateRequest = status => {
     run(updateRequest({requestId: status.id, requestStatus: status.statusId}))

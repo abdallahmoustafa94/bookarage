@@ -269,13 +269,14 @@ const RegisterPage = () => {
             values={state}
             stepTitle={v => setStepTitle(v)}
             loading={isLoading}
+            handleBack={v => setStep(prev => prev - 1)}
           />
         )}
       </div>
 
       {step === 6 && <SuccessAccount nextStep={v => handleNextStep(v)} />}
 
-      {step > 6 && step < 12 ? (
+      {step > 6 && step < 11 ? (
         <Fragment>
           <div className="bg-blue-50 p-5 flex justify-center items-center rounded-2xl">
             <CircularProgressbarWithChildren
