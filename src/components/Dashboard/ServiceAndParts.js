@@ -2,7 +2,7 @@ import {Formik} from 'formik'
 import AddServiceModal from '../../shared/addServiceModal'
 import AddBrandModal from '../../shared/addBrandModal'
 import DeleteServiceModal from '../../shared/deleteServiceModal'
-import {addService, addBrand} from '../../services/ShopService'
+import {addService, addBrand,deleteService} from '../../services/ShopService'
 
 import {useContext, useEffect, useState} from 'react'
 import {RiDeleteBin6Line} from 'react-icons/ri'
@@ -11,6 +11,12 @@ import {BsWrench} from 'react-icons/bs'
 import useAsync from '../../hooks/useAsync'
 import {useToasts} from 'react-toast-notifications'
 import {useShop} from '../../context/ShopContext'
+import Auth from '../../config/auth'
+import {useUser} from '../../context/UserContext'
+import {getShopById} from '../../services/ShopService'
+
+
+
 
 import {MdModeEdit} from 'react-icons/md'
 import {
@@ -35,16 +41,45 @@ const ServicesAndParts = ({
   stepTitle,
   deletedBrand,
   loading,
+  deletedService
 }) => {
   const [shop, setShop] = useShop()
   const {setShowModal} = useContext(StateContext)
   const {run, isLoading} = useAsync()
   const {addToast} = useToasts()
+  const [user, setUser] = useUser()
+  const [selectedShop, setSelectedShop] = useState({})
+  const [updateShop, setUpdateShop] = useState(false)
+
 
   const [state, setState] = useState({
     services: [],
     brands: [],
   })
+
+  useEffect(() => {
+    if (!user) return
+    console.log(Auth.getShopId(), shop)
+    if (JSON.parse(shop) !== 0) {
+      run(getShopById(JSON.parse(shop)))
+        .then(({data}) => {
+          console.log(data.data)
+          setSelectedShop(data.data)
+          setState({
+            services: data.data?.[data.data.shopType]?.services || [],
+            brands: data.data?.[data.data.shopType]?.brands || [],
+          })
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    } else {
+      if (Auth.isAuth()) {
+        console.log('no branches')
+        setShowModal({modalName: 'createShop', data: null})
+      }
+    }
+  }, [shop, updateShop])
 
   const handleOnSubmit = () => {
     let servicesArr = []
@@ -93,7 +128,11 @@ const ServicesAndParts = ({
     // .catch(e => {
     //   console.log(e)
     // })
+
+
   }
+
+  
 
   return (
     <div className="px-8">
@@ -195,12 +234,7 @@ const ServicesAndParts = ({
                   <Button
                     className="text-gray-400 text-base bg-transparent font-normal p-0"
                     content="delete"
-                    onClick={() =>
-                      setShowModal({
-                        modalName: 'removeService',
-                        data: {index: i},
-                      })
-                    }
+                    onClick={() => deletedService(i)}
                   />
                 </div>
               </div>

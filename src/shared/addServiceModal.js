@@ -33,9 +33,10 @@ const AddServiceModal = ({serviceValues, updateService}) => {
           servicesArr.push({
             key: i,
             text: s.nameEN,
-            value: s.id + '-' + s.nameEN,
+            value: s.id ,
           })
         })
+        // + '-' + s.nameEN
         setServicesOptions(servicesArr)
       })
     } else {
@@ -45,28 +46,22 @@ const AddServiceModal = ({serviceValues, updateService}) => {
 
   const handleOnSubmit = values => {
     console.log(values, /[^-]*$/.exec(values?.serviceId))
+    
     if (window.location.pathname.includes(routes.register)) {
       serviceValues(values)
     } else {
       const valueEntries = Object.entries(values);
       const valueFromEntries =  Object.fromEntries(valueEntries);
       valueFromEntries.shopId = JSON.parse(shop)
-      const valueFromEntriesStr = JSON.stringify(valueFromEntries)
+      // const valueFromEntriesStr = JSON.stringify(valueFromEntries)
       
         
-       console.log(valueFromEntriesStr)
+       console.log(valueFromEntries)
   
      
       run(addServiceForShop(valueFromEntries))
         .then(({data}) => {
-          JSON.stringify({
-            shopId : JSON.parse(shop),
-            serviceId: data.data.serviceId,
-             cost: data.data.cost,
-            details: data.data.details,
-             isAvailable: data.data.isAvailable
-            })
-
+         
           console.log(data.data)
           addToast(data.message, {appearance: 'success'})
           updateService(true)

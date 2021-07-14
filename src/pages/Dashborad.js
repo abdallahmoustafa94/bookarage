@@ -5,6 +5,9 @@ import CarArrivedTable from '../components/Dashboard/carArrivedTable'
 import AssignTechModal from '../components/Dashboard/modals/assignTech.modal'
 import RequestTabs from '../components/Dashboard/requestTabs'
 import WorkInProgressTable from '../components/Dashboard/workInProgressTable'
+import EstimatedSent from '../components/Dashboard/EstimatedRent'
+import CarReady from '../components/Dashboard/CarReady'
+import Invoices from '../components/Dashboard/Invoices'
 import Auth from '../config/auth'
 import {useUser} from '../context/UserContext'
 import useAsync from '../hooks/useAsync'
@@ -57,6 +60,7 @@ const DashboardPage = () => {
           }
         })
         setState(requestTypes)
+        console.log(state.appointment)
         // setState({
         //   ...state,
         //   appointment: data.data.appointments,
@@ -83,7 +87,7 @@ const DashboardPage = () => {
       })
   }
   return (
-    <section className="bg-white rounded-lg">
+    <section className=" rounded-lg">
       <AssignTechModal isUpdated={value => setUpdateRequests(prev => !prev)} />
       <RequestTabs
         activeMenu={activeMenu}
@@ -107,6 +111,24 @@ const DashboardPage = () => {
             loading={isLoading}
           />
         )}
+
+        {activeMenu === 'estimatedSent' && (
+          <EstimatedSent
+            loading={isLoading}
+          />
+        )}
+        {activeMenu === 'carReady' && (
+          <CarReady
+            loading={isLoading}
+          />
+        )}
+        {activeMenu === 'invoiceCreated' && (
+          <Invoices
+            loading={isLoading}
+          />
+        )}
+
+
       </div>
     </section>
   )

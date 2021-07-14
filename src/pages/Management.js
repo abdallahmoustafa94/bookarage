@@ -22,7 +22,7 @@ import EditEmployeeModal from '../shared/EditEmployeeModal'
 import Auth from '../config/auth'
 import {BsFillPlusCircleFill} from 'react-icons/bs'
 import {useToasts} from 'react-toast-notifications'
-import {removeBrand} from '../services/ShopService'
+import {removeBrand,deleteService} from '../services/ShopService'
 
 const Management = ({values}) => {
   const {addToast} = useToasts()
@@ -82,12 +82,7 @@ const Management = ({values}) => {
     setState({...state, services: serviceArr})
   }
 
-  const handleDeleteService = i => {
-    let serviceArr = [...state.services]
-    serviceArr.splice(i, 1)
-    setState({...state, services: serviceArr})
-  }
-
+ 
   const handleDeleteBrand = i => {
     let brandsArr = [...state.brands]
    let remove = brandsArr.splice(i, 1)
@@ -102,10 +97,7 @@ const Management = ({values}) => {
    
     run(removeBrand(removeState))
       .then(({data}) => {
-        JSON.stringify({
-          shopId : JSON.parse(shop),
-        brandName :  data.data.brandName
-        })
+      
         console.log(data.data)
         addToast(data.message, {appearance: 'success'})
       })
@@ -114,6 +106,28 @@ const Management = ({values}) => {
       })
   }
 
+  const handleDeleteService = i => {
+    let serviceArr = [...state.services]
+    let remove = serviceArr.splice(i, 1)
+    setState({...state, services: serviceArr})
+    const removedService = {
+      shopId: JSON.parse(shop),
+    serviceId: remove[0]["id"]
+    } 
+
+
+    console.log(removedService)
+    
+    run(deleteService(removedService))
+    .then(({data}) => {
+    
+      console.log(data.data)
+      addToast(data.message, {appearance: 'success'})
+    })
+    .catch(e => {
+      console.log(e)
+    })
+  }
   return (
     <div className="flex  w-full space-x-8 p-10">
       <CreateShopModal />
@@ -171,6 +185,7 @@ const Management = ({values}) => {
                 <ServicesAndParts
                   values={state}
                   deletedBrand={v => handleDeleteBrand(v)}
+                  deletedService={v => handleDeleteService(v)}
                 />
               </div>
             )}

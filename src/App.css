@@ -182,3 +182,54 @@ div[role='listbox'].dropdown {
 .secondary-text-color {
   color: #f2421b !important;
 }
+
+/* landing styles*/
+
+#home-section{
+  background-image: url(./assets/images/landingPage/shapes.svg);
+}
+
+#discount-section {
+  background-image: url(./assets/images/landingPage/shapes.svg);
+  background-repeat: no-repeat;
+}
+
+@media (min-width:992px){
+  #contact-section {
+    background-image: url(./assets/images/landingPage/Contact.svg);
+    background-position: 10% 250% ;
+    background-repeat: no-repeat;
+  }
+}
+
+
+.landing-icons{
+  width:80px;
+  height: 80px;
+}
+
+.footer{
+  background-color: #244066;
+}
+
+.footer-bottom{
+  background-color: #20395c;
+}
+
+.ui.action.input>.button, .ui.action.input>.buttons>.button{
+  background-color: #f2421b;
+  color:#fff;
+  border: 1px solid #f2421b;
+  padding: 0 25px !important;
+}
+
+#landing-nav{
+  position: fixed;
+  background-color: #fff;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  padding: 8px;
+}
+
