@@ -2,7 +2,7 @@ import {Fragment, useContext} from 'react'
 import {Button, Icon, Table} from 'semantic-ui-react'
 import StateContext from '../../context/stateContext'
 import {formatDate} from '../../utils/date-format'
-
+import ChartsAndReviews from './ChartsAndReviews'
 const CarReady = ({requests, loading, updateRequest}) => {
   const {setShowModal} = useContext(StateContext)
   const handleOnClickConfirm = (status, requestId) => {
@@ -48,60 +48,59 @@ const CarReady = ({requests, loading, updateRequest}) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-       
-              <Table.Row >
-                <Table.Cell>351</Table.Cell>
-                <Table.Cell
-                  
-                >
-                    Honda-Civic 2005
-                </Table.Cell>
-                <Table.Cell>
-                  Alex Lawson   
-                </Table.Cell>
-                <Table.Cell>(585) 5519-96</Table.Cell>
-                <Table.Cell>Electric Repair</Table.Cell>
-                <Table.Cell>
-                  Anthony Banks
-                </Table.Cell>
-                <Table.Cell>
-               450 AED
-                </Table.Cell>
-                <Table.Cell
-                //   onClick={() =>
-                //     setShowModal({modalName: 'requestDetails', data: req})
-                //   }
-                >
-                  <Icon
-                    name="eye"
-                    className="text-primaryRedColor-default cursor-pointer text-lg"
-                  />
-                </Table.Cell>
-               
-              </Table.Row>
-
-         
-            {/* <Table.Row>
-              <Table.Cell colSpan={10} textAlign="center" warning>
-                There is no appointments
+        {requests.length > 0 &&
+          requests.map((req, i) => (
+            <Table.Row key={i}>
+              <Table.Cell>{i + 1}</Table.Cell>
+              <Table.Cell>
+                {req.requestDetails.car.carMake} -{' '}
+                {req.requestDetails.car.carModel}{' '}
+                {req.requestDetails.car.carYear}
               </Table.Cell>
-            </Table.Row>
-        */}
-
-          {/* {loading && requests.length === 0 ? (
-            <Table.Row textAlign="center">
-              <Table.Cell colSpan={10}>
+              
+              <Table.Cell>{req.user.nameEN}</Table.Cell>
+              <Table.Cell>{req.user.phoneNumber}</Table.Cell>
+              <Table.Cell>
+                {req?.requestDetails.services.map((service, i) => (
+                  <p key={i}>{service.nameEN}</p>
+                ))}
+              </Table.Cell>
+              <Table.Cell>{req.requestDetails.car.tech}</Table.Cell>
+              <Table.Cell>
+                {formatDate(req.requestDetails.totalCost)}
+              </Table.Cell>
+              <Table.Cell>
                 <Icon
-                  name="asterisk"
-                  size="large"
-                  className="text-primary"
-                  loading
+                  name="eye"
+                  className="text-primaryRedColor-default cursor-pointer text-lg"
                 />
               </Table.Cell>
+              <Table.Cell>
+                <div
+                  className="flex items-center justify-center text-primaryRedColor-default text-lg font-medium cursor-pointer"
+                 
+                >
+                  
+                  <Icon
+                    name="angle right"
+                    className="ltr:ml-2 -mt-2 rtl:mr-2"
+                  />
+                </div>
+              </Table.Cell>
             </Table.Row>
-          ) : null} */}
-        </Table.Body>
+          ))}
+
+        {requests.length === 0 && !loading ? (
+          <Table.Row>
+            <Table.Cell colSpan={9} textAlign="center" warning>
+              There is no Car Ready
+            </Table.Cell>
+          </Table.Row>
+        ) : null}
+      </Table.Body>
       </Table>
+      <ChartsAndReviews />
+
     </Fragment>
   )
 }

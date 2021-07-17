@@ -32,8 +32,8 @@ const Routes = () => {
     <Router>
       <Switch>
         <Route path="/auth" component={AuthLayout} />
-        <Route path="/" component={Home} />
-        <PrivateRoute path="/dashboard" component={DashboardLayout} />
+        {/* <Route path="/" component={Home} /> */}
+        <PrivateRoute path="/" component={DashboardLayout} />
       </Switch>
     </Router>
   )

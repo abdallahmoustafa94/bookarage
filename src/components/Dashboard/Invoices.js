@@ -2,6 +2,7 @@ import {Fragment, useContext} from 'react'
 import {Button, Icon, Table} from 'semantic-ui-react'
 import StateContext from '../../context/stateContext'
 import {formatDate} from '../../utils/date-format'
+import ChartsAndReviews from './ChartsAndReviews'
 
 const Invoices = ({requests, loading, updateRequest}) => {
   const {setShowModal} = useContext(StateContext)
@@ -48,42 +49,59 @@ const Invoices = ({requests, loading, updateRequest}) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-       
-              <Table.Row >
-                <Table.Cell>351</Table.Cell>
-                <Table.Cell
+        {requests.length > 0 &&
+          requests.map((req, i) => (
+            <Table.Row key={i}>
+              <Table.Cell>{i + 1}</Table.Cell>
+              <Table.Cell>
+                {req.requestDetails.car.carMake} -{' '}
+                {req.requestDetails.car.carModel}{' '}
+                {req.requestDetails.car.carYear}
+              </Table.Cell>
+              
+              <Table.Cell>{req.user.nameEN}</Table.Cell>
+              <Table.Cell>{req.user.phoneNumber}</Table.Cell>
+              <Table.Cell>
+                {req?.requestDetails.services.map((service, i) => (
+                  <p key={i}>{service.nameEN}</p>
+                ))}
+              </Table.Cell>
+              <Table.Cell>{req.requestDetails.car.tech}</Table.Cell>
+              <Table.Cell>
+                {formatDate(req.requestDetails.totalCost)}
+              </Table.Cell>
+              <Table.Cell>
+                <Icon
+                  name="eye"
+                  className="text-primaryRedColor-default cursor-pointer text-lg"
+                />
+              </Table.Cell>
+              <Table.Cell>
+                <div
+                  className="flex items-center justify-center text-primaryRedColor-default text-lg font-medium cursor-pointer"
+                 
+                >
                   
-                >
-                    Honda-Civic 2005
-                </Table.Cell>
-                <Table.Cell>
-                  Alex Lawson   
-                </Table.Cell>
-                <Table.Cell>(585) 5519-96</Table.Cell>
-                <Table.Cell>Electric Repair</Table.Cell>
-                <Table.Cell>
-                  Anthony Banks
-                </Table.Cell>
-                <Table.Cell>
-               450 AED
-                </Table.Cell>
-                <Table.Cell
-                
-                >
                   <Icon
-                    name="eye"
-                    className="text-primaryRedColor-default cursor-pointer text-lg"
+                    name="angle right"
+                    className="ltr:ml-2 -mt-2 rtl:mr-2"
                   />
-                </Table.Cell>
-               
-              </Table.Row>
+                </div>
+              </Table.Cell>
+            </Table.Row>
+          ))}
 
-         
-       
-        </Table.Body>
+        {requests.length === 0 && !loading ? (
+          <Table.Row>
+            <Table.Cell colSpan={9} textAlign="center" warning>
+              There is no Inovices Created
+            </Table.Cell>
+          </Table.Row>
+        ) : null}
+      </Table.Body>
       </Table>
      
-  
+        <ChartsAndReviews />
      
     </Fragment>
     
