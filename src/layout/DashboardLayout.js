@@ -332,7 +332,7 @@ const DashboardLayout = () => {
         {sidebarNav.map((s, i) => (
           <NavLink to={s.link} key={i}>
             <Menu.Item
-              active={Array.isArray(pathname.match(s.label, 'i'))}
+              active={pathname === s.link}
               className={`${isSmall ? 'w-full' : 'w-auto'}`}
             >
               <div className="flex items-center justify-center px-10">
@@ -348,7 +348,7 @@ const DashboardLayout = () => {
           <Route exact path={routes.dashboard} component={DashboardPage} />
           <Route exact path={routes.myAccount} component={Myaccount} />
           <Route exact path={routes.management} component={Management} />
-          <Route exact path={routes.requests} component={Requests} />
+          <Route path={routes.requests} component={Requests} />
           <Redirect to={routes.dashboard} />
         </Switch>
       </div>
