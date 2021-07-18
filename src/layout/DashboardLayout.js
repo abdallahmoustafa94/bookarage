@@ -25,6 +25,7 @@ import {IoChatboxEllipsesOutline} from 'react-icons/io5'
 import DashboardPage from '../pages/Dashborad'
 import Myaccount from '../pages/Myaccount'
 import Management from '../pages/Management'
+import Requests from '../pages/Requests'
 import notifyImage from '../assets/images/sample.jpeg'
 import {logout} from '../services/AuthServices'
 import {useToasts} from 'react-toast-notifications'
@@ -349,6 +350,7 @@ const DashboardLayout = () => {
           <Route exact path={routes.dashboard} component={DashboardPage} />
           <Route exact path={routes.myAccount} component={Myaccount} />
           <Route exact path={routes.management} component={Management} />
+          <Route exact path={routes.requests} component={Requests} />
           <Redirect to={routes.dashboard} />
         </Switch>
       </div>
