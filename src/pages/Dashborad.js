@@ -27,6 +27,7 @@ const DashboardPage = () => {
     estimatedSent: [],
     estimatedApproved: [],
     invoiceCreated: [],
+    carReady:[]
   })
 
   useEffect(() => {
@@ -114,16 +115,19 @@ const DashboardPage = () => {
 
         {activeMenu === 'estimatedSent' && (
           <EstimatedSent
+          requests={state.estimatedSent}
             loading={isLoading}
           />
         )}
         {activeMenu === 'carReady' && (
           <CarReady
+          requests={state.carReady}
             loading={isLoading}
           />
         )}
         {activeMenu === 'invoiceCreated' && (
           <Invoices
+          requests={state.invoiceCreated}
             loading={isLoading}
           />
         )}

@@ -2,6 +2,7 @@ import {Fragment, useContext} from 'react'
 import {Button, Icon, Table} from 'semantic-ui-react'
 import StateContext from '../../context/stateContext'
 import {formatDate} from '../../utils/date-format'
+import ChartsAndReviews from './ChartsAndReviews'
 
 const EstimatedSent = ({requests, loading, updateRequest}) => {
   const {setShowModal} = useContext(StateContext)
@@ -10,99 +11,94 @@ const EstimatedSent = ({requests, loading, updateRequest}) => {
   }
   return (
     <Fragment>
-      <div
-        className={`${
-          loading ? 'visible' : 'hidden'
+    <div
+      className={`${loading ? 'visible' : 'hidden'
         } absolute bg-gray-50 bg-opacity-40 w-full top-10 z-20`}
-        style={{content: ' ', height: '100%'}}
-      ></div>
+      style={{ content: ' ', height: '100%' }}
+    ></div>
+    <Table celled textAlign="center">
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">
+            ID
+          </Table.HeaderCell>
+          <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">
+            Car Model
+          </Table.HeaderCell>
 
-      <Table celled textAlign="center">
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">
-              ID
-            </Table.HeaderCell>
-            <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">
-              Car Model
-            </Table.HeaderCell>
-            <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">
-              Customer
-            </Table.HeaderCell>
-            <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">
-              Phone Number
-            </Table.HeaderCell>
-            <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">
-              Service
-            </Table.HeaderCell>
-            <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">
-              Technication
-            </Table.HeaderCell>
-            <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">
-              Status
-            </Table.HeaderCell>
-            <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">
-              Diagnosis
-            </Table.HeaderCell>
-            
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-       
-              <Table.Row >
-                <Table.Cell>351</Table.Cell>
-                <Table.Cell
-                  
-                >
-                    Honda-Civic 2005
-                </Table.Cell>
-                <Table.Cell>
-                  Alex Lawson   
-                </Table.Cell>
-                <Table.Cell>(585) 5519-96</Table.Cell>
-                <Table.Cell>Electric Repair</Table.Cell>
-                <Table.Cell>
-                  Anthony Banks
-                </Table.Cell>
-                <Table.Cell>
-               Waiting For Approve
-                </Table.Cell>
-                <Table.Cell
-                //   onClick={() =>
-                //     setShowModal({modalName: 'requestDetails', data: req})
-                //   }
-                >
-                  <Icon
-                    name="eye"
-                    className="text-primaryRedColor-default cursor-pointer text-lg"
-                  />
-                </Table.Cell>
-               
-              </Table.Row>
-
+          <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">
+            Customer
+          </Table.HeaderCell>
+          <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">
+            Phone Number
+          </Table.HeaderCell>
+          <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">
+            Service
+          </Table.HeaderCell>
+          <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">
+            Technication
+          </Table.HeaderCell>
+          <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">
+            Status
+          </Table.HeaderCell>
          
-            {/* <Table.Row>
-              <Table.Cell colSpan={10} textAlign="center" warning>
-                There is no appointments
+          <Table.HeaderCell className="bg-mainBgColor-hover font-medium text-lg text-gray-200">Diagnosis</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {requests.length > 0 &&
+          requests.map((req, i) => (
+            <Table.Row key={i}>
+              <Table.Cell>{i + 1}</Table.Cell>
+              <Table.Cell>
+                {req.requestDetails.car.carMake} -{' '}
+                {req.requestDetails.car.carModel}{' '}
+                {req.requestDetails.car.carYear}
               </Table.Cell>
-            </Table.Row>
-        */}
-
-          {/* {loading && requests.length === 0 ? (
-            <Table.Row textAlign="center">
-              <Table.Cell colSpan={10}>
+              
+              <Table.Cell>{req.user.nameEN}</Table.Cell>
+              <Table.Cell>{req.user.phoneNumber}</Table.Cell>
+              <Table.Cell>
+                {req?.requestDetails.services.map((service, i) => (
+                  <p key={i}>{service.nameEN}</p>
+                ))}
+              </Table.Cell>
+              <Table.Cell>{req.requestDetails.car.tech}</Table.Cell>
+              <Table.Cell>
+                {formatDate(req.requestDetails.status)}
+              </Table.Cell>
+              <Table.Cell>
                 <Icon
-                  name="asterisk"
-                  size="large"
-                  className="text-primary"
-                  loading
+                  name="eye"
+                  className="text-primaryRedColor-default cursor-pointer text-lg"
                 />
               </Table.Cell>
+              <Table.Cell>
+                <div
+                  className="flex items-center justify-center text-primaryRedColor-default text-lg font-medium cursor-pointer"
+                 
+                >
+                  
+                  <Icon
+                    name="angle right"
+                    className="ltr:ml-2 -mt-2 rtl:mr-2"
+                  />
+                </div>
+              </Table.Cell>
             </Table.Row>
-          ) : null} */}
-        </Table.Body>
-      </Table>
-    </Fragment>
+          ))}
+
+        {requests.length === 0 && !loading ? (
+          <Table.Row>
+            <Table.Cell colSpan={9} textAlign="center" warning>
+              There is no Estimated Sent
+            </Table.Cell>
+          </Table.Row>
+        ) : null}
+      </Table.Body>
+    </Table>
+    <ChartsAndReviews />
+  </Fragment>
   )
 }
 

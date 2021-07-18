@@ -2,6 +2,7 @@ import {Fragment, useContext} from 'react'
 import {Icon, Table} from 'semantic-ui-react'
 import StateContext from '../../context/stateContext'
 import {formatDate} from '../../utils/date-format'
+import ChartsAndReviews from './ChartsAndReviews'
 
 const WorkInProgressTable = ({requests, loading}) => {
   const {setShowModal} = useContext(StateContext)
@@ -96,6 +97,8 @@ const WorkInProgressTable = ({requests, loading}) => {
           ) : null}
         </Table.Body>
       </Table>
+      <ChartsAndReviews />
+
     </Fragment>
   )
 }
