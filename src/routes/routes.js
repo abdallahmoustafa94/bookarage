@@ -1,7 +1,7 @@
-import {useEffect} from 'react'
-import {Switch, BrowserRouter as Router, Route} from 'react-router-dom'
+import { useEffect } from 'react'
+import { Switch, BrowserRouter as Router, Route } from 'react-router-dom'
 import PrivateRoute from '../components/privateRoutes'
-import {useLanguage} from '../context/languageContext'
+import { useLanguage } from '../context/languageContext'
 import AuthLayout from '../layout/AuthLayout'
 import DashboardLayout from '../layout/DashboardLayout'
 import Home from '../pages/landingPage/Home'
@@ -32,7 +32,7 @@ const Routes = () => {
     <Router>
       <Switch>
         <Route path="/auth" component={AuthLayout} />
-        <Route path="/" component={Home} />
+        <Route exact path="/" component={Home} />
         <PrivateRoute path="/dashboard" component={DashboardLayout} />
       </Switch>
     </Router>

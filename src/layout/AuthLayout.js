@@ -1,5 +1,5 @@
-import {useEffect} from 'react'
-import {Redirect, Route, Switch, useHistory} from 'react-router'
+import { useEffect } from 'react'
+import { Redirect, Route, Switch, useHistory } from 'react-router'
 import Auth from '../config/auth'
 import useMediaQuery from '../hooks/use-media-query'
 import LoginPage from '../pages/auth/Login'
@@ -14,7 +14,7 @@ const AuthLayout = () => {
     let isMounted = true
     if (!isMounted) return
     if (Auth.isAuth()) {
-      history.push('/')
+      history.push('/dashboard')
     }
     return () => {
       isMounted = false
@@ -23,9 +23,8 @@ const AuthLayout = () => {
   return (
     <div className="auth-bg">
       <div
-        className={`absolute left-1/2 top-1/2 bg-white max-w-4xl rounded-2xl ${
-          isSmall ? 'px-10' : 'px-16'
-        } my-5`}
+        className={`absolute left-1/2 top-1/2 bg-white max-w-4xl rounded-2xl ${isSmall ? 'px-10' : 'px-16'
+          } my-5`}
         style={{
           transform: 'translate(-50%, -50%)',
           height: 'auto',
