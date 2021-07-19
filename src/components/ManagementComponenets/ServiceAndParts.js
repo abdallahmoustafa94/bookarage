@@ -1,29 +1,18 @@
-import {Formik} from 'formik'
-import AddServiceModal from '../../shared/addServiceModal'
-import AddBrandModal from '../../shared/addBrandModal'
-import DeleteServiceModal from '../../shared/deleteServiceModal'
-
 import {useContext, useEffect, useState} from 'react'
 import {RiDeleteBin6Line} from 'react-icons/ri'
 import {RiCloseCircleFill} from 'react-icons/ri'
 import {BsWrench} from 'react-icons/bs'
+import useAsync from '../../hooks/useAsync'
+import {useToasts} from 'react-toast-notifications'
+import {useShop} from '../../context/ShopContext'
+import Auth from '../../config/auth'
+import {useUser} from '../../context/UserContext'
+import {getShopById} from '../../services/ShopService'
 
 import {MdModeEdit} from 'react-icons/md'
-import {
-  Form,
-  Image,
-  Button,
-  Header,
-  Modal,
-  Label,
-  Select,
-  Grid,
-} from 'semantic-ui-react'
-
-import FormikControl from '../formik/FormikControl'
-
-// import '../../../assets/css/shopinfostep.css'
+import {Form, Button, Grid} from 'semantic-ui-react'
 import StateContext from '../../context/stateContext'
+import routes from '../../routes'
 
 const ServicesAndParts = ({
   values,
@@ -31,41 +20,92 @@ const ServicesAndParts = ({
   stepTitle,
   deletedBrand,
   loading,
+  deletedService,
 }) => {
+  const [shop, setShop] = useShop()
   const {setShowModal} = useContext(StateContext)
+  const {run, isLoading} = useAsync()
+  const {addToast} = useToasts()
+  const [user, setUser] = useUser()
+  const [selectedShop, setSelectedShop] = useState({})
+  const [updateShop, setUpdateShop] = useState(false)
+
   const [state, setState] = useState({
     services: [],
     brands: [],
   })
 
-  const handleOnSubmit = () => {
-    nextStep({type: 'step', value: values})
-  }
-
-  const handleService = v => {
-    let serviceArr = [...state.services]
-    const index = serviceArr.findIndex(o => o.serviceId === v.serviceId)
-
-    if (index === -1) {
-      serviceArr = [...serviceArr, v]
+  useEffect(() => {
+    if (!user) return
+    console.log(Auth.getShopId(), shop)
+    if (JSON.parse(shop) !== 0) {
+      run(getShopById(JSON.parse(shop)))
+        .then(({data}) => {
+          console.log(data.data)
+          setSelectedShop(data.data)
+          setState({
+            services: data.data?.[data.data.shopType]?.services || [],
+            brands: data.data?.[data.data.shopType]?.brands || [],
+          })
+        })
+        .catch(e => {
+          console.log(e)
+        })
     } else {
-      serviceArr.splice(index, 1)
-      serviceArr = [...serviceArr, v]
+      if (Auth.isAuth()) {
+        console.log('no branches')
+        setShowModal({modalName: 'createShop', data: null})
+      }
     }
+  }, [shop, updateShop])
 
-    setState({...state, services: serviceArr})
-  }
+  const handleOnSubmit = () => {
+    let servicesArr = []
+    console.log(state)
+    // state.services.map((s, i) => {
+    //   servicesArr.push({
+    //     shopId: JSON.parse(shop),
+    //     id: ,
+    //     cost: 300,
+    //     details: 'This service is for honda',
+    //     isAvailable: true,
+    //   })
+    // })
 
-  const handleDeleteService = i => {
-    let serviceArr = [...state.services]
-    serviceArr.splice(i, 1)
-    setState({...state, services: serviceArr})
-  }
+    // addServices.map(service =>
+    //   run(addService(service))
+    //   .then(({data}) => {
+    //     // JSON.stringify({
+    //     //   shopId: JSON.parse(shop).id,
+    //     //   serviceId : data.data.service.serviceId,
+    //     //   cost:data.data.service.cost,
+    //     //   details:data.data.service.cost,
+    //     //   isAvailable : data.data.service.isAvailable
+    //     // })
+    //     console.log(data.data)
+    //     addToast(data.message, {appearance: 'success'})
+    //   })
+    //   .catch(e => {
+    //     console.log(e)
+    //   })
 
-  const handleDeleteBrand = i => {
-    let brandsArr = [...state.brands]
-    brandsArr.splice(i, 1)
-    setState({...state, brands: brandsArr})
+    //   )
+
+    // const addBrands = new FormData()
+    // state.brands.map((b, i) => {
+    //   addBrands.append('brands[' + i + '][brand]', b)
+    //   addBrands.append('brandLogo[' + i + '][brandLogo]', b)
+    // })
+
+    // run(addBrand(addBrands))
+    // .then(({data}) => {
+
+    //   console.log(data.data)
+    //   addToast(data.message, {appearance: 'success'})
+    // })
+    // .catch(e => {
+    //   console.log(e)
+    // })
   }
 
   return (
@@ -96,10 +136,10 @@ const ServicesAndParts = ({
               <Grid columns={3} doubling verticalAlign="middle">
                 <Grid.Row>
                   {values?.brands?.map((b, i) => (
-                    <Grid.Column>
+                    <Grid.Column key={i}>
                       <div className="relative rounded-full bg-gray-100 px-5 py-3 flex items-center justify-center mb-2">
                         <span className="primary-text-color rtl:ml-3 ltr:mr-3 ">
-                          {b}
+                          {b?.name}
                         </span>
                         <div className="absolute top-0 ltr:right-0 rtl:left-0">
                           <RiCloseCircleFill
@@ -129,7 +169,7 @@ const ServicesAndParts = ({
             </div>
           </div>
           {values?.services?.map((s, i) => (
-            <div className="border border-gray-300 w-full p-2 mb-3">
+            <div className="border border-gray-300 w-full p-2 mb-3" key={i}>
               <div className="flex items-center ">
                 <div className="flex items-center mb-0 w-1/2">
                   <BsWrench
@@ -137,7 +177,7 @@ const ServicesAndParts = ({
                     className="text-primaryRedColor-default ltr:mr-3 rtl:ml-3"
                   />
                   <span className="primary-text-color rtl:mr-3 ">
-                    {/[^-]*$/.exec(s?.serviceId)[0]}
+                    {s.nameEN}
                   </span>
                 </div>
                 <div className="flex justify-end w-1/2 mr-4">
@@ -159,7 +199,7 @@ const ServicesAndParts = ({
                     className="text-gray-400 text-base bg-transparent font-normal p-0"
                     content="edit"
                     onClick={() =>
-                      setShowModal({modalName: 'addService', data: s})
+                      setShowModal({modalName: 'editService', data: s})
                     }
                   />
                 </div>
@@ -169,10 +209,11 @@ const ServicesAndParts = ({
                     className="text-gray-400 text-base bg-transparent font-normal p-0"
                     content="delete"
                     onClick={() =>
-                      setShowModal({
-                        modalName: 'removeService',
-                        data: {index: i},
-                      })
+                      deletedService(
+                        window.location.pathname.includes(routes.management)
+                          ? {serviceId: s.id, index: i}
+                          : i,
+                      )
                     }
                   />
                 </div>
@@ -181,19 +222,13 @@ const ServicesAndParts = ({
           ))}
         </div>
 
-        <div className="my-10 text-center">
+        {/* <div className="my-10 text-center">
           <Button
-            content="Continue"
+            content="Save"
             onClick={handleOnSubmit}
             className="btn-primary"
           />
-          <Button
-            className="btn-declined mx-5"
-            onClick={() => nextStep({type: 'submitShop', value: null})}
-          >
-            Setup Later
-          </Button>
-        </div>
+        </div> */}
       </Form>
     </div>
   )

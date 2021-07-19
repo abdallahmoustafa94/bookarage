@@ -1,57 +1,79 @@
 import {useContext, useEffect, useState} from 'react'
 import StateContext from '../context/stateContext'
 import {Modal, Form, Button} from 'semantic-ui-react'
-import {Formik} from 'formik'
+import {Formik, validateYupSchema} from 'formik'
 import FormikControl from '../components/formik/FormikControl'
 import useAsync from '../hooks/useAsync'
 import {getAllEmployees} from '../services/ShopService'
+import {addEmployee} from '../services/ShopService'
+import {useToasts} from 'react-toast-notifications'
+import {useShop} from '../context/ShopContext'
 
-const AddEmployeeModal = () => {
+const AddEmployeeModal = ({updateEmployee}) => {
+  const {addToast} = useToasts()
+  const [shop, setShop] = useShop()
   const [open, setOpen] = useState(false)
   const {showModal, setShowModal} = useContext(StateContext)
   const {run, isLoading} = useAsync()
-    const [employeesOptions,setEmployeesOptions] = useState([])
-    
+  const [state, setState] = useState({
+    email: '',
+    isApproved: true,
+    nameEN: '',
+    role: 'tech',
+  })
+  // const [employeesOptions,setEmployeesOptions] = useState([])
+
   useEffect(() => {
-    
-    if (['addEmployee', 'addEmployee'].includes(showModal.modalName)) {
+    if (['addEmployee'].includes(showModal.modalName)) {
       setOpen(true)
-      run(getAllEmployees()).then(({data}) => {
-        console.log(data)
-        let employeesArr = []
-        data.data.map((e, i) => {
-          employeesArr.push({
-            key: i,
-            text: e.name,
-            value: e.name,
-          })
-        })
-        setEmployeesOptions(employeesArr)
-      })
     } else {
       setOpen(false)
     }
   }, [showModal])
 
-  // const employeeOptions = [
-  //   {
-  //     key: 'mechanic',
-  //     value: 'mechanic',
-  //     text: 'Mechanic',
-  //   },
-  // ]
+  const employeeOptions = [
+    {
+      key: 'tech',
+      value: 'tech',
+      text: 'Mechanic',
+    },
+  ]
 
-  const handleOnSubmit = values => {
-    console.log(values)
+  const handleOnSubmit = (values, {resetForm}) => {
+    const newEmployee = {
+      nameEN: values.employeeName,
+      nameAR: values.employeeName,
+      email: values.employeeEmail,
+      shopId: JSON.parse(shop),
+      phoneNumber: values.employeePhone,
+      role: values.employeeRole,
+      isApproved: true,
+    }
+
+    console.log(newEmployee)
+
+    run(addEmployee(newEmployee))
+      .then(({data}) => {
+        console.log(data.data)
+        addToast(data.message, {appearance: 'success'})
+        resetForm({})
+        updateEmployee(true)
+        setShowModal({modalName: '', data: null})
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
+
   return (
     <Modal
       onClose={() => setShowModal({modalName: '', data: null})}
       closeIcon
+      closeOnDimmerClick={false}
       open={open}
     >
       <Modal.Content>
-        <div className="px-32">
+        <div className="px-10">
           <p className="brands-title text-center text-bold font-bold text-2xl text-labelColor mb-1">
             Add New Employee
           </p>
@@ -59,42 +81,62 @@ const AddEmployeeModal = () => {
             Invite employee to work in your shop
           </p>
           <div className="my-20 w-1/2 mx-auto">
-            <Formik initialValues={{employees: ''}} onSubmit={handleOnSubmit}>
+            <Formik
+              initialValues={{
+                employeeName: '',
+                employeeEmail: '',
+                employeePhone: '',
+                employeeRole: '',
+              }}
+              onSubmit={handleOnSubmit}
+            >
               {formik => (
                 <Form onSubmit={formik.submitForm} loading={isLoading}>
                   <Form.Field>
                     <FormikControl
                       control="input"
-                      name="nameEN"
+                      name="employeeName"
                       label="Full Name"
                     />
                   </Form.Field>
-                    <Form.Field>
+                  <Form.Field>
                     <FormikControl
                       control="input"
-                      name="email"
+                      name="employeeEmail"
                       label="Email Address"
                     />
                   </Form.Field>
                   <Form.Field>
-                <FormikControl
-                  name="phoneNumber"
-                  control="phone"
-                  label="Phone Number"
-                />
-              </Form.Field>
+                    <FormikControl
+                      name="employeePhone"
+                      control="phone"
+                      label="Phone Number"
+                    />
+                  </Form.Field>
                   <Form.Field>
                     <FormikControl
                       control="dropdown"
-                      name="employees"
-                      fluid  
+                      name="employeeRole"
+                      fluid
                       selection
-                      multiple
                       clearable
                       label="Select Role"
-                      options={employeesOptions}
+                      options={employeeOptions}
                     />
                   </Form.Field>
+                  <div className="flex text-center">
+                    <Button
+                      content="Invite Employee"
+                      className="btn-primary"
+                      type="submit"
+                    />
+                    <Button
+                      className="btn-declined mx-5"
+                      onClick={() => setShowModal({modalName: '', data: null})}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
                 </Form>
               )}
             </Formik>
@@ -105,15 +147,6 @@ const AddEmployeeModal = () => {
                         Select Brand
                       </Label>
                     </Form.Field> */}
-          <div className="text-center">
-            <Button content="Invite Employee" className="btn-primary mx-5" type="submit" />
-            <Button
-              className="btn-declined mx-5"
-              onClick={() => setShowModal({modalName: '', data: null})}
-            >
-              Cancel
-            </Button>
-          </div>
         </div>
       </Modal.Content>
     </Modal>

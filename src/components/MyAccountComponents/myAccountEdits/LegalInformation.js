@@ -1,7 +1,7 @@
 import {Formik} from 'formik'
 import {useEffect} from 'react'
 import {Form, Image, Button} from 'semantic-ui-react'
-import FormikControl from '../formik/FormikControl'
+import FormikControl from '../../formik/FormikControl'
 import {FiUpload} from 'react-icons/fi'
 
 // import '../../../assets/css/shopinfostep.css'

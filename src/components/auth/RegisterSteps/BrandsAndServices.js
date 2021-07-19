@@ -63,7 +63,7 @@ const BrandsAndServices = ({
                           <RiCloseCircleFill
                             size={22}
                             className="text-primaryRedColor-default cursor-pointer"
-                            onClick={() => deletedBrand(i)}
+                            onClick={ deletedBrand(i)}
                           />
                         </div>
                       </div>

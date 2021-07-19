@@ -2,6 +2,7 @@ import {Fragment, useContext} from 'react'
 import {Button, Icon, Table} from 'semantic-ui-react'
 import StateContext from '../../context/stateContext'
 import {formatDate} from '../../utils/date-format'
+import ChartsAndReviews from './ChartsAndReviews'
 
 const AppointmentTable = ({requests, loading, updateRequest}) => {
   const {setShowModal} = useContext(StateContext)
@@ -129,6 +130,7 @@ const AppointmentTable = ({requests, loading, updateRequest}) => {
           ) : null}
         </Table.Body>
       </Table>
+      <ChartsAndReviews />
     </Fragment>
   )
 }

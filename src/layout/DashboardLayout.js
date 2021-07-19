@@ -25,6 +25,7 @@ import {IoChatboxEllipsesOutline} from 'react-icons/io5'
 import DashboardPage from '../pages/Dashborad'
 import Myaccount from '../pages/Myaccount'
 import Management from '../pages/Management'
+import Requests from '../pages/Requests'
 import notifyImage from '../assets/images/sample.jpeg'
 import {logout} from '../services/AuthServices'
 import {useToasts} from 'react-toast-notifications'
@@ -34,49 +35,6 @@ import useMediaQuery from '../hooks/use-media-query'
 import {capitalize} from '../utils/capitalize-text'
 import {getMyShops} from '../services/ShopService'
 import {useShop} from '../context/ShopContext'
-
-const sidebarNav = [
-  {
-    icon: RiDashboardLine,
-    label: 'dashboard',
-    link: routes.dashboard,
-  },
-  {
-    icon: BsWrench,
-    label: 'requests',
-    link: routes.requests,
-  },
-  {
-    icon: GiFiles,
-    label: 'inquiries',
-    link: routes.inquiries,
-  },
-  {
-    icon: RiPercentLine,
-    label: 'offers',
-    link: routes.offers,
-  },
-  {
-    icon: IoChatboxEllipsesOutline,
-    label: 'messages',
-    link: routes.messages,
-  },
-  {
-    icon: RiWallet3Line,
-    label: 'wallet',
-    link: routes.wallet,
-  },
-  {
-    icon: RiUserSettingsLine,
-    label: 'management',
-    link: routes.management,
-  },
-  {
-    icon: RiUser5Line,
-    label: 'myAccount',
-    link: routes.myAccount,
-  },
-]
 
 const DashboardLayout = () => {
   const {run, isLoading} = useAsync()
@@ -95,7 +53,61 @@ const DashboardLayout = () => {
 
   const history = useHistory()
 
+  const sidebarNav = [
+    {
+      ...(!Auth.isTechnician() && {
+        icon: RiDashboardLine,
+        label: 'dashboard',
+        link: routes.dashboard,
+      }),
+    },
+    {
+      icon: BsWrench,
+      label: 'requests',
+      link: routes.requests,
+    },
+    {
+      ...(!Auth.isTechnician() && {
+        icon: GiFiles,
+        label: 'inquiries',
+        link: routes.inquiries,
+      }),
+    },
+    {
+      ...(!Auth.isTechnician() && {
+        icon: RiPercentLine,
+        label: 'offers',
+        link: routes.offers,
+      }),
+    },
+    {
+      icon: IoChatboxEllipsesOutline,
+      label: 'messages',
+      link: routes.messages,
+    },
+    {
+      ...(!Auth.isTechnician() && {
+        icon: RiWallet3Line,
+        label: 'wallet',
+        link: routes.wallet,
+      }),
+    },
+    {
+      ...(!Auth.isTechnician() && {
+        icon: RiUserSettingsLine,
+        label: 'management',
+        link: routes.management,
+      }),
+    },
+    {
+      icon: RiUser5Line,
+      label: 'myAccount',
+      link: routes.myAccount,
+    },
+  ]
+
   useEffect(() => {
+    if (Auth.isTechnician()) return
     run(getMyShops())
       .then(({data}) => {
         console.log(data)
@@ -140,7 +152,7 @@ const DashboardLayout = () => {
     // const shopId = shops[0]?.value
     // console.log(shopId)
     // setShop(JSON.stringify(shopId))
-    setUserData(parsedUser)
+    setUserData(JSON.parse(user))
     document.body.classList.add('bg-gray-100')
 
     return () => {
@@ -207,16 +219,18 @@ const DashboardLayout = () => {
           <li className="w-24">
             <Image src={logo} />
           </li>
-          <li className="ltr:ml-auto rtl:mr-auto hidden lg:block">
-            <Dropdown
-              className=" mx-8 flex items-center border-blue-700 text-labelColor"
-              selection
-              options={shops}
-              placeholder="Select Shop"
-              defaultValue={selectedShop}
-              onChange={(e, {value}) => handleSelectedShop(value)}
-            />
-          </li>
+          {!Auth.isTechnician() && (
+            <li className="ltr:ml-auto rtl:mr-auto hidden lg:block">
+              <Dropdown
+                className=" mx-8 flex items-center border-blue-700 text-labelColor"
+                selection
+                options={shops}
+                defaultValue={selectedShop}
+                onChange={(e, {value}) => handleSelectedShop(value)}
+              />
+            </li>
+          )}
+
           <li className="mx-8 cursor-pointer">
             <RiQrScan2Line size="24" className="text-labelColor" />
           </li>
@@ -336,7 +350,7 @@ const DashboardLayout = () => {
         {sidebarNav.map((s, i) => (
           <NavLink to={s.link} key={i}>
             <Menu.Item
-              active={Array.isArray(pathname.match(s.label, 'i'))}
+              active={pathname === s.link}
               className={`${isSmall ? 'w-full' : 'w-auto'}`}
             >
               <div className="flex items-center justify-center px-10">
@@ -352,6 +366,7 @@ const DashboardLayout = () => {
           <Route exact path={routes.dashboard} component={DashboardPage} />
           <Route exact path={routes.myAccount} component={Myaccount} />
           <Route exact path={routes.management} component={Management} />
+          <Route path={routes.requests} component={Requests} />
           <Redirect to={routes.dashboard} />
         </Switch>
       </div>

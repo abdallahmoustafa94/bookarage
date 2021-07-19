@@ -4,13 +4,14 @@ export const keys = {
       ? process.env.REACT_APP_DEV_URL
       : process.env.REACT_APP_SERVER_URL,
   ROLES: {
+    tech: 'tech',
     serviceProvider: 'serviceProvider',
-    showRoom: 'showRoom',
     carRental: 'carRental',
-    insurance: 'insurance',
     carRecovery: 'carRecovery',
+    insurance: 'insurance',
     sparePart: 'sparePart',
     admin: 'admin',
+    showroom: 'showroom',
   },
 }
 

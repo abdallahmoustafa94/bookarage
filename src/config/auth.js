@@ -44,52 +44,49 @@ const Auth = {
       return false
     }
   },
-  isServiceProvider: () => {
-    const userRole = JSON.parse(localStorage.getItem('user') || '[]')
+  isTechnician: () => {
+    const user = JSON.parse(localStorage.getItem('user') || '[]')
 
-    if (![keys.ROLES.serviceProvider].includes(userRole.role)) {
+    if (![keys.ROLES.tech].includes(user.role)) {
       return false
     }
+
+    return true
+  },
+  isServiceProvider: () => {
+    const user = JSON.parse(localStorage.getItem('user') || '[]')
+
+    if (![keys.ROLES.serviceProvider].includes(user.role)) {
+      return false
+    }
+
     return true
   },
   isCarRental: () => {
-    const userRole = JSON.parse(localStorage.getItem('user') || '[]')
+    const user = JSON.parse(localStorage.getItem('user') || '[]')
 
-    if (![keys.ROLES.carRental].includes(userRole.role)) {
+    if (![keys.ROLES.carRental].includes(user.role)) {
       return false
     }
+
     return true
   },
   isCarRecovery: () => {
-    const userRole = JSON.parse(localStorage.getItem('user') || '[]')
+    const user = JSON.parse(localStorage.getItem('user') || '[]')
 
-    if (![keys.ROLES.carRecovery].includes(userRole.role)) {
+    if (![keys.ROLES.carRecovery].includes(user.role)) {
       return false
     }
+
     return true
   },
   isInsurance: () => {
-    const userRole = JSON.parse(localStorage.getItem('user') || '[]')
+    const user = JSON.parse(localStorage.getItem('user') || '[]')
 
-    if (![keys.ROLES.insurance].includes(userRole.role)) {
+    if (![keys.ROLES.insurance].includes(user.role)) {
       return false
     }
-    return true
-  },
-  isShowRoom: () => {
-    const userRole = JSON.parse(localStorage.getItem('user') || '[]')
 
-    if (![keys.ROLES.showRoom].includes(userRole.role)) {
-      return false
-    }
-    return true
-  },
-  isSparePart: () => {
-    const userRole = JSON.parse(localStorage.getItem('user') || '[]')
-
-    if (![keys.ROLES.sparePart].includes(userRole.role)) {
-      return false
-    }
     return true
   },
   logout: () => {

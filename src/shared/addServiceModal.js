@@ -4,15 +4,20 @@ import {Modal, Form, Button} from 'semantic-ui-react'
 import {Formik} from 'formik'
 import FormikControl from '../components/formik/FormikControl'
 import useAsync from '../hooks/useAsync'
-import {getAllServices} from '../services/ShopService'
+import {addServiceForShop, getAllServices} from '../services/ShopService'
 import useMediaQuery from '../hooks/use-media-query'
+import {useShop} from '../context/ShopContext'
+import routes from '../routes'
+import {useToasts} from 'react-toast-notifications'
 
-const AddServiceModal = ({serviceValues}) => {
+const AddServiceModal = ({serviceValues, updateService}) => {
+  const [shop, setShop] = useShop()
   const [open, setOpen] = useState(false)
   const {showModal, setShowModal} = useContext(StateContext)
   const [servicesOptions, setServicesOptions] = useState([])
   const [modalData, setModalData] = useState({})
   const {run, isLoading} = useAsync()
+  const {addToast} = useToasts()
   const isSmall = useMediaQuery('(max-width: 992px)')
 
   useEffect(() => {
@@ -28,9 +33,10 @@ const AddServiceModal = ({serviceValues}) => {
           servicesArr.push({
             key: i,
             text: s.nameEN,
-            value: s.id + '-' + s.nameEN,
+            value: s.id ,
           })
         })
+        // + '-' + s.nameEN
         setServicesOptions(servicesArr)
       })
     } else {
@@ -40,8 +46,33 @@ const AddServiceModal = ({serviceValues}) => {
 
   const handleOnSubmit = values => {
     console.log(values, /[^-]*$/.exec(values?.serviceId))
-    serviceValues(values)
-    setShowModal({modalName: '', data: null})
+    
+    if (window.location.pathname.includes(routes.register)) {
+      serviceValues(values)
+    } else {
+      const valueEntries = Object.entries(values);
+      const valueFromEntries =  Object.fromEntries(valueEntries);
+      valueFromEntries.shopId = JSON.parse(shop)
+      // const valueFromEntriesStr = JSON.stringify(valueFromEntries)
+      
+        
+       console.log(valueFromEntries)
+  
+     
+      run(addServiceForShop(valueFromEntries))
+        .then(({data}) => {
+         
+          console.log(data.data)
+          addToast(data.message, {appearance: 'success'})
+          updateService(true)
+          setShowModal({modalName: '', data: null})
+        })
+        .catch(e => {
+          console.log(e)
+        })
+
+      // console.log(newService)
+    }
   }
   return (
     <Modal
@@ -54,11 +85,13 @@ const AddServiceModal = ({serviceValues}) => {
           <p className="brands-title text-center text-bold font-bold text-2xl text-labelColor mb-1">
             Add Service
           </p>
-
           <div className="my-10">
             <Formik
               initialValues={{
-                serviceId: showModal.data?.serviceId || '',
+                serviceId:
+                  showModal.data?.serviceId ||
+                  showModal.data?.id + '-' + showModal.data?.nameEN ||
+                  '',
                 cost: showModal.data?.cost || '',
                 details: showModal.data?.details || '',
                 isAvailable: showModal.data?.isAvailable || false,
@@ -74,6 +107,7 @@ const AddServiceModal = ({serviceValues}) => {
                         name="serviceId"
                         selection
                         label="Selected Service"
+                        defaultValue={formik.values.serviceId}
                         clearable
                         options={servicesOptions}
                       />
