@@ -1,14 +1,14 @@
-import {useState, useContext} from 'react'
+import { useState, useContext } from 'react'
 import StateContext from '../../context/stateContext'
-import {Button, Image, Grid} from 'semantic-ui-react'
-import {GiAutoRepair} from 'react-icons/gi'
-import {RiArrowRightSLine} from 'react-icons/ri'
-import {BsWrench} from 'react-icons/bs'
-import {FaCarSide} from 'react-icons/fa'
-import {AiOutlineCheckCircle} from 'react-icons/ai'
+import { Button, Image, Grid } from 'semantic-ui-react'
+import { GiAutoRepair } from 'react-icons/gi'
+import { RiArrowRightSLine } from 'react-icons/ri'
+import { BsWrench } from 'react-icons/bs'
+import { FaCarSide } from 'react-icons/fa'
+import { AiOutlineCheckCircle } from 'react-icons/ai'
 
 const New = () => {
-  const {setShowModal} = useContext(StateContext)
+  const { setShowModal } = useContext(StateContext)
   return (
     <div className="my-8 py-8 px-24">
       <p>14 Total Requests</p>
@@ -59,7 +59,7 @@ const New = () => {
                     <p className="">Monday, 15 Oct, 2020 - 2020 </p>
                     <Button
                       content="Change"
-                      className="text-red-600 font-medium  bg-transparent -mt-4 "
+                      className="text-primaryRedColor-default font-medium  bg-transparent -mt-4"
                     />
                   </div>
                 </div>
@@ -95,7 +95,7 @@ const New = () => {
                     (585) 5519-96
                   </p>
                 </div>
-                <div className="flex justify-center ml-8 justify-center">
+                <div className="flex justify-center ml-8">
                   <Button
                     icon="envelope open outline"
                     className=" bg-transparent text-xl"
@@ -108,18 +108,18 @@ const New = () => {
                 <div className="flex justify-end ml-40">
                   <Button
                     content="Accept & Send Recovery"
-                    className=" bg-red-600 text-white py-4 rounded px-8 text-md"
+                    className=" bg-primaryRedColor-default text-white py-4 rounded px-8 text-md"
                     onClick={() =>
-                      setShowModal({modalName: 'sendRecovery', data: null})
+                      setShowModal({ modalName: 'sendRecovery', data: null })
                     }
                   />
                   <Button
                     content="Accept"
-                    className=" py-4 px-6 ml-4 bg-transparent border border-red-600 font-medium text-red-600 border-solid border border-red-600"
+                    className="py-4 px-6 ml-4 bg-transparent text-primaryRedColor-default ring-1 ring-primaryRedColor-default font-medium text- ring-solid"
                   />
                   <Button
                     content="Reject"
-                    className=" py-4 px-6 ml-4 bg-transparent border-solid border border-gray-400 text-gray-400 "
+                    className=" py-4 px-6 ml-4 bg-transparent border-solid border border-gray-400 text-gray-400 font-medium"
                   />
                 </div>
               </div>

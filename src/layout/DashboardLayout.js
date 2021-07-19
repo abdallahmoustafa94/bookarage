@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
-import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router'
-import { Dimmer, Dropdown, Image, Loader, Menu, Sidebar } from 'semantic-ui-react'
-import { useLanguage } from '../context/languageContext'
+import {useEffect, useState} from 'react'
+import {Redirect, Route, Switch, useHistory, useLocation} from 'react-router'
+import {Dimmer, Dropdown, Image, Loader, Menu, Sidebar} from 'semantic-ui-react'
+import {useLanguage} from '../context/languageContext'
 import {
   RiNotification3Line,
   RiQrScan2Line,
@@ -13,82 +13,39 @@ import {
   RiUser5Line,
   RiCloseCircleLine,
 } from 'react-icons/ri'
-import { BsWrench } from 'react-icons/bs'
-import { GiFiles } from 'react-icons/gi'
-import { BsPeopleCircle } from 'react-icons/bs'
+import {BsWrench} from 'react-icons/bs'
+import {GiFiles} from 'react-icons/gi'
+import {BsPeopleCircle} from 'react-icons/bs'
 import useAsync from '../hooks/useAsync'
-import { useUser } from '../context/UserContext'
-import { Link, NavLink } from 'react-router-dom'
-import routes, { myAccount } from '../routes'
+import {useUser} from '../context/UserContext'
+import {Link, NavLink} from 'react-router-dom'
+import routes, {myAccount} from '../routes'
 import logo from '../assets/images/logo.svg'
-import { IoChatboxEllipsesOutline } from 'react-icons/io5'
+import {IoChatboxEllipsesOutline} from 'react-icons/io5'
 import DashboardPage from '../pages/Dashborad'
 import Myaccount from '../pages/Myaccount'
 import Management from '../pages/Management'
 import Requests from '../pages/Requests'
 import notifyImage from '../assets/images/sample.jpeg'
-import { logout } from '../services/AuthServices'
-import { useToasts } from 'react-toast-notifications'
+import {logout} from '../services/AuthServices'
+import {useToasts} from 'react-toast-notifications'
 import Auth from '../config/auth'
 import DetailsModal from '../components/Dashboard/modals/details.modal'
 import useMediaQuery from '../hooks/use-media-query'
-import { capitalize } from '../utils/capitalize-text'
-import { getMyShops } from '../services/ShopService'
-import { useShop } from '../context/ShopContext'
-
-const sidebarNav = [
-  {
-    icon: RiDashboardLine,
-    label: 'dashboard',
-    link: routes.dashboard,
-  },
-  {
-    icon: BsWrench,
-    label: 'requests',
-    link: routes.requests,
-  },
-  {
-    icon: GiFiles,
-    label: 'inquiries',
-    link: routes.inquiries,
-  },
-  {
-    icon: RiPercentLine,
-    label: 'offers',
-    link: routes.offers,
-  },
-  {
-    icon: IoChatboxEllipsesOutline,
-    label: 'messages',
-    link: routes.messages,
-  },
-  {
-    icon: RiWallet3Line,
-    label: 'wallet',
-    link: routes.wallet,
-  },
-  {
-    icon: RiUserSettingsLine,
-    label: 'management',
-    link: routes.management,
-  },
-  {
-    icon: RiUser5Line,
-    label: 'myAccount',
-    link: routes.myAccount,
-  },
-]
+import {capitalize} from '../utils/capitalize-text'
+import {getMyShops} from '../services/ShopService'
+import {useShop} from '../context/ShopContext'
 
 const DashboardLayout = () => {
-  const { run, isLoading } = useAsync()
+  const {run, isLoading} = useAsync()
   const [lang, setLang] = useLanguage()
-  const { addToast } = useToasts()
+  const {addToast} = useToasts()
   const [userData, setUserData] = useState()
   const [showNotification, setShowNotification] = useState(false)
   const [user, setUser] = useUser()
   const [shop, setShop] = useShop()
   const parsedUser = JSON.parse(user)
-  const { pathname } = useLocation()
+  const {pathname} = useLocation()
   const [visible, setVisible] = useState(false)
   const isSmall = useMediaQuery('(max-width: 992px)')
   const [shops, setShops] = useState([])
@@ -96,9 +53,63 @@ const DashboardLayout = () => {
 
   const history = useHistory()
 
+  const sidebarNav = [
+    {
+      ...(!Auth.isTechnician() && {
+        icon: RiDashboardLine,
+        label: 'dashboard',
+        link: routes.dashboard,
+      }),
+    },
+    {
+      icon: BsWrench,
+      label: 'requests',
+      link: routes.requests,
+    },
+    {
+      ...(!Auth.isTechnician() && {
+        icon: GiFiles,
+        label: 'inquiries',
+        link: routes.inquiries,
+      }),
+    },
+    {
+      ...(!Auth.isTechnician() && {
+        icon: RiPercentLine,
+        label: 'offers',
+        link: routes.offers,
+      }),
+    },
+    {
+      icon: IoChatboxEllipsesOutline,
+      label: 'messages',
+      link: routes.messages,
+    },
+    {
+      ...(!Auth.isTechnician() && {
+        icon: RiWallet3Line,
+        label: 'wallet',
+        link: routes.wallet,
+      }),
+    },
+    {
+      ...(!Auth.isTechnician() && {
+        icon: RiUserSettingsLine,
+        label: 'management',
+        link: routes.management,
+      }),
+    },
+    {
+      icon: RiUser5Line,
+      label: 'myAccount',
+      link: routes.myAccount,
+    },
+  ]
+
   useEffect(() => {
+    if (Auth.isTechnician()) return
     run(getMyShops())
-      .then(({ data }) => {
+      .then(({data}) => {
         console.log(data)
         let shopArr = []
         if (data.data?.length > 0) {
@@ -140,7 +151,7 @@ const DashboardLayout = () => {
     // const shopId = shops[0]?.value
     // console.log(shopId)
     // setShop(JSON.stringify(shopId))
-    setUserData(parsedUser)
+    setUserData(JSON.parse(user))
     document.body.classList.add('bg-gray-100')
 
     return () => {
@@ -156,8 +167,8 @@ const DashboardLayout = () => {
 
   const handleOnClickLogout = () => {
     run(logout())
-      .then(({ data }) => {
-        addToast(data.message, { appearance: 'success' })
+      .then(({data}) => {
+        addToast(data.message, {appearance: 'success'})
         Auth.logout()
         setShop(JSON.stringify(0))
         history.push(routes.login)
@@ -179,7 +190,7 @@ const DashboardLayout = () => {
               return null
             }
             if (error.field === 'permissionDenied') {
-              addToast(error.message, { appearance: 'error' })
+              addToast(error.message, {appearance: 'error'})
               history.push('/requests')
               return null
             }
@@ -207,15 +218,18 @@ const DashboardLayout = () => {
           <li className="w-24">
             <Image src={logo} />
           </li>
-          <li className="ltr:ml-auto rtl:mr-auto hidden lg:block">
-            <Dropdown
-              className=" mx-8 flex items-center border-blue-700 text-labelColor"
-              selection
-              options={shops}
-              defaultValue={selectedShop}
-              onChange={(e, { value }) => handleSelectedShop(value)}
-            />
-          </li>
+          {!Auth.isTechnician() && (
+            <li className="ltr:ml-auto rtl:mr-auto hidden lg:block">
+              <Dropdown
+                className=" mx-8 flex items-center border-blue-700 text-labelColor"
+                selection
+                options={shops}
+                defaultValue={selectedShop}
+                onChange={(e, {value}) => handleSelectedShop(value)}
+              />
+            </li>
+          )}
+
           <li className="mx-8 cursor-pointer">
             <RiQrScan2Line size="24" className="text-labelColor" />
           </li>
@@ -233,7 +247,7 @@ const DashboardLayout = () => {
             <li className="absolute top-24 w-1/4 ltr:right-0 z-10 rtl:left-0">
               <div
                 className="bg-white -mt-1 overflow-y-auto rounded-lg border-2 border-gray-200"
-                style={{ height: 'auto', maxHeight: '400px' }}
+                style={{height: 'auto', maxHeight: '400px'}}
               >
                 <ul>
                   <li className="bg-blue-100 p-3 border-b-2">
@@ -242,7 +256,7 @@ const DashboardLayout = () => {
                         src={notifyImage}
                         className="rounded-full w-20 h-20"
                       />
-                      <div className="ltr:ml-5 rtl:mr-5" style={{ width: '80%' }}>
+                      <div className="ltr:ml-5 rtl:mr-5" style={{width: '80%'}}>
                         <div className="flex justify-between w-full">
                           <p className="font-semibold text-lg mb-1">
                             Welcome Yehia
@@ -268,13 +282,14 @@ const DashboardLayout = () => {
                     <Image
                       src={userData?.avatar}
                       alt="avatar"
-                      className={`${userData?.avatar ? 'visible' : 'hidden'
-                        } w-12 h-12 rounded-full mx-auto`}
+                      className={`${
+                        userData?.avatar ? 'visible' : 'hidden'
+                      } w-12 h-12 rounded-full mx-auto`}
                     />
                   ) : (
                     <BsPeopleCircle
                       size="32"
-                    // className={`mx-auto`}
+                      // className={`mx-auto`}
                     />
                   )}
                   <div>
@@ -319,8 +334,9 @@ const DashboardLayout = () => {
         vertical={isSmall ? true : false}
         widths={8}
         visible={isSmall ? visible : true}
-        className={`bg-mainBgColor-default w-full ${!isSmall && 'desktop-menu'
-          }`}
+        className={`bg-mainBgColor-default w-full ${
+          !isSmall && 'desktop-menu'
+        }`}
         width="thin"
       >
         <div

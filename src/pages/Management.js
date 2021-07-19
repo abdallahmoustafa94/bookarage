@@ -1,13 +1,9 @@
 import {Fragment, useContext, useEffect, useState} from 'react'
-import {Form, Button, Image} from 'semantic-ui-react'
-import ManagementTabs from '../components/Dashboard/ManagementTabs'
-import ShopInformation from '../components/Dashboard/ShopInformation'
-import ShopLocation from '../components/Dashboard/ShopLocation'
-import LegalInformation from '../components/Dashboard/LegalInformation'
-import WorkingHours from '../components/Dashboard/WorkingHours'
-import ServicesAndParts from '../components/Dashboard/ServiceAndParts'
-import Employees from '../components/Dashboard/Employees'
-import CustomerLists from '../components/Dashboard/CustomerLists'
+import ManagementTabs from '../components/ManagementComponenets/ManagementTabs'
+import ShopInformation from '../components/ManagementComponenets/ShopInformation'
+import WorkingHours from '../components/ManagementComponenets/WorkingHours'
+import ServicesAndParts from '../components/ManagementComponenets/ServiceAndParts'
+import Employees from '../components/ManagementComponenets/Employees'
 import {useUser} from '../context/UserContext'
 import useAsync from '../hooks/useAsync'
 import {getShopById} from '../services/ShopService'
@@ -17,12 +13,11 @@ import {useShop} from '../context/ShopContext'
 import AddBrandModal from '../shared/addBrandModal'
 import AddServiceModal from '../shared/addServiceModal'
 import DeleteServiceModal from '../shared/deleteServiceModal'
-import AddEmployeeModal from '../shared/AddEmployeeModal'
-import EditEmployeeModal from '../shared/EditEmployeeModal'
 import Auth from '../config/auth'
 import {BsFillPlusCircleFill} from 'react-icons/bs'
 import {useToasts} from 'react-toast-notifications'
-import {removeBrand,deleteService} from '../services/ShopService'
+import {removeBrand, deleteService} from '../services/ShopService'
+import EditServiceModal from '../shared/editServiceModal'
 
 const Management = ({values}) => {
   const {addToast} = useToasts()
@@ -39,9 +34,9 @@ const Management = ({values}) => {
     brands: [],
   })
   const [updateShop, setUpdateShop] = useState(false)
-  const [removeState,setRemoveState] = useState({
+  const [removeState, setRemoveState] = useState({
     shopId: '',
-    brandName:''
+    brandName: '',
   })
 
   useEffect(() => {
@@ -82,22 +77,18 @@ const Management = ({values}) => {
     setState({...state, services: serviceArr})
   }
 
- 
   const handleDeleteBrand = i => {
     let brandsArr = [...state.brands]
-   let remove = brandsArr.splice(i, 1)
+    let remove = brandsArr.splice(i, 1)
     setState({...state, brands: brandsArr})
     console.log(state)
-    setRemoveState({
-      shopId : JSON.parse(shop),
-      brandName :  remove[0]["name"]
-    })
-   
-    console.log(removeState)
-   
-    run(removeBrand(removeState))
+    const deletedBrand = {
+      shopId: JSON.parse(shop),
+      brandName: remove[0]['name'],
+    }
+
+    run(removeBrand(deletedBrand))
       .then(({data}) => {
-      
         console.log(data.data)
         addToast(data.message, {appearance: 'success'})
       })
@@ -106,27 +97,24 @@ const Management = ({values}) => {
       })
   }
 
-  const handleDeleteService = i => {
+  const handleDeleteService = v => {
     let serviceArr = [...state.services]
-    let remove = serviceArr.splice(i, 1)
+    serviceArr.splice(v.index, 1)
     setState({...state, services: serviceArr})
     const removedService = {
       shopId: JSON.parse(shop),
-    serviceId: remove[0]["id"]
-    } 
-
+      serviceId: v.serviceId,
+    }
 
     console.log(removedService)
-    
     run(deleteService(removedService))
-    .then(({data}) => {
-    
-      console.log(data.data)
-      addToast(data.message, {appearance: 'success'})
-    })
-    .catch(e => {
-      console.log(e)
-    })
+      .then(({data}) => {
+        console.log(data)
+        addToast(data.message, {appearance: 'success'})
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
   return (
     <div className="flex  w-full space-x-8 p-10">
@@ -139,11 +127,8 @@ const Management = ({values}) => {
         serviceValues={v => handleService(v)}
         updateService={v => setUpdateShop(prev => !prev)}
       />
-      <AddEmployeeModal
-        
-      />
       <DeleteServiceModal deletedService={handleDeleteService} />
-      <EditEmployeeModal />
+      <EditServiceModal updateService={v => setUpdateShop(prev => !prev)} />
       {JSON.parse(shop) !== 0 && (
         <Fragment>
           <ManagementTabs

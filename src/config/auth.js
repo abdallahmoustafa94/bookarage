@@ -44,7 +44,51 @@ const Auth = {
       return false
     }
   },
+  isTechnician: () => {
+    const user = JSON.parse(localStorage.getItem('user') || '[]')
 
+    if (![keys.ROLES.tech].includes(user.role)) {
+      return false
+    }
+
+    return true
+  },
+  isServiceProvider: () => {
+    const user = JSON.parse(localStorage.getItem('user') || '[]')
+
+    if (![keys.ROLES.serviceProvider].includes(user.role)) {
+      return false
+    }
+
+    return true
+  },
+  isCarRental: () => {
+    const user = JSON.parse(localStorage.getItem('user') || '[]')
+
+    if (![keys.ROLES.carRental].includes(user.role)) {
+      return false
+    }
+
+    return true
+  },
+  isCarRecovery: () => {
+    const user = JSON.parse(localStorage.getItem('user') || '[]')
+
+    if (![keys.ROLES.carRecovery].includes(user.role)) {
+      return false
+    }
+
+    return true
+  },
+  isInsurance: () => {
+    const user = JSON.parse(localStorage.getItem('user') || '[]')
+
+    if (![keys.ROLES.insurance].includes(user.role)) {
+      return false
+    }
+
+    return true
+  },
   logout: () => {
     token = ''
     signupToken = ''

@@ -1,8 +1,8 @@
 import {useState} from 'react'
 import {Menu, Button} from 'semantic-ui-react'
-import AddDiagnosis from '../components/requests/requestsModals/AddDiagnosis'
-import AssignMechanic from '../components/requests/requestsModals/AssignMechanic'
-import SendRecovery from '../components/requests/requestsModals/SendRecovery'
+import AddDiagnosis from './requestsModals/AddDiagnosis'
+import AssignMechanic from './requestsModals/AssignMechanic'
+import SendRecovery from './requestsModals/SendRecovery'
 
 const RequestsLayout = ({activeMenu, setActiveMenu}) => {
   return (

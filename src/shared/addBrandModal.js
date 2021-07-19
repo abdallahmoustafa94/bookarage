@@ -7,10 +7,9 @@ import useAsync from '../hooks/useAsync'
 import {getAllBrands} from '../services/ShopService'
 import useMediaQuery from '../hooks/use-media-query'
 import {useToasts} from 'react-toast-notifications'
-import { addBrand } from '../services/ShopService'
-import { useShop } from '../context/ShopContext'
-import { object } from 'yup/lib/locale'
-
+import {addBrand} from '../services/ShopService'
+import {useShop} from '../context/ShopContext'
+import {object} from 'yup/lib/locale'
 
 const AddBrandModal = ({brandValues, updateBrand}) => {
   const isSmall = useMediaQuery('(max-width: 992px)')
@@ -50,35 +49,24 @@ const AddBrandModal = ({brandValues, updateBrand}) => {
 
   const handleOnSubmit = values => {
     console.log(values)
-    brandValues(values)
+    // console.log(`${key}: ${value}`);
 
-    
-
-    const newBrands = new FormData()
-
-    Object.values(values).map(v => { 
-      newBrands.append("shopId",JSON.parse(shop))
-      newBrands.append("brand",v)
-    })
-      // console.log(`${key}: ${value}`);
-   
-    run(addBrand(newBrands))
+    run(addBrand({shopId: JSON.parse(shop), brand: values.brands}))
       .then(({data}) => {
+        console.log(data.data)
         addToast(data.message, {appearance: 'success'})
+        updateBrand(true)
+        setShowModal({modalName: '', data: null})
       })
       .catch(e => {
         console.log(e)
       })
-    
-   
-
-
-    setShowModal({modalName: '', data: null})
   }
   return (
     <Modal
       onClose={() => setShowModal({modalName: '', data: null})}
       closeIcon
+      closeOnDimmerClick={false}
       open={open}
     >
       <Modal.Content>

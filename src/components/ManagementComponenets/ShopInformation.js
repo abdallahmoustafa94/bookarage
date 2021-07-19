@@ -8,10 +8,14 @@ import {getProfile, uploadShopPhotos} from '../../services/ShopService'
 import {useToasts} from 'react-toast-notifications'
 import {FieldArray, Formik} from 'formik'
 import FormikControl from '../formik/FormikControl'
-import { updateShopProfile } from '../../services/ShopService'
+import {updateShopProfile} from '../../services/ShopService'
 
 const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
-  // console.log(shopInfo)
+  console.log(shopInfo)
+  const {run: uploadRun, isLoading: isUploading} = useAsync()
+  const {run, isLoading} = useAsync()
+
+  const {addToast} = useToasts()
   const [state, setState] = useState({
     selectedlogo: photoImage || '',
     logo: '',
@@ -20,49 +24,17 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
   })
   const [country, setCountry] = useState({
     country: '',
-    setCountry: '',
+    setCountry: shopInfo?.country || '',
   })
   const [shop, setShop] = useShop()
   const [region, setRegion] = useState({
     region: '',
-    setRegion: '',
+    setRegion: shopInfo?.city || '',
   })
-
-
- 
-  const {run: uploadRun, isLoading: isUploading,run} = useAsync()
-
-  const {addToast} = useToasts()
-
-  
-
-  const handleOnSubmit = values => {
-    console.log(values)
-    // nextStep({type: 'step', value: values})
-    const updateShop = {
-      ...values,
-      nameEN: values.shopName,
-      nameAR: values.shopName,
-      country: country.setCountry,
-      city: region.setRegion,
-      shopId: JSON.parse(shop),
-    }
-    run(updateShopProfile(updateShop))
-    .then(({data}) => {
-      
-      console.log(data.data)
-      addToast(data.message, {appearance: 'success'})
-      
-    })
-    .catch(e => {
-      console.log(e)
-    })
-  }
 
   const selectCountry = val => {
     setCountry({...country, setCountry: val})
   }
-
   const selectRegion = val => {
     setRegion({...region, setRegion: val})
   }
@@ -102,6 +74,34 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
       })
   }
 
+  const handleOnSubmit = values => {
+    console.log(values)
+    // nextStep({type: 'step', value: values})
+    const updateShopData = {
+      ...values,
+      nameEN: values.shopName,
+      nameAR: values.shopName,
+      country: country.setCountry,
+      city: region.setRegion,
+      [shopInfo?.shopType]: {
+        isAgent: values.isAgentShop,
+        hasRecovery: values.hasRecoveryShop,
+      },
+      shopId: JSON.parse(shop),
+      description: values.desc,
+    }
+    console.log(updateShopData)
+    run(updateShopProfile(updateShopData))
+      .then(({data}) => {
+        console.log(data.data)
+        addToast(data.message, {appearance: 'success'})
+        updateShop(true)
+      })
+      .catch(e => {
+        console.log(e)
+      })
+  }
+
   return (
     <div>
       <Formik
@@ -111,15 +111,16 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
           desc: shopInfo?.description || '',
           shopName: shopInfo?.nameEN || '',
           address: shopInfo?.address || '',
-          isAgent: shopInfo[shopInfo?.shopType]?.isAgent || false,
-          hasRecovery: shopInfo[shopInfo?.shopType]?.hasRecovery || false,
+          isAgentShop: shopInfo?.[shopInfo?.shopType]?.isAgent || false,
+          hasRecoveryShop: shopInfo?.[shopInfo?.shopType]?.hasRecovery || false,
         }}
         onSubmit={handleOnSubmit}
+        enableReinitialize
       >
         {formik => (
           <Form
             className="w-2/4"
-            loading={loading}
+            loading={isLoading || loading}
             onSubmit={formik.submitForm}
           >
             <Form.Group widths="equal" className="flex">
@@ -215,7 +216,6 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
                 control="input"
               />
             </Form.Field>
-
             <Form.Field>
               <label className="text-labelColor font-medium">
                 Shop Description
@@ -280,7 +280,7 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
               render={arrayhelpers => (
                 <Fragment>
                   <div className="flex items-center w-full mt-7">
-                    <p className="mb-0 w-1/2">VAT</p>
+                    <p className="mb-0 w-1/2">VAT (%)</p>
                     <div
                       className="flex justify-end items-center w-1/2 cursor-pointer"
                       onClick={() => arrayhelpers.push('')}
@@ -327,7 +327,7 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
               </label>
               <CountryDropdown
                 name="selectedCountry"
-                value={country.setCountry}
+                value={shopInfo?.country || country.setCountry}
                 onChange={val => selectCountry(val)}
               />
             </Form.Field>
@@ -337,8 +337,8 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
               </label>
               <RegionDropdown
                 name="selectedRegion"
-                country={country.setCountry}
-                value={region.setRegion}
+                country={shopInfo?.country || country.setCountry}
+                value={shopInfo?.city || region.setRegion}
                 onChange={val => selectRegion(val)}
               />
             </Form.Field>
@@ -346,6 +346,7 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
               <FormikControl
                 label="Shop Address"
                 control="input"
+                value={formik.values.address}
                 name="address"
               />
               <small className="text-red-600">
@@ -359,16 +360,18 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
             </Form.Field>
             <Form.Field>
               <FormikControl
-                name="isAgent"
+                name="isAgentShop"
                 label="My shop is able to sell spare parts."
+                checked={formik.values.isAgentShop}
                 control="checkbox"
               />
             </Form.Field>
 
             <Form.Field>
               <FormikControl
-                name="hasRecovery"
+                name="hasRecoveryShop"
                 label="My shop has recovery service for cars."
+                checked={formik.values.hasRecoveryShop}
                 control="checkbox"
               />
             </Form.Field>

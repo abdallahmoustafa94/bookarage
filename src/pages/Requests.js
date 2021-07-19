@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import RequestsLayout from './RequestsLayout'
+import RequestsLayout from '../components/requests/RequestsLayout'
 import New from '../components/requests/New'
 import Accepted from '../components/requests/Accepted'
 import CarArrived from '../components/requests/CarArrived'

@@ -3,7 +3,7 @@ import {useToasts} from 'react-toast-notifications'
 import AppointmentTable from '../components/Dashboard/appointmentTable'
 import CarArrivedTable from '../components/Dashboard/carArrivedTable'
 import AssignTechModal from '../components/Dashboard/modals/assignTech.modal'
-import RequestTabs from '../components/Dashboard/requestTabs'
+import RequestTabs from '../components/requests/requestTabs'
 import WorkInProgressTable from '../components/Dashboard/workInProgressTable'
 import EstimatedSent from '../components/Dashboard/EstimatedRent'
 import CarReady from '../components/Dashboard/CarReady'
@@ -27,7 +27,7 @@ const DashboardPage = () => {
     estimatedSent: [],
     estimatedApproved: [],
     invoiceCreated: [],
-    carReady:[]
+    carReady: [],
   })
 
   useEffect(() => {
@@ -114,25 +114,14 @@ const DashboardPage = () => {
         )}
 
         {activeMenu === 'estimatedSent' && (
-          <EstimatedSent
-          requests={state.estimatedSent}
-            loading={isLoading}
-          />
+          <EstimatedSent requests={state.estimatedSent} loading={isLoading} />
         )}
         {activeMenu === 'carReady' && (
-          <CarReady
-          requests={state.carReady}
-            loading={isLoading}
-          />
+          <CarReady requests={state.carReady} loading={isLoading} />
         )}
         {activeMenu === 'invoiceCreated' && (
-          <Invoices
-          requests={state.invoiceCreated}
-            loading={isLoading}
-          />
+          <Invoices requests={state.invoiceCreated} loading={isLoading} />
         )}
-
-
       </div>
     </section>
   )

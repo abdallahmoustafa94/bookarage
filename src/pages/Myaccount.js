@@ -1,5 +1,4 @@
 import {useEffect, useState, useContext} from 'react'
-import RequestTabs from '../components/Dashboard/requestTabs'
 import {Form, Button, Image, Input, Label} from 'semantic-ui-react'
 import {FiUpload} from 'react-icons/fi'
 import {AiFillEdit} from 'react-icons/ai'
@@ -9,12 +8,9 @@ import EditPhoneNumber from '../components/Dashboard/myAccountModals/EditPhoneNu
 import {editProfile} from '../services/MyAccountService'
 import {useToasts} from 'react-toast-notifications'
 import useAsync from '../hooks/useAsync'
-import Auth from '../config/auth'
 import useLocalStorage from '../hooks/use-local-storage'
 import {changeAvatar, getProfile} from '../services/ShopService'
-import { useShop } from '../context/ShopContext'
-import { object } from 'yup/lib/locale'
-
+import {useShop} from '../context/ShopContext'
 
 const Myaccount = ({values}) => {
   const {run: uploadRun, isLoading: isUploading} = useAsync()
@@ -36,19 +32,17 @@ const Myaccount = ({values}) => {
 
   useEffect(() => {
     run(getProfile()).then(({data}) => {
-     console.log(data)
-     Object.values(data).map(item =>
-      setState({
-        fullName: item.nameEN,
-        phoneNumber:item.phoneNumber,
-        VATNumber:item.VATNumber,
-        licenseFile:item.licenseFile
-      })
+      console.log(data)
+      Object.values(data).map(item =>
+        setState({
+          fullName: item.nameEN,
+          phoneNumber: item.phoneNumber,
+          VATNumber: item.VATNumber,
+          licenseFile: item.licenseFile,
+        }),
       )
-    
     })
-}, [])
-
+  }, [])
 
   const handleOnSubmit = () => {
     run(editProfile(state))
@@ -77,9 +71,8 @@ const Myaccount = ({values}) => {
     //     .catch(e => {
     //       console.log(e)
     //     })
-      console.log(state, selectedAvatar)
-    }
-  
+    console.log(state, selectedAvatar)
+  }
 
   const changeHandler = event => {
     setState({...state, licenseFile: event.target.files[0]})
@@ -99,7 +92,7 @@ const Myaccount = ({values}) => {
 
     const newAvatar = new FormData()
     newAvatar.append('shopId', JSON.parse(shop.id))
-    newAvatar.append( e.target.files[0])
+    newAvatar.append(e.target.files[0])
 
     uploadRun(changeAvatar(newAvatar))
       .then(({data}) => {
@@ -109,9 +102,8 @@ const Myaccount = ({values}) => {
       .catch(e => {
         console.log(e)
       })
-    
   }
-  
+
   return (
     <div className="flex  w-full space-x-8">
       <EditFullName

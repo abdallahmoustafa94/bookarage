@@ -1,9 +1,3 @@
-import {Formik} from 'formik'
-import AddServiceModal from '../../shared/addServiceModal'
-import AddBrandModal from '../../shared/addBrandModal'
-import DeleteServiceModal from '../../shared/deleteServiceModal'
-import {addService, addBrand,deleteService} from '../../services/ShopService'
-
 import {useContext, useEffect, useState} from 'react'
 import {RiDeleteBin6Line} from 'react-icons/ri'
 import {RiCloseCircleFill} from 'react-icons/ri'
@@ -15,25 +9,10 @@ import Auth from '../../config/auth'
 import {useUser} from '../../context/UserContext'
 import {getShopById} from '../../services/ShopService'
 
-
-
-
 import {MdModeEdit} from 'react-icons/md'
-import {
-  Form,
-  Image,
-  Button,
-  Header,
-  Modal,
-  Label,
-  Select,
-  Grid,
-} from 'semantic-ui-react'
-
-import FormikControl from '../formik/FormikControl'
-
-// import '../../../assets/css/shopinfostep.css'
+import {Form, Button, Grid} from 'semantic-ui-react'
 import StateContext from '../../context/stateContext'
+import routes from '../../routes'
 
 const ServicesAndParts = ({
   values,
@@ -41,7 +20,7 @@ const ServicesAndParts = ({
   stepTitle,
   deletedBrand,
   loading,
-  deletedService
+  deletedService,
 }) => {
   const [shop, setShop] = useShop()
   const {setShowModal} = useContext(StateContext)
@@ -50,7 +29,6 @@ const ServicesAndParts = ({
   const [user, setUser] = useUser()
   const [selectedShop, setSelectedShop] = useState({})
   const [updateShop, setUpdateShop] = useState(false)
-
 
   const [state, setState] = useState({
     services: [],
@@ -128,11 +106,7 @@ const ServicesAndParts = ({
     // .catch(e => {
     //   console.log(e)
     // })
-
-
   }
-
-  
 
   return (
     <div className="px-8">
@@ -162,10 +136,10 @@ const ServicesAndParts = ({
               <Grid columns={3} doubling verticalAlign="middle">
                 <Grid.Row>
                   {values?.brands?.map((b, i) => (
-                    <Grid.Column>
+                    <Grid.Column key={i}>
                       <div className="relative rounded-full bg-gray-100 px-5 py-3 flex items-center justify-center mb-2">
                         <span className="primary-text-color rtl:ml-3 ltr:mr-3 ">
-                          {b.name}
+                          {b?.name}
                         </span>
                         <div className="absolute top-0 ltr:right-0 rtl:left-0">
                           <RiCloseCircleFill
@@ -195,7 +169,7 @@ const ServicesAndParts = ({
             </div>
           </div>
           {values?.services?.map((s, i) => (
-            <div className="border border-gray-300 w-full p-2 mb-3">
+            <div className="border border-gray-300 w-full p-2 mb-3" key={i}>
               <div className="flex items-center ">
                 <div className="flex items-center mb-0 w-1/2">
                   <BsWrench
@@ -225,7 +199,7 @@ const ServicesAndParts = ({
                     className="text-gray-400 text-base bg-transparent font-normal p-0"
                     content="edit"
                     onClick={() =>
-                      setShowModal({modalName: 'addService', data: s})
+                      setShowModal({modalName: 'editService', data: s})
                     }
                   />
                 </div>
@@ -234,7 +208,13 @@ const ServicesAndParts = ({
                   <Button
                     className="text-gray-400 text-base bg-transparent font-normal p-0"
                     content="delete"
-                    onClick={() => deletedService(i)}
+                    onClick={() =>
+                      deletedService(
+                        window.location.pathname.includes(routes.management)
+                          ? {serviceId: s.id, index: i}
+                          : i,
+                      )
+                    }
                   />
                 </div>
               </div>
@@ -242,13 +222,13 @@ const ServicesAndParts = ({
           ))}
         </div>
 
-        <div className="my-10 text-center">
+        {/* <div className="my-10 text-center">
           <Button
             content="Save"
             onClick={handleOnSubmit}
             className="btn-primary"
           />
-        </div>
+        </div> */}
       </Form>
     </div>
   )
