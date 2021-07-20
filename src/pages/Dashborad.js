@@ -13,6 +13,7 @@ import {useShop} from '../context/ShopContext'
 import {useUser} from '../context/UserContext'
 import useAsync from '../hooks/useAsync'
 import {myRequests, updateRequest} from '../services/RequestService'
+import ChartsAndReviews from '../components/Dashboard/ChartsAndReviews'
 
 const DashboardPage = () => {
   const [activeMenu, setActiveMenu] = useState('appointment')
@@ -124,6 +125,10 @@ const DashboardPage = () => {
         {activeMenu === 'invoiceCreated' && (
           <Invoices requests={state.invoiceCreated} loading={isLoading} />
         )}
+      </div>
+
+      <div>
+        <ChartsAndReviews />
       </div>
     </section>
   )

@@ -274,7 +274,6 @@ const DashboardLayout = () => {
                 <ul>
                   <li className="bg-blue-100 p-3 border-b-2">
                     <div className="flex items-center">
-                      <p>{selectedShop}</p>
                       <Image
                         src={notifyImage}
                         className="rounded-full w-20 h-20"

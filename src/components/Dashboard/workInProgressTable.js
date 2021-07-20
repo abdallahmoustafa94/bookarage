@@ -97,8 +97,6 @@ const WorkInProgressTable = ({requests, loading}) => {
           ) : null}
         </Table.Body>
       </Table>
-      <ChartsAndReviews />
-
     </Fragment>
   )
 }

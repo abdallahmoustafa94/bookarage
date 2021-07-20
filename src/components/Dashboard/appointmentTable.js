@@ -130,7 +130,6 @@ const AppointmentTable = ({requests, loading, updateRequest}) => {
           ) : null}
         </Table.Body>
       </Table>
-      <ChartsAndReviews />
     </Fragment>
   )
 }
