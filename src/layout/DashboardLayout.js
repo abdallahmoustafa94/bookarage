@@ -1,6 +1,14 @@
 import {useEffect, useState} from 'react'
 import {Redirect, Route, Switch, useHistory, useLocation} from 'react-router'
-import {Dimmer, Dropdown, Image, Loader, Menu, Sidebar} from 'semantic-ui-react'
+import {
+  Dimmer,
+  Dropdown,
+  Form,
+  Image,
+  Loader,
+  Menu,
+  Sidebar,
+} from 'semantic-ui-react'
 import {useLanguage} from '../context/languageContext'
 import {
   RiNotification3Line,
@@ -35,6 +43,8 @@ import useMediaQuery from '../hooks/use-media-query'
 import {capitalize} from '../utils/capitalize-text'
 import {getMyShops} from '../services/ShopService'
 import {useShop} from '../context/ShopContext'
+import {Formik} from 'formik'
+import FormikControl from '../components/formik/FormikControl'
 
 const DashboardLayout = () => {
   const {run, isLoading} = useAsync()
@@ -221,13 +231,24 @@ const DashboardLayout = () => {
           </li>
           {!Auth.isTechnician() && (
             <li className="ltr:ml-auto rtl:mr-auto hidden lg:block">
-              <Dropdown
-                className=" mx-8 flex items-center border-blue-700 text-labelColor"
-                selection
-                options={shops}
-                defaultValue={selectedShop}
-                onChange={(e, {value}) => handleSelectedShop(value)}
-              />
+              <Formik
+                initialValues={{selectedShop: JSON.parse(shop) || ''}}
+                enableReinitialize
+              >
+                {formik => (
+                  <Form loading={isLoading}>
+                    <Form.Field>
+                      <FormikControl
+                        name="selectedShop"
+                        control="dropdown"
+                        className=" mx-8 flex items-center border-blue-700 text-labelColor"
+                        selection
+                        options={shops}
+                      />
+                    </Form.Field>
+                  </Form>
+                )}
+              </Formik>
             </li>
           )}
 

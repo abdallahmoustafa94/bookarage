@@ -3,46 +3,51 @@ import {Form, Button, Image, Input, Label} from 'semantic-ui-react'
 import {FiUpload} from 'react-icons/fi'
 import {AiFillEdit} from 'react-icons/ai'
 import StateContext from '../context/stateContext'
-import EditFullName from '../components/Dashboard/myAccountModals/EditFullName'
-import EditPhoneNumber from '../components/Dashboard/myAccountModals/EditPhoneNumber'
+import EditFullName from '../components/MyAccountComponents/myAccountModals/EditFullName'
+import EditPhoneNumber from '../components/MyAccountComponents/myAccountModals/EditPhoneNumber'
 import {editProfile} from '../services/MyAccountService'
 import {useToasts} from 'react-toast-notifications'
 import useAsync from '../hooks/useAsync'
-import useLocalStorage from '../hooks/use-local-storage'
-import {changeAvatar, getProfile} from '../services/ShopService'
+import {getProfile} from '../services/ShopService'
+import {changeAvatar} from '../services/MyAccountService'
 import {useShop} from '../context/ShopContext'
+import {useUser} from '../context/UserContext'
 
 const Myaccount = ({values}) => {
-  const {run: uploadRun, isLoading: isUploading} = useAsync()
+  // const { run: uploadRun, isLoading: isUploading } = useAsync()
 
   const {addToast} = useToasts()
   const {run, isLoading} = useAsync()
-  const [user, setUser] = useLocalStorage('user', '')
+  const [user, setUser] = useUser()
   const [isFilePicked, setIsFilePicked] = useState(false)
   const {setShowModal} = useContext(StateContext)
   const [isAvatarPicked, setIsAvatarPicked] = useState(false)
   const [selectedAvatar, setSelectedAvatar] = useState(null)
-  const [shop, setShop] = useShop()
+  const [updateProfile, setUpdateProfile] = useState(false)
   const [state, setState] = useState({
     fullName: '',
     phoneNumber: '',
     VATNumber: '',
     licenseFile: '',
+    email: '',
+    VATNumber: '',
   })
 
   useEffect(() => {
     run(getProfile()).then(({data}) => {
       console.log(data)
-      Object.values(data).map(item =>
-        setState({
-          fullName: item.nameEN,
-          phoneNumber: item.phoneNumber,
-          VATNumber: item.VATNumber,
-          licenseFile: item.licenseFile,
-        }),
-      )
+      setState({
+        fullName: data.data?.nameEN,
+        phoneNumber: data.data?.phoneNumber,
+        VATNumber: data.data?.VATNumber,
+        licenseFile: data.data?.licenseFile,
+        email: data.data?.email,
+        VATNumber: data.data?.VATNumber,
+        licenseFile: data.data?.licenseFile,
+      })
+      setSelectedAvatar(data.data?.avatar)
     })
-  }, [])
+  }, [updateProfile])
 
   const handleOnSubmit = () => {
     run(editProfile(state))
@@ -91,13 +96,19 @@ const Myaccount = ({values}) => {
     setIsAvatarPicked(true)
 
     const newAvatar = new FormData()
-    newAvatar.append('shopId', JSON.parse(shop.id))
-    newAvatar.append(e.target.files[0])
+    console.log(e.target.files[0])
+    newAvatar.append('avatar', e.target.files[0])
 
-    uploadRun(changeAvatar(newAvatar))
+    run(changeAvatar(newAvatar))
       .then(({data}) => {
+        console.log(data)
         addToast(data.message, {appearance: 'success'})
-        setSelectedAvatar('')
+        setUser(
+          JSON.stringify({
+            ...JSON.parse(user),
+            avatar: data.data.avatar,
+          }),
+        )
       })
       .catch(e => {
         console.log(e)
@@ -106,12 +117,8 @@ const Myaccount = ({values}) => {
 
   return (
     <div className="flex  w-full space-x-8">
-      <EditFullName
-        fullNameValue={v => setState({...state, fullName: v.fullName})}
-      />
-      <EditPhoneNumber
-        phoneNumberValue={v => setState({...state, phoneNumber: v.phoneNumber})}
-      />
+      <EditFullName updateProfile={v => setUpdateProfile(prev => !prev)} />
+      <EditPhoneNumber updateProfile={v => setUpdateProfile(prev => !prev)} />
 
       <div className="flex flex-col w-1/4 text-gray-700 bg-white flex-initial p-10">
         <Button
@@ -132,10 +139,14 @@ const Myaccount = ({values}) => {
             <p className="text-gray-300">Account Picture</p>
             <div className="flex text-sm col-span-6 sm:col-span-3">
               <Image
-                src={selectedAvatar}
+                src={
+                  selectedAvatar ||
+                  'https://react.semantic-ui.com/images/avatar/large/elliot.jpg'
+                }
                 size="tiny"
                 circular
-                className="-mt-2"
+                avatar
+                className="w-24 h-24 -mt-2"
               />
               <label
                 htmlFor="edit-avatar"
@@ -155,6 +166,9 @@ const Myaccount = ({values}) => {
                     accept="*/*"
                     className="sr-only"
                     onChange={avatarHandler}
+                    onClick={e => {
+                      e.target.value = null
+                    }}
                   />
                 </div>
 
@@ -175,7 +189,10 @@ const Myaccount = ({values}) => {
                   content="Edit"
                   className="bg-transparent text-blue-700 font-semibold  py-2 px-4 border border-gray-500"
                   onClick={() =>
-                    setShowModal({modalName: 'editFullName', data: null})
+                    setShowModal({
+                      modalName: 'editFullName',
+                      data: state.fullName,
+                    })
                   }
                 />
               </div>
@@ -192,7 +209,10 @@ const Myaccount = ({values}) => {
                   content="Edit"
                   className="bg-transparent text-blue-700 font-semibold  py-2 px-4 border border-gray-500"
                   onClick={() =>
-                    setShowModal({modalName: 'editPhoneNumber', data: null})
+                    setShowModal({
+                      modalName: 'editPhoneNumber',
+                      data: state.phoneNumber,
+                    })
                   }
                 />
               </div>
@@ -205,9 +225,7 @@ const Myaccount = ({values}) => {
             <div className="flex mt-8">
               <div className="justify-start w-3/4">
                 <p className="text-gray-700">Email Address</p>
-                <p className="text-gray-300 font-medium -mt-2">
-                  mathew.gray@mail.com
-                </p>
+                <p className="text-gray-300 font-medium -mt-2">{state.email}</p>
               </div>
               {/* <div className=" w-1/4 flex justify-end ">
           <Button  content="Edit" className="bg-transparent text-blue-700 font-semibold  py-2 px-4 border border-gray-500  "/>
@@ -231,6 +249,7 @@ const Myaccount = ({values}) => {
               <Label>VAT Number</Label>
               <Input
                 placeholder="Write your VAT number"
+                defaultValue={state.VATNumber}
                 onChange={(e, {value}) =>
                   setState({...state, VATNumber: value})
                 }
@@ -272,6 +291,10 @@ const Myaccount = ({values}) => {
                     <div>
                       <p> {state.licenseFile.name}</p>
                     </div>
+                  ) : state.licenseFile ? (
+                    <a href={state.licenseFile} target="_blank">
+                      View File
+                    </a>
                   ) : (
                     <p>Select a file to show details</p>
                   )}

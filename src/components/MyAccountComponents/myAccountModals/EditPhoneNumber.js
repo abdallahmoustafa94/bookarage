@@ -3,10 +3,16 @@ import StateContext from '../../../context/stateContext'
 import {Modal, Form, Button} from 'semantic-ui-react'
 import {Formik} from 'formik'
 import FormikControl from '../../formik/FormikControl'
+import useAsync from '../../../hooks/useAsync'
+import {editProfile} from '../../../services/MyAccountService'
+import {useToasts} from 'react-toast-notifications'
 
-const EditPhoneNumber = ({phoneNumberValue}) => {
+const EditPhoneNumber = ({updateProfile}) => {
   const [open, setOpen] = useState(false)
   const {showModal, setShowModal} = useContext(StateContext)
+  const {run, isLoading} = useAsync()
+  const {addToast} = useToasts()
+
   useEffect(() => {
     if (['editPhoneNumber', 'editPhoneNumber'].includes(showModal.modalName)) {
       setOpen(true)
@@ -17,8 +23,18 @@ const EditPhoneNumber = ({phoneNumberValue}) => {
 
   const handleOnSubmit = values => {
     console.log(values)
-    phoneNumberValue(values)
-    setShowModal({modalName: '', data: null})
+    run(editProfile({phoneNumber: values.phoneNumber.replace(/ /g, '')}))
+      .then(({data}) => {
+        console.log(data)
+        addToast(data.message, {appearance: 'success'})
+        updateProfile(true)
+        setShowModal({modalName: '', data: null})
+      })
+      .catch(e => {
+        console.log(e)
+      })
+    // phoneNumberValue(values)
+    // setShowModal({modalName: '', data: null})
   }
   return (
     <Modal
@@ -32,9 +48,12 @@ const EditPhoneNumber = ({phoneNumberValue}) => {
             Edit Phone Number
           </p>
           <div className="my-40 w-1/2 mx-auto">
-            <Formik initialValues={{phoneNumber: ''}} onSubmit={handleOnSubmit}>
+            <Formik
+              initialValues={{phoneNumber: showModal?.data || ''}}
+              onSubmit={handleOnSubmit}
+            >
               {formik => (
-                <Form onSubmit={formik.submitForm}>
+                <Form onSubmit={formik.submitForm} loading={isLoading}>
                   <Form.Field>
                     <FormikControl
                       name="phoneNumber"

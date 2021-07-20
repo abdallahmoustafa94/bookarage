@@ -1,16 +1,19 @@
-import {useContext, useEffect, useState} from 'react'
+import { useContext, useEffect, useState } from 'react'
 import StateContext from '../../../context/stateContext'
-import {Modal, Form, Button} from 'semantic-ui-react'
-import {Formik} from 'formik'
+import { Modal, Form, Button } from 'semantic-ui-react'
+import { Formik } from 'formik'
 import FormikControl from '../../formik/FormikControl'
 import useAsync from '../../../hooks/useAsync'
+import { editProfile } from '../../../services/MyAccountService'
+import { useUser } from '../../../context/UserContext'
+import { useToasts } from 'react-toast-notifications'
 
-
-const EditFullNames = ({fullNameValue}) => {
-    const [open, setOpen] = useState(false)
-  const {showModal, setShowModal} = useContext(StateContext)
-  
-  const {run, isLoading} = useAsync()
+const EditFullNames = ({ updateProfile }) => {
+  const [open, setOpen] = useState(false)
+  const { showModal, setShowModal } = useContext(StateContext)
+  const [user, setUser] = useUser()
+  const { run, isLoading } = useAsync()
+  const { addToast } = useToasts()
   useEffect(() => {
     if (['editFullName', 'editFullName'].includes(showModal.modalName)) {
       setOpen(true)
@@ -19,27 +22,38 @@ const EditFullNames = ({fullNameValue}) => {
     }
   }, [showModal])
 
-  
   const handleOnSubmit = values => {
     console.log(values)
-    fullNameValue(values)
-    setShowModal({modalName: '', data: null})
+    run(editProfile({ nameEN: values.fullName, nameAR: values.fullName })).then(({ data }) => {
+      console.log(data);
+      setUser(JSON.stringify({
+        ...JSON.parse(user),
+        nameEN: data.data.nameEN,
+        nameAR: data.data.nameAR
+      }))
+      addToast(data.message, { appearance: 'success' })
+      updateProfile(true)
+      setShowModal({ modalName: '', data: null })
+    }).catch(e => {
+      console.log(e);
+    })
+    // fullNameValue(values)
   }
   return (
     <Modal
-      onClose={() => setShowModal({modalName: '', data: null})}
+      onClose={() => setShowModal({ modalName: '', data: null })}
       closeIcon
       open={open}
     >
       <Modal.Content>
         <div className="px-32">
-        <p className="brands-title text-center text-bold font-bold text-2xl text-labelColor mb-1">
+          <p className="brands-title text-center text-bold font-bold text-2xl text-labelColor mb-1">
             Edit Full Name
           </p>
           <div className="my-40 w-1/2 mx-auto">
-            <Formik initialValues={{fullName: ''}} onSubmit={handleOnSubmit}>
+            <Formik initialValues={{ fullName: showModal.data || '' }} onSubmit={handleOnSubmit}>
               {formik => (
-                <Form onSubmit={formik.submitForm}>
+                <Form onSubmit={formik.submitForm} loading={isLoading}>
                   <Form.Field>
                     <FormikControl
                       control="input"
@@ -48,14 +62,18 @@ const EditFullNames = ({fullNameValue}) => {
                     />
                   </Form.Field>
                   <div className="flex text-center">
-            <Button content="Save" className="btn-primary mx-5" type="submit" />
-            <Button
-              className="btn-declined mx-5"
-              onClick={() => setShowModal({modalName: "", data: null})}
-            >
-              Cancel
-            </Button>
-          </div>
+                    <Button
+                      content="Save"
+                      className="btn-primary mx-5"
+                      type="submit"
+                    />
+                    <Button
+                      className="btn-declined mx-5"
+                      onClick={() => setShowModal({ modalName: '', data: null })}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
                 </Form>
               )}
             </Formik>
@@ -66,7 +84,6 @@ const EditFullNames = ({fullNameValue}) => {
                         Select Brand
                       </Label>
                     </Form.Field> */}
-         
         </div>
       </Modal.Content>
     </Modal>

@@ -1,8 +1,6 @@
 import {Button} from 'semantic-ui-react'
-import {useState, useEffect, useContext} from 'react'
+import {useContext} from 'react'
 import StateContext from '../../context/stateContext'
-import EditFullName from './myAccountModals/EditFullName'
-import EditPhoneNumber from './myAccountModals/EditPhoneNumber'
 
 const AccInfo = props => {
   const {setShowModal} = useContext(StateContext)

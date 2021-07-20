@@ -1,18 +1,15 @@
-import {useContext, useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import {Form, Button} from 'semantic-ui-react'
-import StateContext from '../../context/stateContext'
-import {useHistory} from 'react-router-dom'
 import {TimeInput} from 'semantic-ui-calendar-react'
 import {formatTime} from '../../utils/date-format'
 import moment from 'moment'
 import {capitalize} from '../../utils/capitalize-text'
 import {addWorkingHrs} from '../../services/ShopService'
 import useAsync from '../../hooks/useAsync'
-import Auth from '../../config/auth'
 import {useToasts} from 'react-toast-notifications'
 import {useShop} from '../../context/ShopContext'
 
-const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
+const WorkingHours = ({values, updateShop}) => {
   const [shop, setShop] = useShop()
   const [state, setState] = useState([
     {
@@ -66,11 +63,22 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
     },
   ])
   const {addToast} = useToasts()
-
-  const {setShowModal} = useContext(StateContext)
-
-  const history = useHistory()
   const {run, isLoading} = useAsync()
+
+  useEffect(() => {
+    if (values?.length === 0) return
+    let workingHrsArr = [...state]
+    values?.map((v, i) => {
+      const index = workingHrsArr.findIndex(o => o.day === v.day)
+
+      if (index !== -1) {
+        workingHrsArr[index].startTime = v.startTime
+        workingHrsArr[index].endTime = v.endTime
+        workingHrsArr[index].isOpened = v.isOpened
+      }
+    })
+    setState(workingHrsArr)
+  }, [values])
 
   const handleOnSubmit = () => {
     let workingHrsArr = []
@@ -85,7 +93,7 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
         })
       }
     })
-    // console.log(workingHrsArr)
+
     const newData = {
       shopId: JSON.parse(shop),
       workingHrs: workingHrsArr,
@@ -95,14 +103,11 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
       .then(({data}) => {
         console.log(data.data)
         addToast(data.message, {appearance: 'success'})
+        updateShop(true)
       })
       .catch(e => {
         console.log(e)
       })
-
-    // console.log(state)
-
-    // nextStep({type: 'step', value: values})
   }
 
   const handleOnChangeCheckBox = (i, checked) => {
@@ -110,17 +115,12 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
     stateArr[i].isOpened = checked
     setState(stateArr)
   }
+
   const handleOnChangeTime = (i, type, value) => {
     const time = moment(value, 'hh:mm A').format()
     const stateArr = [...state]
     stateArr[i][type + 'Time'] = time
     setState(stateArr)
-  }
-
-  const handleChange = () => {
-    setState(prevState => {
-      return {...prevState, isOpened: true}
-    })
   }
 
   return (
@@ -136,7 +136,7 @@ const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
         <span className="flex justify-start w-1/2  ">Days</span>
         <span className="flex justify-end w-1/2  ">Shop Status</span>
       </div>
-      <Form loading={loading}>
+      <Form loading={isLoading}>
         <ul>
           {state.map((item, i) => (
             <li key={item.id} className="mb-3">

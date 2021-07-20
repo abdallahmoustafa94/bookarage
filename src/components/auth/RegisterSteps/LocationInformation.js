@@ -44,7 +44,11 @@ const LocationInformation = ({step, values, nextStep, loading, stepTitle}) => {
         JSON.parse(localStorage.getItem('role')),
       )
     ) {
-      stepType = 'stepToHrs'
+      if (window.location.pathname.startsWith('/auth')) {
+        stepType = 'stepToHrs'
+      } else {
+        stepType = 'submitShop'
+      }
     } else {
       if (window.location.pathname.startsWith('/auth')) {
         stepType = 'shopStep'

@@ -161,7 +161,10 @@ const Management = ({values}) => {
 
             {activeMenu === 'workingHours' && (
               <div className=" p-10 bg-white w-full">
-                <WorkingHours />
+                <WorkingHours
+                  values={selectedShop?.workingHrs}
+                  updateShop={v => setUpdateShop(prev => !prev)}
+                />
               </div>
             )}
 

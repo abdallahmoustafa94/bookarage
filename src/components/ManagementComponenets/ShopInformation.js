@@ -326,7 +326,7 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
                 Country
               </label>
               <CountryDropdown
-                name="selectedCountry"
+                name="selectedCountryManagement"
                 value={shopInfo?.country || country.setCountry}
                 onChange={val => selectCountry(val)}
               />
@@ -336,9 +336,10 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
                 City
               </label>
               <RegionDropdown
-                name="selectedRegion"
+                name="selectedRegionManagement"
                 country={shopInfo?.country || country.setCountry}
                 value={shopInfo?.city || region.setRegion}
+                countryValueType="full"
                 onChange={val => selectRegion(val)}
               />
             </Form.Field>

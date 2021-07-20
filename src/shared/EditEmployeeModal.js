@@ -21,9 +21,7 @@ const EditEmployeeModal = ({updateEmployees}) => {
   useEffect(() => {
     if (['editEmployee', 'editEmployee'].includes(showModal.modalName)) {
       setOpen(true)
-      run(getAllBrands()).then(({data}) => {
-        console.log(data)
-      })
+      console.log(showModal?.data.technicianDetails)
     } else {
       setOpen(false)
     }
@@ -93,13 +91,13 @@ const EditEmployeeModal = ({updateEmployees}) => {
               initialValues={{
                 roleEdit: showModal?.data?.role || '',
                 workingHoursEdit:
-                  showModal?.data?.technicianDetails?.workingHours || '',
+                  showModal?.data?.technicianDetails?.workingHours,
                 workingDaysEdit:
-                  showModal?.data?.technicianDetails?.workingDays || '',
-                hoursRateEdit:
-                  showModal?.data?.technicianDetails?.hoursRate || '',
+                  showModal?.data?.technicianDetails?.workingDays,
+                hoursRateEdit: showModal?.data?.technicianDetails?.hoursRate,
               }}
               onSubmit={handleOnSubmit}
+              enableReinitialize
             >
               {formik => (
                 <Form onSubmit={formik.submitForm} loading={isLoading}>

@@ -58,6 +58,9 @@ textarea {
   background-attachment: fixed;
   height: 100%;
 }
+.react-toast-notifications__container {
+  z-index: 200000 !important;
+}
 
 .btn-primary {
   @apply bg-primaryRedColor-default text-white hover:bg-primaryRedColor-hover transition-colors duration-300 focus:ring-offset-primaryRedColor-default px-16 py-3 text-lg font-normal shadow-md !important;
@@ -185,7 +188,7 @@ div[role='listbox'].dropdown {
 
 /* landing styles*/
 
-#home-section{
+#home-section {
   background-image: url(./assets/images/landingPage/shapes.svg);
 }
 
@@ -194,36 +197,36 @@ div[role='listbox'].dropdown {
   background-repeat: no-repeat;
 }
 
-@media (min-width:992px){
+@media (min-width: 992px) {
   #contact-section {
     background-image: url(./assets/images/landingPage/Contact.svg);
-    background-position: 10% 250% ;
+    background-position: 10% 250%;
     background-repeat: no-repeat;
   }
 }
 
-
-.landing-icons{
-  width:80px;
+.landing-icons {
+  width: 80px;
   height: 80px;
 }
 
-.footer{
+.footer {
   background-color: #244066;
 }
 
-.footer-bottom{
+.footer-bottom {
   background-color: #20395c;
 }
 
-.ui.action.input>.button, .ui.action.input>.buttons>.button{
+.ui.action.input > .button,
+.ui.action.input > .buttons > .button {
   background-color: #f2421b;
-  color:#fff;
+  color: #fff;
   border: 1px solid #f2421b;
   padding: 0 25px !important;
 }
 
-#landing-nav{
+#landing-nav {
   position: fixed;
   background-color: #fff;
   width: 100%;
@@ -232,4 +235,3 @@ div[role='listbox'].dropdown {
   z-index: 9999;
   padding: 8px;
 }
-

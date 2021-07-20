@@ -50,8 +50,6 @@ const AddEmployeeModal = ({updateEmployee}) => {
       isApproved: true,
     }
 
-    console.log(newEmployee)
-
     run(addEmployee(newEmployee))
       .then(({data}) => {
         console.log(data.data)
@@ -62,6 +60,7 @@ const AddEmployeeModal = ({updateEmployee}) => {
       })
       .catch(e => {
         console.log(e)
+        e?.errors?.map(err => addToast(err.message, {appearance: 'error'}))
       })
   }
 

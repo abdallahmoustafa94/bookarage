@@ -1,4 +1,4 @@
-import {auth, authAxios} from '../config/axiosConfig'
+import { auth, authAxios } from '../config/axiosConfig'
 import axios from 'axios'
 
 // Get my shops
@@ -8,7 +8,7 @@ export const getMyShops = () => {
 
 // Get shop by id
 export const getShopById = id => {
-  return authAxios.post('/shops/getShopByShopId', {shopId: id})
+  return authAxios.post('/shops/getShopByShopId', { shopId: id })
 }
 
 // Get brands
@@ -36,11 +36,6 @@ export const getAllEmployees = () => {
   return authAxios.get('/users/employees/allEmployees')
 }
 
-// Change avatar for user
-export const changeAvatar = () => {
-  return authAxios.post('/users/changeAvatar')
-}
-
 export const uploadShopPhotos = imgData => {
   return authAxios.post('/shops/uploadShopPhotos', imgData)
 }
@@ -63,7 +58,7 @@ export const updateShopService = serviceData => {
 
 //delete Service
 export const deleteService = removedService => {
-  return authAxios.delete('/shops/deleteService', {data: removedService})
+  return authAxios.delete('/shops/deleteService', { data: removedService })
 }
 
 //set Service Avilability
@@ -91,7 +86,7 @@ export const addBrand = addBrand => {
 }
 
 export const removeBrand = removedBrand => {
-  return authAxios.delete('/shops/deleteBrand', {data: removedBrand})
+  return authAxios.delete('/shops/deleteBrand', { data: removedBrand })
 }
 
 export const getProfile = getProfile => {
