@@ -108,7 +108,7 @@ const ChartsAndReviews = () => {
   ]
   return (
     <div className="my-8">
-      <div className="flex w-full  space-x-4  ">
+      <div className="flex w-full space-x-4">
         <div className="w-2/3 p-8">
           <div className="bg-white p-8">
             <BarChart
@@ -123,7 +123,7 @@ const ChartsAndReviews = () => {
               }}
             >
               <XAxis dataKey="name" />
-              <Bar dataKey="pv" fill="red" />
+              <Bar dataKey="pv" fill="#f2421b" />
             </BarChart>
           </div>
           <div className="my-8 bg-white p-8">
@@ -143,7 +143,7 @@ const ChartsAndReviews = () => {
               <Line
                 type="monotone"
                 dataKey="pv"
-                stroke="red"
+                stroke="#f2421b"
                 activeDot={{r: 8}}
               />
             </LineChart>
@@ -173,7 +173,7 @@ const ChartsAndReviews = () => {
         </div>
 
         <div className=" w-1/3 ">
-          <div className="flex w-full bg-white p-8  text-center">
+          <div className="flex w-full bg-white p-8 text-center">
             <div className="w-1/3">
               <p className="font-normal text-6xl mb-2"> 17 </p>
               <p className="text-gray-400">Total</p>
