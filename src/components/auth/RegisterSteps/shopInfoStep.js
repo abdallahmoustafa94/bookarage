@@ -144,7 +144,11 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
                 <div className="mb-3">
                   <Image
                     src={state.selectedcoverPhoto || photoImage}
-                    className="rounded-lg w-52 h-20 object-cover"
+                    className={`rounded-lg w-52 h-20 ${
+                      state.selectedcoverPhoto
+                        ? 'object-cover'
+                        : 'object-contain'
+                    }`}
                   />
                 </div>
                 <div>

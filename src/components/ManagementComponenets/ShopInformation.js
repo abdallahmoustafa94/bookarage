@@ -62,10 +62,8 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
         addToast(data.message, {appearance: 'success'})
         setState({
           ...state,
-          logo: '',
-          selectedlogo: '',
-          coverPhoto: '',
-          selectedcoverPhoto: '',
+          [type]: '',
+          ['selected' + type]: '',
         })
         updateShop(true)
       })
@@ -174,7 +172,11 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
                     <Form loading={isUploading}>
                       <Image
                         src={shopInfo?.coverPhoto || state.selectedcoverPhoto}
-                        className="w-52 h-20 rounded-xl object-cover"
+                        className={`w-52 h-20 rounded-xl ${
+                          state.selectedcoverPhoto === photoImage
+                            ? 'object-contain'
+                            : 'object-cover'
+                        }`}
                       />
                     </Form>
                   </div>
