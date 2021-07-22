@@ -8,7 +8,6 @@ import WorkingHours from '../../components/auth/RegisterSteps/WorkingHours'
 import PhoneStep from '../../components/auth/RegisterSteps/phoneStep'
 import VerifyOTP from '../../components/auth/RegisterSteps/verifyOTP'
 import SuccessAccount from '../../components/auth/RegisterSteps/successAccount'
-import LoginPage from '../auth/Login'
 import {
   buildStyles,
   CircularProgressbarWithChildren,
@@ -24,7 +23,6 @@ import Auth from '../../config/auth'
 import {useToasts} from 'react-toast-notifications'
 import {useUser} from '../../context/UserContext'
 import {createNewShop} from '../../services/ShopService'
-import routes from '../../routes'
 import {useHistory} from 'react-router-dom'
 import useMediaQuery from '../../hooks/use-media-query'
 import StayTunedStep from '../../components/auth/RegisterSteps/StayTunedStep'

@@ -15,7 +15,7 @@ import {useUser} from '../context/UserContext'
 import Auth from '../config/auth'
 
 const Myaccount = ({values}) => {
-  console.log('here')
+  // console.log('here')
   // const { run: uploadRun, isLoading: isUploading } = useAsync()
 
   const {addToast} = useToasts()
@@ -292,7 +292,7 @@ const Myaccount = ({values}) => {
                     </div>
                     {isFilePicked ? (
                       <div>
-                        <p> {state.licenseFile.name}</p>
+                        <p> {state.licenseFile?.name}</p>
                       </div>
                     ) : state.licenseFile ? (
                       <a href={state.licenseFile} target="_blank">
@@ -308,7 +308,6 @@ const Myaccount = ({values}) => {
               <div className="my-10 text-center">
                 <Button
                   content="Save"
-                  type="submit"
                   className="btn-primary"
                   onClick={handleOnSubmit}
                 />
