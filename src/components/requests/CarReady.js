@@ -7,7 +7,7 @@ import {FaCarSide, FaCheckCircle} from 'react-icons/fa'
 
 const CarReady = () => {
   return (
-    <div className="my-8 py-8 px-24">
+    <div className="my-8 py-5">
       <p>14 Total Requests</p>
       <div className="bg-white p-4  rounded-lg">
         <div className="flex items-center">
@@ -64,7 +64,7 @@ const CarReady = () => {
                         (585) 5519-96
                       </p>
                     </div>
-                    <div className="flex justify-center ml-8 justify-center">
+                    <div className="flex ml-8 justify-center">
                       <Button
                         icon="envelope open outline"
                         className=" bg-transparent text-xl"
@@ -284,7 +284,7 @@ const CarReady = () => {
                         (585) 5519-96
                       </p>
                     </div>
-                    <div className="flex justify-center ml-8 justify-center">
+                    <div className="flex ml-8 justify-center">
                       <Button
                         icon="envelope open outline"
                         className=" bg-transparent text-xl"
@@ -315,7 +315,7 @@ const CarReady = () => {
                     </p>
                   </div>
                   <div className="">
-                    <p className="ml-2 font-semibold text-gray-500 font-lg ml-32 ">
+                    <p className="ml-2 font-semibold text-gray-500 font-lg ">
                       Rate & Review <br />
                       <p className=" my-2">Service Rate</p>
                       <Rating
@@ -332,7 +332,7 @@ const CarReady = () => {
                       />
                       <RiArrowRightSLine className="text-xl -ml-6 text-gray-500" />
                     </div>
-                    <p className="ml-2 font-semibold text-gray-500 font-lg ml-32">
+                    <p className="ml-2 font-semibold text-gray-500 font-lg">
                       Mechanic Rate <br />
                       <Rating icon="star" defaultRating={4} maxRating={5} />
                     </p>

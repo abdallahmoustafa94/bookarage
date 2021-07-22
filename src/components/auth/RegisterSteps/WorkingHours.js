@@ -9,7 +9,7 @@ import {capitalize} from '../../../utils/capitalize-text'
 import useMediaQuery from '../../../hooks/use-media-query'
 
 const WorkingHours = ({step, values, nextStep, loading, stepTitle}) => {
-  const isSmall = useMediaQuery('(max-width: 992px)')
+  const isSmall = useMediaQuery('(max-width: 1470px)')
 
   const [state, setState] = useState([
     {

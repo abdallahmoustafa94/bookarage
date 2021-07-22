@@ -1,0 +1,18 @@
+@mixin stepNumber($step) {
+  @if $step == 'completed' {
+    background: #244066 !important;
+  }
+  @if $step == 'active' {
+    background: #f2421b !important;
+  }
+}
+
+.step {
+  background: var(--stepColor) !important;
+  &.active::after {
+    background: var(--stepColor) !important;
+  }
+  &::after {
+    background: var(--stepColor) !important;
+  }
+}

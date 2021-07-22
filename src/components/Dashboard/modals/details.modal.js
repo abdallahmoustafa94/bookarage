@@ -8,6 +8,8 @@ import useMediaQuery from '../../../hooks/use-media-query'
 import RequestInformationSection from './detailsModalComponent/requestInformation'
 import CarInformationSection from './detailsModalComponent/carInformation'
 import MaintainanceHistorySection from './detailsModalComponent/maintainanceHistory'
+import AssignedTechnicianSection from './detailsModalComponent/assignedTechnician'
+import Auth from '../../../config/auth'
 
 const DetailsModal = () => {
   const [open, setOpen] = useState(false)
@@ -68,8 +70,13 @@ const DetailsModal = () => {
           <Grid.Row>
             <Grid.Column className={`${isSmall ? 'p-0' : ''}`}>
               <RequestInformationSection requestInfo={modalData} />
+              {!Auth.isTechnician() && (
+                <AssignedTechnicianSection
+                  assignedTechData={modalData?.requestDetails?.assignedTech}
+                />
+              )}
               <MaintainanceHistorySection
-                carId={modalData?.requestDetails?.car?._id}
+                carDiganosisHistory={modalData?.requestDetails?.car?.diagnosis}
               />
             </Grid.Column>
             <Grid.Column className={`${isSmall ? 'p-0' : ''}`}>

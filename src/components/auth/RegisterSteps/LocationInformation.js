@@ -1,8 +1,6 @@
 import {Formik} from 'formik'
-import {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 import {Form, Button} from 'semantic-ui-react'
-import {CountryDropdown, RegionDropdown} from 'react-country-region-selector'
-
 import FormikControl from '../../formik/FormikControl'
 import useMediaQuery from '../../../hooks/use-media-query'
 import {keys} from '../../../config/keys'
@@ -10,14 +8,6 @@ import {keys} from '../../../config/keys'
 const LocationInformation = ({step, values, nextStep, loading, stepTitle}) => {
   const isSmall = useMediaQuery('(max-width: 992px)')
 
-  const [country, setCountry] = useState({
-    country: '',
-    setCountry: '',
-  })
-  const [city, setCity] = useState({
-    city: '',
-    setCity: '',
-  })
   useEffect(() => {
     stepTitle({
       title: 'Location Information',
@@ -25,18 +15,13 @@ const LocationInformation = ({step, values, nextStep, loading, stepTitle}) => {
     })
   }, [])
 
-  const handleOnSubmit = values => {
-    console.log(values)
-    const locationInfo = {
-      ...values,
-      country: country.setCountry,
-      city: city.setCity,
-    }
+  const handleOnSubmit = formikValues => {
+    // console.log(values)
 
     const registerContent = JSON.parse(localStorage.getItem('registerDetails'))
     localStorage.setItem(
       'registerDetails',
-      JSON.stringify({...registerContent, ...locationInfo}),
+      JSON.stringify({...registerContent, ...formikValues}),
     )
     let stepType = ''
     if (
@@ -58,16 +43,8 @@ const LocationInformation = ({step, values, nextStep, loading, stepTitle}) => {
     }
     nextStep({
       type: stepType,
-      value: locationInfo,
+      value: formikValues,
     })
-  }
-
-  const selectCountry = val => {
-    setCountry({...country, setCountry: val})
-  }
-
-  const selectCity = val => {
-    setCity({...city, setCity: val})
   }
 
   return (
@@ -83,17 +60,24 @@ const LocationInformation = ({step, values, nextStep, loading, stepTitle}) => {
         {formik => (
           <Form loading={loading} onSubmit={formik.submitForm}>
             <Form.Field>
-              <label className="text-labelColor text-base font-normal">
+              <FormikControl name="country" label="Country" control="country" />
+              {/* <label className="text-labelColor text-base font-normal">
                 Country
               </label>
               <CountryDropdown
                 name="country"
                 value={country.setCountry}
                 onChange={val => selectCountry(val)}
-              />
+              /> */}
             </Form.Field>
             <Form.Field>
-              <label className="text-base font-normal text-labelColor">
+              <FormikControl
+                name="city"
+                country={formik.values.country}
+                label="City"
+                control="city"
+              />
+              {/* <label className="text-base font-normal text-labelColor">
                 City
               </label>
               <RegionDropdown
@@ -101,7 +85,7 @@ const LocationInformation = ({step, values, nextStep, loading, stepTitle}) => {
                 country={country.setCountry}
                 value={city.setCity}
                 onChange={val => selectCity(val)}
-              />
+              /> */}
             </Form.Field>
             <Form.Field>
               <FormikControl

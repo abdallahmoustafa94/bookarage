@@ -41,11 +41,11 @@ const ServicesAndParts = ({
     if (JSON.parse(shop) !== 0) {
       run(getShopById(JSON.parse(shop)))
         .then(({data}) => {
-          console.log(data.data)
+          console.log(data.data.shopDetails.services)
           setSelectedShop(data.data)
           setState({
-            services: data.data?.[data.data.shopType]?.services || [],
-            brands: data.data?.[data.data.shopType]?.brands || [],
+            services: data.data?.shopDetails?.services || [],
+            brands: data.data?.shopDetails?.brands || [],
           })
         })
         .catch(e => {
@@ -126,7 +126,7 @@ const ServicesAndParts = ({
                 icon="plus"
                 className="bg-transparent font-normal text-primaryRedColor-default"
                 onClick={() =>
-                  setShowModal({modalName: 'registerBrand', data: null})
+                  setShowModal({modalName: 'addBrand', data: null})
                 }
               />
             </div>

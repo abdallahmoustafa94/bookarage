@@ -1,17 +1,16 @@
-import {Fragment, useEffect, useState} from 'react'
-import {Form, Image, Button, TextArea, Icon} from 'semantic-ui-react'
+import {Fragment, useState} from 'react'
+import {Form, Image, Button, Icon} from 'semantic-ui-react'
 import photoImage from '../../assets/images/photo-ic.svg'
-import {CountryDropdown, RegionDropdown} from 'react-country-region-selector'
 import useAsync from '../../hooks/useAsync'
 import {useShop} from '../../context/ShopContext'
-import {getProfile, uploadShopPhotos} from '../../services/ShopService'
+import {uploadShopPhotos} from '../../services/ShopService'
 import {useToasts} from 'react-toast-notifications'
 import {FieldArray, Formik} from 'formik'
 import FormikControl from '../formik/FormikControl'
 import {updateShopProfile} from '../../services/ShopService'
 
 const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
-  console.log(shopInfo)
+  // console.log(shopInfo)
   const {run: uploadRun, isLoading: isUploading} = useAsync()
   const {run, isLoading} = useAsync()
 
@@ -22,22 +21,7 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
     selectedcoverPhoto: photoImage || '',
     coverPhoto: '',
   })
-  const [country, setCountry] = useState({
-    country: '',
-    setCountry: shopInfo?.country || '',
-  })
   const [shop, setShop] = useShop()
-  const [region, setRegion] = useState({
-    region: '',
-    setRegion: shopInfo?.city || '',
-  })
-
-  const selectCountry = val => {
-    setCountry({...country, setCountry: val})
-  }
-  const selectRegion = val => {
-    setRegion({...region, setRegion: val})
-  }
 
   const onChangePhoto = (e, type) => {
     // console.log(e.target.files[0])
@@ -73,14 +57,14 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
   }
 
   const handleOnSubmit = values => {
-    console.log(values)
+    // console.log(values)
     // nextStep({type: 'step', value: values})
     const updateShopData = {
       ...values,
       nameEN: values.shopName,
       nameAR: values.shopName,
-      country: country.setCountry,
-      city: region.setRegion,
+      country: values.countryManagement,
+      city: values.cityManagement,
       [shopInfo?.shopType]: {
         isAgent: values.isAgentShop,
         hasRecovery: values.hasRecoveryShop,
@@ -88,7 +72,7 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
       shopId: JSON.parse(shop),
       description: values.desc,
     }
-    console.log(updateShopData)
+    // console.log(updateShopData)
     run(updateShopProfile(updateShopData))
       .then(({data}) => {
         console.log(data.data)
@@ -109,8 +93,10 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
           desc: shopInfo?.description || '',
           shopName: shopInfo?.nameEN || '',
           address: shopInfo?.address || '',
-          isAgentShop: shopInfo?.[shopInfo?.shopType]?.isAgent || false,
-          hasRecoveryShop: shopInfo?.[shopInfo?.shopType]?.hasRecovery || false,
+          isAgentShop: shopInfo?.shopDetails?.isAgent || false,
+          hasRecoveryShop: shopInfo?.shopDetails?.hasRecovery || false,
+          countryManagement: shopInfo?.country || '',
+          cityManagement: shopInfo?.city || '',
         }}
         onSubmit={handleOnSubmit}
         enableReinitialize
@@ -173,7 +159,8 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
                       <Image
                         src={shopInfo?.coverPhoto || state.selectedcoverPhoto}
                         className={`w-52 h-20 rounded-xl ${
-                          state.selectedcoverPhoto === photoImage
+                          state.selectedcoverPhoto === photoImage &&
+                          shopInfo?.coverPhoto === ''
                             ? 'object-contain'
                             : 'object-cover'
                         }`}
@@ -324,26 +311,35 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
             ></FieldArray>
 
             <Form.Field>
-              <label className="text-labelColor text-base font-normal">
+              <FormikControl
+                control="country"
+                label="Country"
+                name="countryManagement"
+              />
+              {/* <label className="text-labelColor text-base font-normal">
                 Country
               </label>
               <CountryDropdown
-                name="selectedCountryManagement"
-                value={shopInfo?.country || country.setCountry}
+              name='countryManagement'
+                value={country.setCountry}
                 onChange={val => selectCountry(val)}
-              />
+              /> */}
             </Form.Field>
             <Form.Field>
-              <label className="text-base font-normal text-labelColor">
+              <FormikControl
+                control="city"
+                country={formik.values.countryManagement}
+                label="City"
+                name="cityManagement"
+              />
+              {/* <label className="text-base font-normal text-labelColor">
                 City
               </label>
               <RegionDropdown
-                name="selectedRegionManagement"
-                country={shopInfo?.country || country.setCountry}
-                value={shopInfo?.city || region.setRegion}
-                countryValueType="full"
+                country={country.setCountry}
+                value={region.setRegion}
                 onChange={val => selectRegion(val)}
-              />
+              /> */}
             </Form.Field>
             <Form.Field>
               <FormikControl

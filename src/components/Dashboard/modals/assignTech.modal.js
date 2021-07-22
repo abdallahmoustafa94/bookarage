@@ -3,7 +3,10 @@ import {useToasts} from 'react-toast-notifications'
 import {Button, Form, Header, Modal} from 'semantic-ui-react'
 import StateContext from '../../../context/stateContext'
 import useAsync from '../../../hooks/useAsync'
-import {updateRequest} from '../../../services/RequestService'
+import {
+  assignTechnicianToRequest,
+  updateRequest,
+} from '../../../services/RequestService'
 
 const AssignTechModal = ({isUpdated}) => {
   const [open, setOpen] = useState(false)
@@ -38,10 +41,9 @@ const AssignTechModal = ({isUpdated}) => {
 
   const handleOnClickSave = () => {
     run(
-      updateRequest({
+      assignTechnicianToRequest({
         requestId: modalData.requestId,
-        requestStatus: 4,
-        assignedTech: state.selectedTech,
+        employeeId: state.selectedTech,
       }),
     )
       .then(({data}) => {
@@ -50,7 +52,10 @@ const AssignTechModal = ({isUpdated}) => {
         isUpdated(true)
         setShowModal({modalName: '', data: null})
       })
-      .catch(e => {})
+      .catch(e => {
+        console.log(e)
+        e?.errors?.map(err => addToast(err.message, {appearance: 'error'}))
+      })
   }
 
   return (

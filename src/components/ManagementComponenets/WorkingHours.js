@@ -66,8 +66,17 @@ const WorkingHours = ({values, updateShop}) => {
   const {run, isLoading} = useAsync()
 
   useEffect(() => {
-    if (values?.length === 0) return
+    console.log(values)
     let workingHrsArr = [...state]
+    if (values.length === 0) {
+      const resetWorkingHrs = [...state]
+      resetWorkingHrs?.map((w, i) => {
+        w.startTime = ''
+        w.endTime = ''
+        w.isOpened = false
+      })
+      setState(resetWorkingHrs)
+    }
     values?.map((v, i) => {
       const index = workingHrsArr.findIndex(o => o.day === v.day)
 

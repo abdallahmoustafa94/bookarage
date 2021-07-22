@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {Fragment, useEffect, useState} from 'react'
 import {Redirect, Route, Switch, useHistory, useLocation} from 'react-router'
 import {
   Dimmer,
@@ -60,61 +60,74 @@ const DashboardLayout = () => {
   const isSmall = useMediaQuery('(max-width: 992px)')
   const [shops, setShops] = useState([])
   const [selectedShop, setSelectedShop] = useState(JSON.parse(shop) || '')
+  const [sidebarItems, setSidebarItems] = useState([])
 
   const history = useHistory()
 
-  const sidebarNav = [
-    {
-      ...(!Auth.isTechnician() && {
-        icon: RiDashboardLine,
-        label: 'dashboard',
-        link: routes.dashboard,
-      }),
-    },
-    {
-      icon: BsWrench,
-      label: 'requests',
-      link: routes.requests,
-    },
-    {
-      ...(!Auth.isTechnician() && {
-        icon: GiFiles,
-        label: 'inquiries',
-        link: routes.inquiries,
-      }),
-    },
-    {
-      ...(!Auth.isTechnician() && {
-        icon: RiPercentLine,
-        label: 'offers',
-        link: routes.offers,
-      }),
-    },
-    {
-      icon: IoChatboxEllipsesOutline,
-      label: 'messages',
-      link: routes.messages,
-    },
-    {
-      ...(!Auth.isTechnician() && {
-        icon: RiWallet3Line,
-        label: 'wallet',
-        link: routes.wallet,
-      }),
-    },
-    {
-      ...(!Auth.isTechnician() && {
-        icon: RiUserSettingsLine,
-        label: 'management',
-        link: routes.management,
-      }),
-    },
-    {
-      icon: RiUser5Line,
-      label: 'myAccount',
-      link: routes.myAccount,
-    },
-  ]
+  useEffect(() => {
+    let sidebarArr = [
+      {
+        ...(!Auth.isTechnician() && {
+          icon: RiDashboardLine,
+          label: 'dashboard',
+          link: routes.dashboard,
+        }),
+      },
+      {
+        icon: BsWrench,
+        label: 'requests',
+        link: routes.requests,
+      },
+      {
+        ...(!Auth.isTechnician() && {
+          icon: GiFiles,
+          label: 'inquiries',
+          link: routes.inquiries,
+        }),
+      },
+      {
+        ...(!Auth.isTechnician() && {
+          icon: RiPercentLine,
+          label: 'offers',
+          link: routes.offers,
+        }),
+      },
+
+      {
+        icon: IoChatboxEllipsesOutline,
+        label: 'messages',
+        link: routes.messages,
+      },
+      {
+        ...(!Auth.isTechnician() && {
+          icon: RiWallet3Line,
+          label: 'wallet',
+          link: routes.wallet,
+        }),
+      },
+      {
+        ...(!Auth.isTechnician() && {
+          icon: RiUserSettingsLine,
+          label: 'management',
+          link: routes.management,
+        }),
+      },
+
+      {
+        icon: RiUser5Line,
+        label: 'myAccount',
+        link: routes.myAccount,
+      },
+    ]
+
+    sidebarArr = sidebarArr.filter(function (el) {
+      return (
+        typeof el != 'object' || Array.isArray(el) || Object.keys(el).length > 0
+      )
+    })
+
+    setSidebarItems(sidebarArr)
+  }, [])
 
   useEffect(() => {
     if (Auth.isTechnician()) return
@@ -155,7 +168,7 @@ const DashboardLayout = () => {
 
   useEffect(() => {
     if (!user) {
-      history.push('/auth/login')
+      history.push(routes.login)
       return
     }
     // if (JSON.parse(shop) ===)
@@ -229,8 +242,8 @@ const DashboardLayout = () => {
           <li className="w-24">
             <Image src={logo} />
           </li>
-          {!Auth.isTechnician() && (
-            <li className="ltr:ml-auto rtl:mr-auto hidden lg:block">
+          <li className="ltr:ml-auto rtl:mr-auto hidden lg:block">
+            {!Auth.isTechnician() && (
               <Formik
                 initialValues={{selectedShop: JSON.parse(shop) || ''}}
                 enableReinitialize
@@ -249,8 +262,8 @@ const DashboardLayout = () => {
                   </Form>
                 )}
               </Formik>
-            </li>
-          )}
+            )}
+          </li>
 
           <li className="mx-8 cursor-pointer">
             <RiQrScan2Line size="24" className="text-labelColor" />
@@ -300,12 +313,12 @@ const DashboardLayout = () => {
               direction="left"
               trigger={
                 <div className="flex flex-row items-center">
-                  {userData?.avatar ? (
+                  {JSON.parse(user)?.avatar ? (
                     <Image
-                      src={userData?.avatar}
+                      src={JSON.parse(user)?.avatar}
                       alt="avatar"
                       className={`${
-                        userData?.avatar ? 'visible' : 'hidden'
+                        JSON.parse(user)?.avatar ? 'visible' : 'hidden'
                       } w-12 h-12 rounded-full mx-auto`}
                     />
                   ) : (
@@ -315,12 +328,14 @@ const DashboardLayout = () => {
                     />
                   )}
                   <div>
-                    {userData?.['name' + lang.toUpperCase()] && (
+                    {JSON.parse(user)?.['name' + lang.toUpperCase()] && (
                       <>
                         <p className="mx-3 mb-0 text-labelColor font-medium">
-                          {userData['name' + lang.toUpperCase()]}
+                          {JSON.parse(user)?.['name' + lang.toUpperCase()]}
                         </p>
-                        <p className="mx-3 text-labelColor">Owner</p>
+                        <p className="mx-3 text-labelColor">
+                          {Auth.isTechnician() ? 'Mechanic' : 'Owner'}
+                        </p>
                       </>
                     )}
                   </div>
@@ -367,7 +382,7 @@ const DashboardLayout = () => {
         >
           <RiCloseCircleLine size="24" className="mx-auto" />
         </div>
-        {sidebarNav.map((s, i) => (
+        {sidebarItems?.map((s, i) => (
           <NavLink to={s.link} key={i}>
             <Menu.Item
               active={pathname === s.link}
@@ -383,11 +398,18 @@ const DashboardLayout = () => {
       </Sidebar>
       <div className="p-10">
         <Switch>
-          <Route exact path={routes.dashboard} component={DashboardPage} />
+          {!Auth.isTechnician() && (
+            <Route exact path={routes.management} component={Management} />
+          )}
+          {!Auth.isTechnician() && (
+            <Route exact path={routes.dashboard} component={DashboardPage} />
+          )}
+
           <Route exact path={routes.myAccount} component={Myaccount} />
-          <Route exact path={routes.management} component={Management} />
           <Route path={routes.requests} component={Requests} />
-          <Redirect to={routes.dashboard} />
+          <Redirect
+            to={Auth.isTechnician() ? routes.requests : routes.dashboard}
+          />
         </Switch>
       </div>
     </div>

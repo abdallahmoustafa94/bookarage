@@ -1,26 +1,10 @@
 import moment from 'moment'
-import {useEffect} from 'react'
 import {ImPhone, ImWrench} from 'react-icons/im'
-import {IoCalendar, IoMail, IoMailOutline} from 'react-icons/io5'
-import {Form, Image} from 'semantic-ui-react'
+import {IoCalendar, IoMail} from 'react-icons/io5'
+import {Image} from 'semantic-ui-react'
 import SPimage from '../../../../assets/images/sample-logo.png'
-import useAsync from '../../../../hooks/useAsync'
-import {carHistory} from '../../../../services/RequestService'
 
-const MaintainanceHistorySection = ({carId}) => {
-  const {run, isLoading, data} = useAsync()
-
-  useEffect(() => {
-    if (!carId) return
-    console.log(carId)
-    run(carHistory(carId))
-      .then(({data}) => {
-        console.log(data.data)
-      })
-      .catch(e => {
-        console.log(e)
-      })
-  }, [carId])
+const MaintainanceHistorySection = ({carDiganosisHistory}) => {
   return (
     <div className="mx-1 bg-white p-7 rounded-md text-lg mt-5">
       <div>
@@ -31,8 +15,8 @@ const MaintainanceHistorySection = ({carId}) => {
         ></div>
       </div>
 
-      <Form loading={isLoading}>
-        {data?.data?.map((h, i) => (
+      <div>
+        {carDiganosisHistory?.map((h, i) => (
           <div className="ring-1 ring-gray-200 rounded-lg p-5 mt-6" key={i}>
             <div className="flex justify-between">
               <div className="w-1/2">
@@ -42,15 +26,15 @@ const MaintainanceHistorySection = ({carId}) => {
                 <div className="flex items-center mb-4 px-2">
                   <IoCalendar size={20} className="ltr:mr-3 rtl:ml-3" />
                   <p>
-                    {moment(h.data.requestDetails.requestDate).format('LL')}
+                    {moment(h?.data?.requestDetails?.requestDate).format('LL')}
                   </p>
                 </div>
                 <div className="flex items-center px-2">
                   <ImWrench size={20} className="ltr:mr-3 rtl:ml-3" />
                   <div>
-                    {h.data.requestDetails?.services?.map((s, i) => (
+                    {h?.data?.requestDetails?.services?.map((s, i) => (
                       <p key={i} className="mb-1">
-                        {s.nameEN}
+                        {s?.nameEN}
                       </p>
                     ))}
                   </div>
@@ -61,11 +45,11 @@ const MaintainanceHistorySection = ({carId}) => {
                 <p className="text-labelColor font-light">Service Provider</p>
                 <div className="flex items-center mb-4 px-2">
                   <Image
-                    src={h.data.shop?.logo || SPimage}
+                    src={h?.data?.shop?.logo || SPimage}
                     className="ltr:mr-3 rtl:ml-3 w-16 h-16 ring-1 ring-gray-100 rounded-md"
                   />
                   <div>
-                    <p className="mb-2">{h.data.shop?.nameEN}</p>
+                    <p className="mb-2">{h?.data?.shop?.nameEN}</p>
                     <div className="flex items-center">
                       <ImPhone
                         size={22}
@@ -97,7 +81,7 @@ const MaintainanceHistorySection = ({carId}) => {
             </div>
           </div>
         ))}
-      </Form>
+      </div>
     </div>
   )
 }

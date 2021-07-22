@@ -10,6 +10,7 @@ import {useToasts} from 'react-toast-notifications'
 import {addBrand} from '../services/ShopService'
 import {useShop} from '../context/ShopContext'
 import {object} from 'yup/lib/locale'
+import routes from '../routes'
 
 const AddBrandModal = ({brandValues, updateBrand}) => {
   const isSmall = useMediaQuery('(max-width: 992px)')
@@ -51,16 +52,22 @@ const AddBrandModal = ({brandValues, updateBrand}) => {
     console.log(values)
     // console.log(`${key}: ${value}`);
 
-    run(addBrand({shopId: JSON.parse(shop), brand: values.brands}))
-      .then(({data}) => {
-        console.log(data.data)
-        addToast(data.message, {appearance: 'success'})
-        updateBrand(true)
-        setShowModal({modalName: '', data: null})
-      })
-      .catch(e => {
-        console.log(e)
-      })
+    if (window.location.pathname.includes(routes.management)) {
+      run(addBrand({shopId: JSON.parse(shop), brand: values.brands}))
+        .then(({data}) => {
+          console.log(data.data)
+          addToast(data.message, {appearance: 'success'})
+          updateBrand(true)
+          setShowModal({modalName: '', data: null})
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    } else {
+      console.log(values.brands)
+      brandValues({brands: values.brands})
+      setShowModal({modalName: '', data: null})
+    }
   }
   return (
     <Modal
@@ -78,7 +85,7 @@ const AddBrandModal = ({brandValues, updateBrand}) => {
             Brands that you provide services for
           </p>
           <div className={`${isSmall ? 'w-full' : 'w-1/2'} my-20 mx-auto`}>
-            <Formik initialValues={{brands: ''}} onSubmit={handleOnSubmit}>
+            <Formik initialValues={{brands: []}} onSubmit={handleOnSubmit}>
               {formik => (
                 <Form onSubmit={formik.submitForm} loading={isLoading}>
                   <Form.Field>

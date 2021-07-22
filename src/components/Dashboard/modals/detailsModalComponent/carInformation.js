@@ -15,7 +15,7 @@ const CarInformationSection = ({carInfo}) => {
       <div className="my-7">
         <div className="m-auto mb-2 p-7" style={{width: '150px'}}>
           <Image
-            src={carInfo.requestDetails.car.carPhotos?.[0]}
+            src={carInfo?.requestDetails?.car?.carPhotos?.[0]}
             width="150px"
             className="object-contain m-auto rounded-md"
             alt="Car Image"
@@ -23,9 +23,9 @@ const CarInformationSection = ({carInfo}) => {
         </div>
 
         <p className="font-semibold text-labelColor text-lg px-7">
-          {carInfo.requestDetails.car?.carMake}{' '}
-          {carInfo.requestDetails.car?.carModel} -{' '}
-          {carInfo.requestDetails.car?.carYear}
+          {carInfo?.requestDetails?.car?.carMake}{' '}
+          {carInfo?.requestDetails?.car?.carModel} -{' '}
+          {carInfo?.requestDetails?.car?.carYear}
         </p>
 
         <div className="bg-blue-50 p-3 rounded-md text-labelColor">
@@ -123,7 +123,10 @@ const CarInformationSection = ({carInfo}) => {
         <div className="p-3">
           <div className="flex items-center">
             <Image
-              src={carInfo.user.avatar}
+              src={
+                carInfo.user.avatar ||
+                'https://react.semantic-ui.com/images/avatar/large/matthew.png'
+              }
               alt="Car Owner Image"
               className="rounded-full w-20 h-20"
             />

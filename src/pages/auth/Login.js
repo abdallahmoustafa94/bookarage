@@ -5,6 +5,7 @@ import {Button, Form, Image} from 'semantic-ui-react'
 import logo from '../../assets/images/logo.svg'
 import StayTunedStep from '../../components/auth/RegisterSteps/StayTunedStep'
 import Auth from '../../config/auth'
+import {keys} from '../../config/keys'
 import useLocalStorage from '../../hooks/use-local-storage'
 import useMediaQuery from '../../hooks/use-media-query'
 import useAsync from '../../hooks/useAsync'
@@ -44,7 +45,11 @@ const LoginPage = () => {
           }),
         )
         addToast(data.message, {appearance: 'success'})
-        history.push(routes.dashboard)
+        if ([keys.ROLES.tech].includes(data.data.role)) {
+          history.push(routes.requests)
+        } else {
+          history.push(routes.dashboard)
+        }
       })
       .catch(e => {
         console.log(e)
