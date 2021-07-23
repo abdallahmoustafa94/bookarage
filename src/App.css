@@ -46,6 +46,9 @@ textarea {
 .ui.dropdown > .clear.dropdown.icon {
   margin-top: -5px !important;
 }
+.text.menu .active.item {
+  @apply bg-primaryRedColor-default text-gray-50 rounded-md !important;
+}
 
 .auth-bg {
   background: url(./assets/images/auth-bg.png);

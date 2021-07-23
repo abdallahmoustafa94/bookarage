@@ -126,7 +126,7 @@ const ServicesAndParts = ({
                 icon="plus"
                 className="bg-transparent font-normal text-primaryRedColor-default"
                 onClick={() =>
-                  setShowModal({modalName: 'registerBrand', data: null})
+                  setShowModal({modalName: 'addBrand', data: null})
                 }
               />
             </div>

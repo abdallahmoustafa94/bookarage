@@ -18,7 +18,7 @@ const BrandsAndServices = ({
   loading,
 }) => {
   const isSmall = useMediaQuery('(max-width: 992px)')
-
+  console.log(values.brands)
   const {setShowModal} = useContext(StateContext)
 
   useEffect(() => {
@@ -54,16 +54,19 @@ const BrandsAndServices = ({
               <Grid columns={3} doubling verticalAlign="middle">
                 <Grid.Row>
                   {values?.brands?.map((b, i) => (
-                    <Grid.Column>
+                    <Grid.Column key={i}>
                       <div className="relative rounded-full bg-gray-100 px-5 py-3 flex items-center justify-center mb-2">
                         <span className="primary-text-color rtl:ml-3 ltr:mr-3 ">
                           {b}
                         </span>
-                        <div className="absolute top-0 ltr:right-0 rtl:left-0">
+                        <div
+                          className="absolute top-0 ltr:right-0 rtl:left-0"
+                          // onClick={deletedBrand(i)}
+                        >
                           <RiCloseCircleFill
                             size={22}
                             className="text-primaryRedColor-default cursor-pointer"
-                            onClick={ deletedBrand(i)}
+                            onClick={() => deletedBrand(i)}
                           />
                         </div>
                       </div>
@@ -90,7 +93,7 @@ const BrandsAndServices = ({
               </div>
 
               {values?.services?.map((s, i) => (
-                <div className="border border-gray-300 w-full p-2 mb-3">
+                <div className="border border-gray-300 w-full p-2 mb-3" key={i}>
                   <div className="flex items-center ">
                     <div className="flex items-center mb-0 w-1/2">
                       <BsWrench

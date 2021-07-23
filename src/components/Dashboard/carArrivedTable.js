@@ -6,6 +6,7 @@ import ChartsAndReviews from './ChartsAndReviews'
 
 const CarArrivedTable = ({requests, loading}) => {
   const {setShowModal} = useContext(StateContext)
+
   return (
     <Fragment>
       <div
@@ -65,28 +66,44 @@ const CarArrivedTable = ({requests, loading}) => {
                 <Table.Cell>
                   {formatDate(req.requestDetails.requestDate)}
                 </Table.Cell>
-                <Table.Cell>
+                <Table.Cell
+                  onClick={() =>
+                    setShowModal({modalName: 'requestDetails', data: req})
+                  }
+                >
                   <Icon
                     name="eye"
                     className="text-primaryRedColor-default cursor-pointer text-lg"
                   />
                 </Table.Cell>
-                <Table.Cell>
-                  <div
-                    className="flex items-center justify-center text-primaryRedColor-default text-lg font-medium cursor-pointer"
-                    onClick={() =>
-                      setShowModal({
-                        modalName: 'assignTech',
-                        data: {requestId: req._id, tech: req.shop.employees},
-                      })
-                    }
-                  >
-                    <p className="m-0">Assign</p>
-                    <Icon
-                      name="angle right"
-                      className="ltr:ml-2 -mt-2 rtl:mr-2"
-                    />
-                  </div>
+                <Table.Cell
+                  warning={
+                    [4].includes(req?.requestDetails?.requestStatus?.id)
+                      ? true
+                      : false
+                  }
+                >
+                  {[4].includes(req?.requestDetails?.requestStatus?.id) ? (
+                    <p className="text-center text-labelColor">
+                      Waiting Technician for diagnosis
+                    </p>
+                  ) : (
+                    <div
+                      className="flex items-center justify-center text-primaryRedColor-default text-lg font-medium cursor-pointer"
+                      onClick={() =>
+                        setShowModal({
+                          modalName: 'assignTech',
+                          data: {requestId: req._id, tech: req.shop.employees},
+                        })
+                      }
+                    >
+                      <p className="m-0">Assign</p>
+                      <Icon
+                        name="angle right"
+                        className="ltr:ml-2 -mt-2 rtl:mr-2"
+                      />
+                    </div>
+                  )}
                 </Table.Cell>
               </Table.Row>
             ))}

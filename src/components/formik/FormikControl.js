@@ -7,6 +7,8 @@ import FormikSelect from './FormikSelect'
 import FormikCheckbox from './FormikCheckbox'
 import FormikPhone from './FormikPhone'
 import FormikVerifyCode from './FormikVerifyCode'
+import FormikCountry from './formikCountry'
+import FormikCity from './formikCity'
 
 function FormikControl({control, ...props}) {
   switch (control) {
@@ -28,6 +30,10 @@ function FormikControl({control, ...props}) {
       return <FormikSelect {...props} />
     case 'checkbox':
       return <FormikCheckbox {...props} />
+    case 'country':
+      return <FormikCountry {...props} />
+    case 'city':
+      return <FormikCity {...props} />
     default:
       return null
   }

@@ -96,6 +96,7 @@ const Auth = {
     localStorage.setItem('token', '')
     localStorage.setItem('signupToken', '')
     localStorage.removeItem('shop')
+    localStorage.removeItem('user')
   },
 }
 

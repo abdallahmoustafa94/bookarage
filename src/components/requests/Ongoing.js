@@ -68,7 +68,7 @@ const Ongoing = () => {
                         (585) 5519-96
                       </p>
                     </div>
-                    <div className="flex justify-center ml-8 justify-center">
+                    <div className="flex ml-8 justify-center">
                       <Button
                         icon="envelope open outline"
                         className=" bg-transparent text-xl"
@@ -286,7 +286,7 @@ const Ongoing = () => {
                         (585) 5519-96
                       </p>
                     </div>
-                    <div className="flex justify-center ml-8 justify-center">
+                    <div className="flex ml-8 justify-center">
                       <Button
                         icon="envelope open outline"
                         className=" bg-transparent text-xl"
@@ -507,7 +507,7 @@ const Ongoing = () => {
                         (585) 5519-96
                       </p>
                     </div>
-                    <div className="flex justify-center ml-8 justify-center">
+                    <div className="flex ml-8 justify-center">
                       <Button
                         icon="envelope open outline"
                         className=" bg-transparent text-xl"
@@ -726,7 +726,7 @@ const Ongoing = () => {
                         (585) 5519-96
                       </p>
                     </div>
-                    <div className="flex justify-center ml-8 justify-center">
+                    <div className="flex ml-8 justify-center">
                       <Button
                         icon="envelope open outline"
                         className=" bg-transparent text-xl"
@@ -755,7 +755,7 @@ const Ongoing = () => {
                 </p>
                 <Button
                   content="Change"
-                  className="text-red-600 font-medium  bg-transparent -mt-4 "
+                  className="text-primaryRedColor-default font-medium  bg-transparent -mt-4 "
                 />
               </div>
               <div className="flex justify-end mt-32">

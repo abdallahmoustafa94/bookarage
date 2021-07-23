@@ -12,8 +12,10 @@ import {getProfile} from '../services/ShopService'
 import {changeAvatar} from '../services/MyAccountService'
 import {useShop} from '../context/ShopContext'
 import {useUser} from '../context/UserContext'
+import Auth from '../config/auth'
 
 const Myaccount = ({values}) => {
+  console.log('here')
   // const { run: uploadRun, isLoading: isUploading } = useAsync()
 
   const {addToast} = useToasts()
@@ -243,74 +245,76 @@ const Myaccount = ({values}) => {
         </div> */}
             </div>
           </div>
-          <div className="my-4 bg-white p-10">
-            <p className="font-medium text-gray-700">Legal Information</p>
-            <Form.Field>
-              <Label>VAT Number</Label>
-              <Input
-                placeholder="Write your VAT number"
-                defaultValue={state.VATNumber}
-                onChange={(e, {value}) =>
-                  setState({...state, VATNumber: value})
-                }
-              />
-            </Form.Field>
-            <p className="mt-2 text-sm text-gray-500">
-              To change the name you need to contact the admin
-            </p>
-            <Form.Field>
-              <div>
-                <p className="text-gray-600">Trading License</p>
-                <p className="mt-2 text-sm text-gray-500">
-                  File details size maximum 2mb extension .jpg.png
-                </p>
-                <div className="space-y-1 text-center">
-                  <div className="flex text-sm col-span-6 sm:col-span-3">
-                    <label
-                      htmlFor="file-upload"
-                      className="relative flex items-center cursor-pointer bg-white rounded-md font-medium file-upload"
-                    >
-                      <FiUpload
-                        onChange={changeHandler}
-                        size={22}
-                        className="text-primaryRedColor-default"
-                      />
-                      <span className="secondary-text-color ltr:ml-3 rtl:mr-3">
-                        Upload License
-                      </span>
-                      <input
-                        id="file-upload"
-                        name="file-upload"
-                        type="file"
-                        className="sr-only"
-                        onChange={changeHandler}
-                      />
-                    </label>
-                  </div>
-                  {isFilePicked ? (
-                    <div>
-                      <p> {state.licenseFile.name}</p>
+          {!Auth.isTechnician() && (
+            <div className="my-4 bg-white p-10">
+              <p className="font-medium text-gray-700">Legal Information</p>
+              <Form.Field>
+                <Label>VAT Number</Label>
+                <Input
+                  placeholder="Write your VAT number"
+                  defaultValue={state.VATNumber}
+                  onChange={(e, {value}) =>
+                    setState({...state, VATNumber: value})
+                  }
+                />
+              </Form.Field>
+              <p className="mt-2 text-sm text-gray-500">
+                To change the name you need to contact the admin
+              </p>
+              <Form.Field>
+                <div>
+                  <p className="text-gray-600">Trading License</p>
+                  <p className="mt-2 text-sm text-gray-500">
+                    File details size maximum 2mb extension .jpg.png
+                  </p>
+                  <div className="space-y-1 text-center">
+                    <div className="flex text-sm col-span-6 sm:col-span-3">
+                      <label
+                        htmlFor="file-upload"
+                        className="relative flex items-center cursor-pointer bg-white rounded-md font-medium file-upload"
+                      >
+                        <FiUpload
+                          onChange={changeHandler}
+                          size={22}
+                          className="text-primaryRedColor-default"
+                        />
+                        <span className="secondary-text-color ltr:ml-3 rtl:mr-3">
+                          Upload License
+                        </span>
+                        <input
+                          id="file-upload"
+                          name="file-upload"
+                          type="file"
+                          className="sr-only"
+                          onChange={changeHandler}
+                        />
+                      </label>
                     </div>
-                  ) : state.licenseFile ? (
-                    <a href={state.licenseFile} target="_blank">
-                      View File
-                    </a>
-                  ) : (
-                    <p>Select a file to show details</p>
-                  )}
+                    {isFilePicked ? (
+                      <div>
+                        <p> {state.licenseFile.name}</p>
+                      </div>
+                    ) : state.licenseFile ? (
+                      <a href={state.licenseFile} target="_blank">
+                        View File
+                      </a>
+                    ) : (
+                      <p>Select a file to show details</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </Form.Field>
+              </Form.Field>
 
-            <div className="my-10 text-center">
-              <Button
-                content="Save"
-                type="submit"
-                className="btn-primary"
-                onClick={handleOnSubmit}
-              />
+              <div className="my-10 text-center">
+                <Button
+                  content="Save"
+                  type="submit"
+                  className="btn-primary"
+                  onClick={handleOnSubmit}
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </Form>
     </div>

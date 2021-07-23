@@ -226,6 +226,7 @@ const RegisterPage = () => {
   }
 
   const handleDeleteBrand = i => {
+    console.log(i)
     let brandsArr = [...state.brands]
     brandsArr.splice(i, 1)
     setState({...state, brands: brandsArr})

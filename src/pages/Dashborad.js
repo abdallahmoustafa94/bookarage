@@ -34,8 +34,9 @@ const DashboardPage = () => {
   })
 
   useEffect(() => {
-    if (!Auth.getShopId() === 0) return
-    run(myRequests(Auth.getShopId()))
+    if (!JSON.parse(shop) === 0) return
+    console.log(JSON.parse(shop))
+    run(myRequests(JSON.parse(shop)))
       .then(({data}) => {
         console.log(data)
         let requestTypes = {

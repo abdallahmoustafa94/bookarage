@@ -75,7 +75,7 @@ const CarArrived = () => {
                     (585) 5519-96
                   </p>
                 </div>
-                <div className="flex justify-center ml-8 justify-center">
+                <div className="flex ml-8 justify-center">
                   <Button
                     icon="envelope open outline"
                     className=" bg-transparent text-xl"
@@ -88,7 +88,7 @@ const CarArrived = () => {
                 <div className="flex justify-end ml-80">
                   <Button
                     content="Assign To Mechanic"
-                    className=" bg-red-600 text-white py-4 rounded px-14 text-sm"
+                    className=" bg-primaryRedColor-default text-white py-4 rounded px-14 text-sm"
                     onClick={() =>
                       setShowModal({modalName: 'assignMechanic', data: null})
                     }

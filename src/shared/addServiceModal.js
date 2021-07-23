@@ -33,7 +33,9 @@ const AddServiceModal = ({serviceValues, updateService}) => {
           servicesArr.push({
             key: i,
             text: s.nameEN,
-            value: s.id ,
+            value: ['registerService'].includes(showModal.modalName)
+              ? s.id + '-' + s.nameEN
+              : s.id,
           })
         })
         // + '-' + s.nameEN
@@ -46,22 +48,20 @@ const AddServiceModal = ({serviceValues, updateService}) => {
 
   const handleOnSubmit = values => {
     console.log(values, /[^-]*$/.exec(values?.serviceId))
-    
+
     if (window.location.pathname.includes(routes.register)) {
       serviceValues(values)
+      setShowModal({modalName: '', data: null})
     } else {
-      const valueEntries = Object.entries(values);
-      const valueFromEntries =  Object.fromEntries(valueEntries);
+      const valueEntries = Object.entries(values)
+      const valueFromEntries = Object.fromEntries(valueEntries)
       valueFromEntries.shopId = JSON.parse(shop)
       // const valueFromEntriesStr = JSON.stringify(valueFromEntries)
-      
-        
-       console.log(valueFromEntries)
-  
-     
+
+      console.log(valueFromEntries)
+
       run(addServiceForShop(valueFromEntries))
         .then(({data}) => {
-         
           console.log(data.data)
           addToast(data.message, {appearance: 'success'})
           updateService(true)
