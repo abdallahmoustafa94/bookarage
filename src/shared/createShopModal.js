@@ -69,7 +69,9 @@ const CreateShopModal = () => {
         run(createNewShop(newShop))
           .then(({data}) => {
             console.log(data)
+
             addToast(data.message, {appearance: 'success'})
+            setStep(1)
             setShowModal({modalName: '', data: null})
             setShop(JSON.stringify(data.data._id))
           })
@@ -83,6 +85,7 @@ const CreateShopModal = () => {
     <Modal
       closeIcon
       open={open}
+      closeOnDimmerClick={false}
       onClose={() => setShowModal({modalName: '', data: null})}
     >
       <Modal.Content scrolling>

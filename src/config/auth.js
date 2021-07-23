@@ -6,6 +6,7 @@ let signupToken = localStorage.getItem('signupToken')
 
 const Auth = {
   isAuth: () => {
+    console.log(token)
     return Boolean(token)
   },
   isSignupAuth: () => {

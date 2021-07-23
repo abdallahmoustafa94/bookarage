@@ -167,17 +167,11 @@ const DashboardLayout = () => {
   }, [shop])
 
   useEffect(() => {
-    if (!user) {
+    if (!Auth.getUserId()) {
       history.push(routes.login)
       return
     }
-    // if (JSON.parse(shop) ===)
-    // const shopId = shops[0]?.value
-    // console.log(shopId)
-    // setShop(JSON.stringify(shopId))
-    setUserData(JSON.parse(user))
     document.body.classList.add('bg-gray-100')
-
     return () => {
       document.body.classList.remove('bg-gray-100')
     }

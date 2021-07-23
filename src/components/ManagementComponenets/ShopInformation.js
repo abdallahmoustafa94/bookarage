@@ -93,8 +93,8 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
           desc: shopInfo?.description || '',
           shopName: shopInfo?.nameEN || '',
           address: shopInfo?.address || '',
-          isAgentShop: shopInfo?.[shopInfo?.shopType]?.isAgent || false,
-          hasRecoveryShop: shopInfo?.[shopInfo?.shopType]?.hasRecovery || false,
+          isAgentShop: shopInfo?.shopDetails?.isAgent || false,
+          hasRecoveryShop: shopInfo?.shopDetails?.hasRecovery || false,
           countryManagement: shopInfo?.country || '',
           cityManagement: shopInfo?.city || '',
         }}

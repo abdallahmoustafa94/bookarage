@@ -48,8 +48,8 @@ const Management = ({values}) => {
           console.log(data.data)
           setSelectedShop(data.data)
           setState({
-            services: data.data?.[data.data.shopType]?.services || [],
-            brands: data.data?.[data.data.shopType]?.brands || [],
+            services: data.data?.shopDetails?.services || [],
+            brands: data.data?.shopDetails?.brands || [],
           })
         })
         .catch(e => {

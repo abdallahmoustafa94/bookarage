@@ -14,7 +14,7 @@ const AuthLayout = () => {
     let isMounted = true
     if (!isMounted) return
     if (Auth.isAuth()) {
-      history.push('/dashboard')
+      history.push(routes.dashboard)
     }
     return () => {
       isMounted = false

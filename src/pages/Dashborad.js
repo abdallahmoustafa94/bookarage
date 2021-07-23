@@ -34,7 +34,7 @@ const DashboardPage = () => {
   })
 
   useEffect(() => {
-    if (!JSON.parse(shop) === 0) return
+    if (JSON.parse(shop) === 0) return
     console.log(JSON.parse(shop))
     run(myRequests(JSON.parse(shop)))
       .then(({data}) => {

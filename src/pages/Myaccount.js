@@ -15,7 +15,7 @@ import {useUser} from '../context/UserContext'
 import Auth from '../config/auth'
 
 const Myaccount = ({values}) => {
-  console.log('here')
+  // console.log('here')
   // const { run: uploadRun, isLoading: isUploading } = useAsync()
 
   const {addToast} = useToasts()
@@ -52,16 +52,16 @@ const Myaccount = ({values}) => {
   }, [updateProfile])
 
   const handleOnSubmit = () => {
-    run(editProfile(state))
+    const updateProfileData = new FormData()
+
+    updateProfileData.append('VATNumber', state.VATNumber)
+    updateProfileData.append('licenseFile', state.licenseFile)
+
+    run(editProfile(updateProfileData))
       .then(({data}) => {
-        JSON.stringify({
-          nameEN: data.data.nameEN,
-          nameAR: data.data.nameEN,
-          email: data.data.email,
-          phoneNumber: data.data.phoneNumber,
-        })
         console.log(data.data)
         addToast(data.message, {appearance: 'success'})
+        setUpdateProfile(true)
       })
       .catch(e => {
         console.log(e)
@@ -292,7 +292,7 @@ const Myaccount = ({values}) => {
                     </div>
                     {isFilePicked ? (
                       <div>
-                        <p> {state.licenseFile.name}</p>
+                        <p> {state.licenseFile?.name}</p>
                       </div>
                     ) : state.licenseFile ? (
                       <a href={state.licenseFile} target="_blank">
@@ -308,7 +308,6 @@ const Myaccount = ({values}) => {
               <div className="my-10 text-center">
                 <Button
                   content="Save"
-                  type="submit"
                   className="btn-primary"
                   onClick={handleOnSubmit}
                 />

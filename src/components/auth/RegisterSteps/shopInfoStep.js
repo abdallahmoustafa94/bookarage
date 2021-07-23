@@ -23,19 +23,21 @@ const ShopInfoStep = ({step, values, nextStep, loading, stepTitle}) => {
     // console.log(type, e.target.files[0])
     if (e.target.files || e.target.files[0]) {
       let reader = new FileReader()
-      reader.onload = e => {
+      reader.onload = event => {
         setState({
           ...state,
-          ['selected' + type]: e.target.result,
+          ['selected' + type]: event.target.result,
+          [type]: e.target.files[0],
         })
       }
       reader.readAsDataURL(e.target.files[0])
     }
+    console.log(e.target.files[0], type)
     setState({...state, [type]: e.target.files[0]})
   }
 
   const handleOnSubmit = values => {
-    // console.log(values)
+    console.log(state)
     const shopInfo = {...values, ...state}
     const registerContent = JSON.parse(localStorage.getItem('registerDetails'))
     localStorage.setItem(
