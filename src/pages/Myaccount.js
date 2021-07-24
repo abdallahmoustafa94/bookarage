@@ -78,7 +78,7 @@ const Myaccount = ({values}) => {
     //     .catch(e => {
     //       console.log(e)
     //     })
-    console.log(state, selectedAvatar)
+    // console.log(state, selectedAvatar)
   }
 
   const changeHandler = event => {
@@ -103,14 +103,13 @@ const Myaccount = ({values}) => {
 
     run(changeAvatar(newAvatar))
       .then(({data}) => {
-        console.log(data)
+        // console.log(data)
         addToast(data.message, {appearance: 'success'})
-        setUser(
-          JSON.stringify({
-            ...JSON.parse(user),
-            avatar: data.data.avatar,
-          }),
-        )
+        const updateAvatar = {
+          ...JSON.parse(user),
+          avatar: data.data.avatar,
+        }
+        setUser(JSON.stringify(updateAvatar))
       })
       .catch(e => {
         console.log(e)
@@ -290,7 +289,7 @@ const Myaccount = ({values}) => {
                         />
                       </label>
                     </div>
-                    {isFilePicked ? (
+                    {state.licenseFile?.name ? (
                       <div>
                         <p> {state.licenseFile?.name}</p>
                       </div>

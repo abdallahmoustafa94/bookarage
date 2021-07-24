@@ -8,7 +8,7 @@ export const myRequests = id => {
 
 // Update Request
 export const updateRequest = status => {
-  return authAxios.patch('/requests/updateRequest', status)
+  return authAxios.patch('/requests/updateRequestStatus', status)
 }
 
 // Assign Technician to request
@@ -19,4 +19,9 @@ export const assignTechnicianToRequest = requestData => {
 // get my assigned requests
 export const getMyAssignedRequests = () => {
   return authAxios.get('/users/employees/myAssignedRequests')
+}
+
+// Update overview for requested car
+export const updateOverviewForCar = overviewData => {
+  return authAxios.patch('/cars/updateOverviews', overviewData)
 }
