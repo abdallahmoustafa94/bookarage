@@ -12,7 +12,7 @@ const CreateDiagnosis = () => {
   const {showModal, setShowModal} = useContext(StateContext)
   const [open, setOpen] = useState(false)
   const isSmall = useMediaQuery('(max-width: 992px)')
-  const [step, setStep] = useState('diagnosis')
+  const [step, setStep] = useState('overview')
 
   useEffect(() => {
     if (showModal.modalName === 'createDiagnosis') {
@@ -42,7 +42,9 @@ const CreateDiagnosis = () => {
           <MaintenanceCheckStep carValue={showModal?.data} />
         )}
 
-        {step === 'diagnosis' && <DiagnosisFormStep />}
+        {step === 'diagnosis' && (
+          <DiagnosisFormStep serviceData={showModal?.data} />
+        )}
       </Modal.Content>
     </Modal>
   )

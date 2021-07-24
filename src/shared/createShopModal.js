@@ -26,7 +26,6 @@ const CreateShopModal = () => {
     desc: '',
   })
   const [shop, setShop] = useShop()
-  const [user, setUser] = useUser()
   const [state, setState] = useState({})
   const {run, isLoading} = useAsync()
   const {addToast} = useToasts()
@@ -64,7 +63,7 @@ const CreateShopModal = () => {
           newShop.append('isAgent', state.isAgent)
           newShop.append('hasRecovery', state.hasRecovery)
         }
-        newShop.append('shopType', JSON.parse(user).role)
+        newShop.append('shopType', Auth.getUserData().role)
 
         run(createNewShop(newShop))
           .then(({data}) => {

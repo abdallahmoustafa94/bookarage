@@ -21,7 +21,7 @@ function FormikTime({label, name, ...props}) {
               timeFormat="AMPM"
               {...field}
               {...props}
-              value={value}
+              // value={value}
               onBlur={() => setFieldTouched(name, true)}
               onChange={(e, {value}) => setFieldValue(name, value)}
               error={touched[name] && errors[name]}

@@ -167,8 +167,8 @@ const DashboardLayout = () => {
 
   useEffect(() => {
     if (!Auth.getUserId()) return
-    console.log(JSON.parse(user))
-    setUserData(JSON.parse(user))
+    console.log(Auth.getUserData())
+    setUserData(Auth.getUserData())
     document.body.classList.add('bg-gray-100')
     return () => {
       document.body.classList.remove('bg-gray-100')
