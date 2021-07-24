@@ -226,7 +226,9 @@ div[role='listbox'].dropdown {
   background-color: #f2421b;
   color: #fff;
   border: 1px solid #f2421b;
-  padding: 0 25px !important;
+  /* padding: 0 25px !important; */
+  margin: auto !important;
+  max-width: 50% !important;
 }
 
 #landing-nav {
@@ -237,4 +239,10 @@ div[role='listbox'].dropdown {
   left: 0;
   z-index: 9999;
   padding: 8px;
+}
+
+wrapped {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }

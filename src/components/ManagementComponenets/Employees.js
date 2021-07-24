@@ -33,13 +33,13 @@ const Employees = () => {
       <AddEmployeeModal updateEmployee={v => setUpdateEmp(prev => !prev)} />
       <EditEmployeeModal updateEmployees={v => setUpdateEmp(prev => !prev)} />
 
-      <div className="flex items-center w-full">
-        <p className="flex justify-start  w-1/2">Employees</p>
+      <div className="flex items-center w-full xs:my-8">
+        <p className="flex justify-start  w-1/2 xs:text-xs">Employees</p>
         <div className="flex justify-end w-1/2">
           <Button
             content="add New Employess"
             icon="plus"
-            className="bg-transparent font-normal text-primaryRedColor-default"
+            className="bg-transparent font-normal text-primaryRedColor-default xs:text-xs"
             onClick={() => setShowModal({modalName: 'addEmployee', data: null})}
           />
         </div>

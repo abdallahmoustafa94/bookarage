@@ -48,8 +48,8 @@ const Requests = () => {
   ]
 
   return (
-    <div className="px-24">
-      <Tab menu={{text: true}} panes={panes} />
+    <div className="md:px-24 xs:px-8  ">
+      <Tab menu={{text: true, className: 'wrapped'}} panes={panes} />
     </div>
   )
 }

@@ -17,19 +17,19 @@ const AssignedRequests = () => {
   return (
     <div className="my-8 py-5 text-labelColor">
       <p>14 Total Requests</p>
-      <div className="bg-white p-4  rounded-lg">
+      <div className="bg-white lg:p-4  rounded-lg">
         <div className="flex items-center">
-          <GiAutoRepair className="-mt-4 text-xl" />
+          <GiAutoRepair className="-mt-4 lg:text-xl" />
           <p className="flex w-1/3 justify-start">New Request</p>
           <p className="flex w-1/3 justify-center">ID:351</p>
           <Button
             content="Full Request Details"
             className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 "
           />
-          <RiArrowRightSLine className="text-xl -ml-6" />
+          <RiArrowRightSLine className="text-xl lg:-ml-6" />
         </div>
 
-        <Grid doubling columns={2}>
+        <Grid stackable columns={2}>
           <Grid.Row>
             <Grid.Column width={3}>
               <Image
@@ -43,7 +43,7 @@ const AssignedRequests = () => {
                 <p className="font-semibold">Honda-civic 2005 (black)</p>
               </div>
               <div className=" flex items-start">
-                <div className="mr-20">
+                <div className="lg:mr-20">
                   <p className="text-gray-400 text-sm">Request Services</p>
                   <div className="flex">
                     <BsWrench

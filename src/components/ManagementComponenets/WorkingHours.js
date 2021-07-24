@@ -149,15 +149,15 @@ const WorkingHours = ({values, updateShop}) => {
         <ul>
           {state.map((item, i) => (
             <li key={item.id} className="mb-3">
-              <div className="flex items-center">
-                <p className="mb-0 w-2/12">{capitalize(item.day)}</p>
-                <div className="w-4/12 justify-start">
+              <div className="lg:flex items-center">
+                <p className="mb-0 lg:w-2/12">{capitalize(item.day)}</p>
+                <div className="lg:w-4/12 lg:justify-start">
                   {/* {console.log(Object.keys(item))} */}
                   <div>
                     <Form.Group widths="equal" className="mb-0">
                       <Form.Field>
-                        <div className={`flex items-center`}>
-                          <label htmlFor={``} className="mx-3 text-gray-400">
+                        <div className={`lg:flex items-center`}>
+                          <label htmlFor={``} className="lg:mx-3 text-gray-400">
                             From
                           </label>
                           {/* {formatTime(item.startTime)} */}
@@ -177,8 +177,8 @@ const WorkingHours = ({values, updateShop}) => {
                       </Form.Field>
 
                       <Form.Field>
-                        <div className={`flex items-center`}>
-                          <label htmlFor={``} className="mx-3 text-gray-400">
+                        <div className={`lg:flex items-center`}>
+                          <label htmlFor={``} className="lg:mx-3 text-gray-400">
                             To
                           </label>
                           <TimeInput
@@ -199,12 +199,12 @@ const WorkingHours = ({values, updateShop}) => {
                   </div>
                 </div>
 
-                <div className="w-6/12">
-                  <div className="flex  justify-end">
-                    <label className="mx-3 text-gray-400">
+                <div className="lg:w-6/12">
+                  <div className="lg:flex  lg:justify-end">
+                    <label className="lg:mx-3 text-gray-400">
                       {item?.isOpened ? 'Opened' : 'Closed'}
                     </label>
-                    <div className="-mt-3">
+                    <div className="lg:-mt-3">
                       <Form.Checkbox
                         toggle
                         checked={item.isOpened}

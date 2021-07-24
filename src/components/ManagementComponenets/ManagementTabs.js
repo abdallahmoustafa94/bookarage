@@ -1,20 +1,16 @@
 import {Menu, Button} from 'semantic-ui-react'
 
-
-
 const ManagementTabs = ({activeMenu, setActiveMenu}) => {
-
   return (
-    <div className="flex flex-col w-1/4 text-gray-700 bg-white  p-10  h-screen sticky top-0 rounded">
-     
+    <div className="flex lg:flex-col xs:w-full lg:w-1/4 text-gray-700 lg:bg-white xs:justify-center sm:justify-center md:justify-center xs:px-8 lg:p-10  lg:h-screen lg:sticky lg:top-0 rounded xs:flex-wrap">
       <Button
         icon="bookmark"
         content="Shop Information"
         className={`${
           activeMenu === 'shopInformation'
-            ? 'bg-primaryRedColor-default text-white rounded-full py-4 px-1 mt-4'
-            : 'bg-transparent text-gray-700 rounded-full py-4 px-2 mt-4'
-        } font-normal text-lg text-left pl-28`}
+            ? 'bg-primaryRedColor-default text-white lg:rounded-full lg:py-4 lg:px-1 mt-4  xs:text-center'
+            : 'bg-transparent text-gray-700 rounded-full lg:py-4 lg:px-2 mt-4 xs:text-center'
+        } font-normal lg:text-lg text-left lg:pl-28`}
         active={activeMenu === 'shopInformation'}
         onClick={() => setActiveMenu('shopInformation')}
       ></Button>
@@ -24,9 +20,9 @@ const ManagementTabs = ({activeMenu, setActiveMenu}) => {
         content="Working Hours"
         className={`${
           activeMenu === 'workingHours'
-            ? 'bg-primaryRedColor-default text-white rounded-full py-4 px-1 mt-4'
-            : 'bg-transparent text-gray-700 rounded-full py-4 px-2 mt-4'
-        } font-normal text-lg text-left pl-28`}
+            ? 'bg-primaryRedColor-default text-white lg:rounded-full lg:py-4 lg:px-1 mt-4  xs:text-center'
+            : 'bg-transparent text-gray-700 rounded-full lg:py-4 lg:px-2 mt-4 xs:text-center'
+        } font-normal lg:text-lg text-left lg:pl-28`}
         active={activeMenu === 'workingHours'}
         onClick={() => setActiveMenu('workingHours')}
       ></Button>
@@ -36,9 +32,9 @@ const ManagementTabs = ({activeMenu, setActiveMenu}) => {
         content="Services & Parts"
         className={`${
           activeMenu === 'servicesAndParts'
-            ? 'bg-primaryRedColor-default text-white rounded-full py-4 px-1 mt-4'
-            : 'bg-transparent text-gray-700 rounded-full py-4 px-2 mt-4'
-        } font-normal text-lg text-left pl-28`}
+            ? 'bg-primaryRedColor-default text-white lg:rounded-full lg:py-4 lg:px-1 mt-4  xs:text-center'
+            : 'bg-transparent text-gray-700 rounded-full lg:py-4 lg:px-2 mt-4 xs:text-center'
+        } font-normal lg:text-lg text-left lg:pl-28`}
         active={activeMenu === 'servicesAndParts'}
         onClick={() => setActiveMenu('servicesAndParts')}
       ></Button>
@@ -48,9 +44,9 @@ const ManagementTabs = ({activeMenu, setActiveMenu}) => {
         content="Employees"
         className={`${
           activeMenu === 'employees'
-            ? 'bg-primaryRedColor-default text-white rounded-full py-4 px-1 mt-4'
-            : 'bg-transparent text-gray-700 rounded-full py-4 px-2 mt-4'
-        } font-normal text-lg text-left pl-28`}
+            ? 'bg-primaryRedColor-default text-white lg:rounded-full lg:py-4 lg:px-1 mt-4  xs:text-center'
+            : 'bg-transparent text-gray-700 rounded-full lg:py-4 lg:px-2 mt-4 xs:text-center'
+        } font-normal lg:text-lg text-left lg:pl-28`}
         active={activeMenu === 'employees'}
         onClick={() => setActiveMenu('employees')}
       ></Button>
