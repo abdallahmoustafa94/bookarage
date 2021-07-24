@@ -11,7 +11,7 @@ import MaintainanceHistorySection from './detailsModalComponent/maintainanceHist
 import AssignedTechnicianSection from './detailsModalComponent/assignedTechnician'
 import Auth from '../../../config/auth'
 
-const DetailsModal = () => {
+const DetailsModal = ({updateRequestStatus}) => {
   const [open, setOpen] = useState(false)
   const {showModal, setShowModal} = useContext(StateContext)
   const [modalData, setModalData] = useState('')
@@ -69,7 +69,13 @@ const DetailsModal = () => {
         <Grid doubling columns={2}>
           <Grid.Row>
             <Grid.Column className={`${isSmall ? 'p-0' : ''}`}>
-              <RequestInformationSection requestInfo={modalData} />
+              <RequestInformationSection
+                requestInfo={modalData}
+                updateRequestStatus={v => {
+                  updateRequestStatus(v)
+                  setShowModal({modalName: '', data: null})
+                }}
+              />
               {!Auth.isTechnician() && (
                 <AssignedTechnicianSection
                   assignedTechData={modalData?.requestDetails?.assignedTech}

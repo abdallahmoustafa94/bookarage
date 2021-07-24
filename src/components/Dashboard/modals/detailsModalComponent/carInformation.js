@@ -1,5 +1,6 @@
 import {Button, Image, Progress} from 'semantic-ui-react'
 import {IoAlertCircle} from 'react-icons/io5'
+import {formatDate} from '../../../../utils/date-format'
 
 const CarInformationSection = ({carInfo}) => {
   return (
@@ -36,49 +37,68 @@ const CarInformationSection = ({carInfo}) => {
           <li className="px-5 py-2">
             <div className="flex items-center justify-between mb-1 text-labelColor">
               <p className="mb-0">Car Health</p>
-              <p className="mb-0">65%</p>
+              <p className="mb-0">
+                {carInfo?.requestDetails?.car?.overview?.carHealth || '100'}%
+              </p>
             </div>
-            <Progress percent={65} active size="medium" progress indicating />
+            <Progress
+              percent={
+                carInfo?.requestDetails?.car?.overview?.carHealth || '100'
+              }
+              active
+              size="medium"
+              progress
+              indicating
+            />
           </li>
           <li className="bg-gray-50 px-5 py-2 text-labelColor">
             <div className="flex items-center justify-between">
               <p className="mb-0">Regular maintainance</p>
               <p>22 March 2020</p>
             </div>
-            <div className="flex items-center text-primaryRedColor-default mt-1">
-              <IoAlertCircle size={20} className="ltr:mr-2 rtl:ml-2" />
-              <p className="mb-0">Maintainance Outdated</p>
-            </div>
+            {carInfo?.requestDetails?.car?.overview?.regularMaintenance
+              ?.isOutDated && (
+              <div className="flex items-center text-primaryRedColor-default mt-1">
+                <IoAlertCircle size={20} className="ltr:mr-2 rtl:ml-2" />
+                <p className="mb-0">Maintainance Outdated</p>
+              </div>
+            )}
           </li>
           <li className="px-5 py-2 text-labelColor">
             <div className="flex items-center justify-between">
               <p className="mb-0">Battery</p>
               <p className="mb-0">22 March 2020</p>
             </div>
-            <div className="flex items-center text-primaryRedColor-default mt-1">
-              <IoAlertCircle size={20} className="ltr:mr-2 rtl:ml-2" />
-              <p className="mb-0">Battery Outdated</p>
-            </div>
+            {carInfo?.requestDetails?.car?.overview?.battery?.isOutDated && (
+              <div className="flex items-center text-primaryRedColor-default mt-1">
+                <IoAlertCircle size={20} className="ltr:mr-2 rtl:ml-2" />
+                <p className="mb-0">Battery Outdated</p>
+              </div>
+            )}
           </li>
           <li className=" bg-gray-50 px-5 py-2 text-labelColor">
             <div className="flex items-center justify-between">
               <p className="mb-0">Oil Change</p>
               <p className="mb-0">22 March 2020</p>
             </div>
-            <div className="flex items-center text-primaryRedColor-default mt-1">
-              <IoAlertCircle size={20} className="ltr:mr-2 rtl:ml-2" />
-              <p className="mb-0">Oil Outdated</p>
-            </div>
+            {carInfo?.requestDetails?.car?.overview?.oilChange?.isOutDated && (
+              <div className="flex items-center text-primaryRedColor-default mt-1">
+                <IoAlertCircle size={20} className="ltr:mr-2 rtl:ml-2" />
+                <p className="mb-0">Oil Outdated</p>
+              </div>
+            )}
           </li>
           <li className="px-5 py-2 text-labelColor">
             <div className="flex items-center justify-between">
               <p className="mb-0">Brake Fluid</p>
               <p className="mb-0">22 March 2020</p>
             </div>
-            <div className="flex items-center text-primaryRedColor-default mt-1">
-              <IoAlertCircle size={20} className="ltr:mr-2 rtl:ml-2" />
-              <p className="mb-0">Brake Fluid Outdated</p>
-            </div>
+            {carInfo?.requestDetails?.car?.overview?.brakeFluid?.isOutDated && (
+              <div className="flex items-center text-primaryRedColor-default mt-1">
+                <IoAlertCircle size={20} className="ltr:mr-2 rtl:ml-2" />
+                <p className="mb-0">Brake Fluid Outdated</p>
+              </div>
+            )}
           </li>
 
           <li className="px-5 py-2 bg-gray-50 text-labelColor">
@@ -86,10 +106,12 @@ const CarInformationSection = ({carInfo}) => {
               <p className="mb-0">Air Filter</p>
               <p className="mb-0">22 March 2020</p>
             </div>
-            <div className="flex items-center text-primaryRedColor-default mt-1">
-              <IoAlertCircle size={20} className="ltr:mr-2 rtl:ml-2" />
-              <p className="mb-0">Air Filter Outdated</p>
-            </div>
+            {carInfo?.requestDetails?.car?.overview?.airFilter?.isOutDated && (
+              <div className="flex items-center text-primaryRedColor-default mt-1">
+                <IoAlertCircle size={20} className="ltr:mr-2 rtl:ml-2" />
+                <p className="mb-0">Air Filter Outdated</p>
+              </div>
+            )}
           </li>
         </ul>
 
@@ -100,19 +122,29 @@ const CarInformationSection = ({carInfo}) => {
         <ul>
           <li className="px-5 py-2 bg-gray-50">
             <p className="mb-1 text-gray-400">Insurance Date</p>
-            <p className="mb-0 text-labelColor">22 March 2020</p>
+            <p className="mb-0 text-labelColor">
+              {carInfo?.requestDetails?.car?.insuranceDate
+                ? formatDate(carInfo?.requestDetails?.car?.insuranceDate)
+                : null}
+            </p>
           </li>
           <li className="px-5 py-2">
             <p className="mb-1 text-gray-400">Car Color</p>
-            <p className="mb-0 text-labelColor">Black</p>
+            <p className="mb-0 text-labelColor">
+              {carInfo?.requestDetails?.car?.carColor}
+            </p>
           </li>
           <li className="px-5 py-2 bg-gray-50">
             <p className="mb-1 text-gray-400">Plate Number</p>
-            <p className="mb-0 text-labelColor">555049</p>
+            <p className="mb-0 text-labelColor">
+              {carInfo?.requestDetails?.car?.plateNumber}
+            </p>
           </li>
           <li className="px-5 py-2">
             <p className="mb-1 text-gray-400">Milage</p>
-            <p className="mb-0 text-labelColor">30000 KM</p>
+            <p className="mb-0 text-labelColor">
+              {carInfo?.requestDetails?.car?.mileage} KM
+            </p>
           </li>
         </ul>
 

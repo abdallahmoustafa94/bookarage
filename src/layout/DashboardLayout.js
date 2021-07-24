@@ -54,7 +54,6 @@ const DashboardLayout = () => {
   const [showNotification, setShowNotification] = useState(false)
   const [user, setUser] = useUser()
   const [shop, setShop] = useShop()
-  const parsedUser = JSON.parse(user)
   const {pathname} = useLocation()
   const [visible, setVisible] = useState(false)
   const isSmall = useMediaQuery('(max-width: 992px)')
@@ -167,21 +166,15 @@ const DashboardLayout = () => {
   }, [shop])
 
   useEffect(() => {
-    if (!Auth.getUserId()) {
-      history.push(routes.login)
-      return
-    }
+    if (!Auth.getUserId()) return
+    console.log(Auth.getUserData())
+    setUserData(Auth.getUserData())
     document.body.classList.add('bg-gray-100')
     return () => {
       document.body.classList.remove('bg-gray-100')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user])
-
-  const handleSelectedShop = id => {
-    setSelectedShop(id)
-    setShop(JSON.stringify(id))
-  }
 
   const handleOnClickLogout = () => {
     run(logout())
@@ -204,12 +197,12 @@ const DashboardLayout = () => {
             ) {
               Auth.logout()
               // localStorage.removeItem('user')
-              history.push('/auth/login')
+              history.push(routes.login)
               return null
             }
             if (error.field === 'permissionDenied') {
               addToast(error.message, {appearance: 'error'})
-              history.push('/requests')
+              history.push(routes.requests)
               return null
             }
             return null
@@ -224,7 +217,6 @@ const DashboardLayout = () => {
         <Loader inverted />
       </Dimmer>
 
-      <DetailsModal />
       <nav className="lg:px-20 px-5 py-4">
         <ul className="flex items-center justify-items-center">
           <li
@@ -307,12 +299,12 @@ const DashboardLayout = () => {
               direction="left"
               trigger={
                 <div className="flex flex-row items-center">
-                  {JSON.parse(user)?.avatar ? (
+                  {userData?.avatar ? (
                     <Image
-                      src={JSON.parse(user)?.avatar}
+                      src={userData?.avatar}
                       alt="avatar"
                       className={`${
-                        JSON.parse(user)?.avatar ? 'visible' : 'hidden'
+                        userData?.avatar ? 'visible' : 'hidden'
                       } w-12 h-12 rounded-full mx-auto`}
                     />
                   ) : (
@@ -322,10 +314,10 @@ const DashboardLayout = () => {
                     />
                   )}
                   <div>
-                    {JSON.parse(user)?.['name' + lang.toUpperCase()] && (
+                    {userData?.['name' + lang.toUpperCase()] && (
                       <>
                         <p className="mx-3 mb-0 text-labelColor font-medium">
-                          {JSON.parse(user)?.['name' + lang.toUpperCase()]}
+                          {userData?.['name' + lang.toUpperCase()]}
                         </p>
                         <p className="mx-3 text-labelColor">
                           {Auth.isTechnician() ? 'Mechanic' : 'Owner'}

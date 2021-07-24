@@ -14,6 +14,7 @@ import {useUser} from '../context/UserContext'
 import useAsync from '../hooks/useAsync'
 import {myRequests, updateRequest} from '../services/RequestService'
 import ChartsAndReviews from '../components/Dashboard/ChartsAndReviews'
+import DetailsModal from '../components/Dashboard/modals/details.modal'
 
 const DashboardPage = () => {
   const [activeMenu, setActiveMenu] = useState('appointment')
@@ -94,6 +95,12 @@ const DashboardPage = () => {
   return (
     <section className=" rounded-lg">
       <AssignTechModal isUpdated={value => setUpdateRequests(prev => !prev)} />
+      <DetailsModal
+        updateRequestStatus={v =>
+          handleUpdateRequest({id: v.requestId, statusId: v.status})
+        }
+      />
+
       <RequestTabs
         activeMenu={activeMenu}
         setActiveMenu={value => setActiveMenu(value)}
