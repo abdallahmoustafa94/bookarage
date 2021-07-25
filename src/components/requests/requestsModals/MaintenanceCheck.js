@@ -2,8 +2,9 @@ import {Formik} from 'formik'
 import {Button, Form} from 'semantic-ui-react'
 import FormikControl from '../../formik/FormikControl'
 import useAsync from '../../../hooks/useAsync'
+import {updateOverviewForCar} from '../../../services/RequestService'
 
-const MaintenanceCheckStep = ({carValue}) => {
+const MaintenanceCheckStep = ({carValue, nextStep}) => {
   const {run, isLoading} = useAsync()
 
   const handleOnSubmit = values => {
@@ -14,6 +15,14 @@ const MaintenanceCheckStep = ({carValue}) => {
     }
 
     console.log(newCheck)
+
+    run(updateOverviewForCar(newCheck))
+      .then(({data}) => {
+        nextStep('diagnosis')
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
   return (
     <div className="my-10">
@@ -37,7 +46,7 @@ const MaintenanceCheckStep = ({carValue}) => {
         onSubmit={handleOnSubmit}
       >
         {formik => (
-          <Form onSubmit={formik.submitForm}>
+          <Form loading={isLoading} onSubmit={formik.submitForm}>
             <Form.Field className="ml-5">
               <FormikControl
                 name="regularMaintenance"

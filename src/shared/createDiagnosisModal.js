@@ -8,7 +8,7 @@ import MaintenanceCheckStep from '../components/requests/requestsModals/Maintena
 import StateContext from '../context/stateContext'
 import useMediaQuery from '../hooks/use-media-query'
 
-const CreateDiagnosis = () => {
+const CreateDiagnosis = ({updateRequests}) => {
   const {showModal, setShowModal} = useContext(StateContext)
   const [open, setOpen] = useState(false)
   const isSmall = useMediaQuery('(max-width: 992px)')
@@ -39,11 +39,17 @@ const CreateDiagnosis = () => {
           </p>
         </div>
         {step === 'overview' && (
-          <MaintenanceCheckStep carValue={showModal?.data} />
+          <MaintenanceCheckStep
+            carValue={showModal?.data}
+            nextStep={v => setStep(v)}
+          />
         )}
 
         {step === 'diagnosis' && (
-          <DiagnosisFormStep serviceData={showModal?.data} />
+          <DiagnosisFormStep
+            serviceData={showModal?.data}
+            updateRequests={v => updateRequests(v)}
+          />
         )}
       </Modal.Content>
     </Modal>

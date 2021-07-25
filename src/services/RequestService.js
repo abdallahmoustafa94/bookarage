@@ -25,3 +25,8 @@ export const getMyAssignedRequests = () => {
 export const updateOverviewForCar = overviewData => {
   return authAxios.patch('/cars/updateOverviews', overviewData)
 }
+
+// Create new Diagnosis
+export const createNewDiagnosis = diagnosisData => {
+  return authAxios.post('/diagnosis/createDiagnosis', diagnosisData)
+}

@@ -10,7 +10,7 @@ import FormikControl from '../formik/FormikControl'
 import {updateShopProfile} from '../../services/ShopService'
 
 const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
-  // console.log(shopInfo)
+  console.log(shopInfo)
   const {run: uploadRun, isLoading: isUploading} = useAsync()
   const {run, isLoading} = useAsync()
 
@@ -89,7 +89,7 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
       <Formik
         initialValues={{
           phoneNumber: shopInfo?.phoneNumber || [],
-          VAT: shopInfo?.VAT || [],
+          VAT: shopInfo?.VAT || [{percentage: 0, isDefault: false}],
           desc: shopInfo?.description || '',
           shopName: shopInfo?.nameEN || '',
           address: shopInfo?.address || '',
@@ -272,7 +272,9 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
                     <p className="mb-0 w-1/2">VAT (%)</p>
                     <div
                       className="flex justify-end items-center w-1/2 cursor-pointer"
-                      onClick={() => arrayhelpers.push('')}
+                      onClick={() =>
+                        arrayhelpers.push({percentage: '', isDefault: false})
+                      }
                     >
                       <p className="font-normal text-primaryRedColor-default mb-0 mr-3">
                         Add VAT
@@ -287,8 +289,8 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
                   <div className="my-3">
                     {formik.values.VAT.map((vat, i) => (
                       <div key={i}>
-                        <div className="flex w-full">
-                          <Form.Field width="8">
+                        <Form.Field width="8">
+                          <div className="flex items-center w-full">
                             <FormikControl
                               icon={
                                 <Icon
@@ -298,11 +300,41 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
                                   onClick={e => arrayhelpers.remove(i)}
                                 />
                               }
-                              name={'VAT.' + i}
+                              name={'VAT.' + i + '.percentage'}
+                              className="w-1/2"
                               control="input"
                             />
-                          </Form.Field>
-                        </div>
+                            {vat.isDefault ? (
+                              <div className="bg-gray-200 py-1 px-5 rounded-lg ml-2">
+                                <p className="text-labelColor">Default</p>
+                              </div>
+                            ) : (
+                              <div className=" ml-2">
+                                <p
+                                  className="text-primaryRedColor-default cursor-pointer"
+                                  onClick={() => {
+                                    const index = formik.values.VAT.findIndex(
+                                      o => o.isDefault === true,
+                                    )
+
+                                    if (index !== -1) {
+                                      formik.setFieldValue(
+                                        'VAT.' + index + '.isDefault',
+                                        false,
+                                      )
+                                    }
+                                    formik.setFieldValue(
+                                      'VAT.' + i + '.isDefault',
+                                      true,
+                                    )
+                                  }}
+                                >
+                                  Set as default VAT
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </Form.Field>
                       </div>
                     ))}
                   </div>

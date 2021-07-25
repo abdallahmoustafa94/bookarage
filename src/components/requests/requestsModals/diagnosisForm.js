@@ -3,10 +3,18 @@ import {Button, Form, Icon} from 'semantic-ui-react'
 import FormikControl from '../../formik/FormikControl'
 import {HiCheckCircle} from 'react-icons/hi'
 import {BsPlusSquare} from 'react-icons/bs'
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useState} from 'react'
+import moment from 'moment'
+import {formatDate} from '../../../utils/date-format'
+import {IoMdCloseCircle} from 'react-icons/io'
+import {useContext} from 'react'
+import StateContext from '../../../context/stateContext'
+import useAsync from '../../../hooks/useAsync'
+import {createNewDiagnosis} from '../../../services/RequestService'
+import {useToasts} from 'react-toast-notifications'
+import * as Yup from 'yup'
 
-const DiagnosisFormStep = ({serviceData}) => {
-  const [serviceCost, setServiceCost] = useState(0)
+const DiagnosisFormStep = ({serviceData, updateRequests}) => {
   const [state, setState] = useState({
     vat: 0,
     serviceVAT: 5,
@@ -16,10 +24,19 @@ const DiagnosisFormStep = ({serviceData}) => {
     vatTotal: 0,
     total: 0,
   })
+  const {run, isLoading} = useAsync()
+  const {setShowModal} = useContext(StateContext)
+  const {addToast} = useToasts()
+
+  const diagnosisSchema = Yup.object({
+    expectedDate: Yup.string().required('Must add the delivery date'),
+    expectedTime: Yup.string().required('Must add delivery time'),
+  })
+
   useEffect(() => {
     if (!serviceData) return
     console.log(
-      serviceData?.requestDetails?.services,
+      serviceData?.shop?.VAT,
       serviceData?.shop?.shopDetails?.services,
     )
     let requiredServicesCost = 0
@@ -37,72 +54,55 @@ const DiagnosisFormStep = ({serviceData}) => {
         }
       }
     })
+    let defaultVAT = 0
     if (serviceData?.shop?.VAT?.length > 0) {
-      setState({...state, vat: serviceData?.shop?.VAT?.[0]})
+      serviceData?.shop?.VAT?.map((v, i) => {
+        if (v.isDefault) {
+          console.log(v)
+          defaultVAT = v.percentage
+        }
+      })
     }
-    setState({...state, serviceCost: requiredServicesCost})
+    setState({...state, serviceCost: requiredServicesCost, vat: defaultVAT})
   }, [])
 
-  const getFormValues = values => {
+  const handleOnSubmit = values => {
     console.log(values)
-    let subTotal = 0
-    let total = 0
-    let partsTotal = 0
-    let serviceVatTotal = 0
-    let vatTotal = 0
-    values.parts?.map((p, i) => {
-      partsTotal += (Number(p?.price) + Number(p?.labourCost)) * p?.quantity
-    })
-
-    subTotal = Number(partsTotal) + Number(values.serviceCost)
-    serviceVatTotal = Number(subTotal) * Number(state.serviceVAT / 100)
-    vatTotal = Number(subTotal) * (Number(state.vat) / 100)
-    total =
-      Number(subTotal) +
-      Number(serviceVatTotal) +
-      Number(vatTotal) +
-      Number(values.serviceCost)
-
-    setState({
-      ...state,
+    const deliveryDate = moment(
+      `${formatDate(values.expectedDate)} ${values.expectedTime}`,
+      'DD-MM-YYYY hh:mm A',
+    ).format()
+    const newDiagnosis = {
+      requestId: serviceData?._id,
+      carId: serviceData?.requestDetails?.car?._id,
+      deliveryDate: deliveryDate,
+      details: values.details,
       serviceCost: values.serviceCost,
-      partsCost: partsTotal.toFixed(2),
-      vatTotal: vatTotal.toFixed(2),
-      serviceVatTotal: serviceVatTotal.toFixed(2),
-      total: total.toFixed(2),
-    })
+      serviceVAT: {
+        percentage: state.serviceVAT,
+        amount: Number(values.totalServiceVat),
+      },
+      defaultVAT: {
+        percentage: values.vat,
+        amount: Number(values.totalVat),
+      },
+      totalPartsAmount: values.totalParts,
+      total: values.total,
+      parts: values.parts,
+    }
+    console.log(newDiagnosis)
+
+    run(createNewDiagnosis(newDiagnosis))
+      .then(({data}) => {
+        console.log(data)
+        addToast(data.message, {appearance: 'success'})
+        updateRequests(true)
+        setShowModal({modalName: '', data: null})
+      })
+      .catch(e => {
+        console.log(e)
+      })
   }
-
-  // const handlePartsChange = partsValues => {
-  //   // console.log(partsValues)
-  //   let totalCost = 0
-  //   let totalPrice = 0
-  //   partsValues?.map((p, i) => {
-  //     totalCost += Number(p?.price) + Number(p?.labourCost)
-  //   })
-  //   const subTotalPrice = Number(totalCost) + Number(serviceCost)
-  //   const serviceVatTotal = subTotalPrice * Number(vat.serviceVAT / 100)
-  //   const vatTotal = subTotalPrice * (Number(vat.vat) / 100)
-  //   totalPrice = subTotalPrice + Number(serviceVatTotal) + Number(vatTotal)
-  //   console.log(serviceVatTotal.toFixed(2))
-  //   setVat({
-  //     ...vat,
-  //     serviceVatTotal: serviceVatTotal.toFixed(2),
-  //     vatTotal: vatTotal.toFixed(2),
-  //   })
-  //   setTotal(totalPrice.toFixed(2))
-  //   setPartsCost(totalCost)
-
-  //   return totalCost
-  // }
-
-  // const handleServiceVAT = formikValues => {
-  //   console.log(formikValues.parts)
-  // }
-
-  // const handleTotalVAT = formikValues => {
-  //   console.log(formikValues)
-  // }
 
   return (
     <div className="my-10 mx-20">
@@ -110,6 +110,10 @@ const DiagnosisFormStep = ({serviceData}) => {
         initialValues={{
           required: false,
           serviceCost: state.serviceCost || 0,
+          diagnosisDetails: '',
+          expectedDate: '',
+          expectedTime: '',
+          details: '',
           parts: [
             {
               partName: '',
@@ -123,12 +127,17 @@ const DiagnosisFormStep = ({serviceData}) => {
           totalVat: 0,
           totalParts: 0,
           total: 0,
+          vat: state.vat,
         }}
+        validationSchema={diagnosisSchema}
+        onSubmit={handleOnSubmit}
         enableReinitialize
       >
         {formik => {
           let partsTotal = 0
           formik.values.parts?.map((p, i) => {
+            p.labourCost = Number(p.labourCost)
+            p.price = Number(p.price)
             partsTotal +=
               (Number(p?.price) + Number(p?.labourCost)) * Number(p?.quantity)
           })
@@ -145,18 +154,16 @@ const DiagnosisFormStep = ({serviceData}) => {
           formik.values.totalServiceVat = serviceVatTotal.toFixed(2)
           formik.values.total = total
 
-          // setState(formik.values)
-          // getFormValues(formik.values)
           return (
-            <Form onSubmit={formik.submitForm}>
+            <Form loading={isLoading} onSubmit={formik.submitForm}>
               <div>
                 <p className="text-labelColor mb-0">Finish And Delivery Time</p>
                 <Form.Group widths="8">
                   <Form.Field width="4">
-                    <FormikControl control="date" />
+                    <FormikControl name="expectedDate" control="date" />
                   </Form.Field>
                   <Form.Field width="4">
-                    <FormikControl control="time" />
+                    <FormikControl name="expectedTime" control="time" />
                   </Form.Field>
                 </Form.Group>
               </div>
@@ -172,7 +179,7 @@ const DiagnosisFormStep = ({serviceData}) => {
               <Form.Field>
                 <FormikControl
                   control="textarea"
-                  name="diagnosisDetails"
+                  name="details"
                   label="Diagnosis Details"
                   placeholder="Write Full Details of The Diagnosis"
                   rows={5}
@@ -182,7 +189,12 @@ const DiagnosisFormStep = ({serviceData}) => {
               <Form.Field>
                 <div className="flex justify-between">
                   <p className="text-labelColor">Parts Required</p>
-                  <FormikControl control="checkbox" name="required" toggle />
+                  <FormikControl
+                    control="checkbox"
+                    name="required"
+                    checked={formik.values.required}
+                    toggle
+                  />
                 </div>
               </Form.Field>
 
@@ -211,7 +223,19 @@ const DiagnosisFormStep = ({serviceData}) => {
                       </div>
 
                       {formik.values.parts.map((p, i) => (
-                        <div className="shadow-md rounded-xl p-3 mb-3" key={i}>
+                        <div
+                          className="shadow-md rounded-xl p-3 mb-7 relative"
+                          key={i}
+                        >
+                          {formik.values.parts.length > 1 && (
+                            <div onClick={e => arrayhelpers.remove(i)}>
+                              <IoMdCloseCircle
+                                size={23}
+                                className="text-primaryRedColor-default bg-white rounded-full absolute -top-3 right-0 z-10 cursor-pointer"
+                              />
+                            </div>
+                          )}
+
                           <div className="flex justify-between">
                             <div className="flex items-center">
                               <p className="mb-0">Part {i + 1}</p>
@@ -228,7 +252,9 @@ const DiagnosisFormStep = ({serviceData}) => {
                               <p className="mb-0 mr-2">Qty</p>
                               <FormikControl
                                 name={'parts.' + i + '.quantity'}
-                                className="w-16"
+                                className="w-16 quantity"
+                                type="number"
+                                onWheel={e => e.target.blur()}
                                 control="input"
                               />
                             </div>
@@ -288,14 +314,16 @@ const DiagnosisFormStep = ({serviceData}) => {
                   </p>
                 </div>
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-gray-400 mb-0">VAT ({state.vat} %)</p>
+                  <p className="text-gray-400 mb-0">
+                    VAT ( {formik.values.vat}% )
+                  </p>
                   <p className="text-gray-400 mb-0">
                     {formik.values.totalVat} AED
                   </p>
                 </div>
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-gray-400 mb-0">
-                    Service VAT ({state.serviceVAT} %)
+                    Service VAT ( {state.serviceVAT}% )
                   </p>
                   <p className="text-gray-400 mb-0">
                     {formik.values.totalServiceVat} AED

@@ -19,6 +19,7 @@ const AssignedRequests = () => {
   const {setShowModal} = useContext(StateContext)
   const {run, isLoading} = useAsync()
   const [assignedRequests, setAssignedRequests] = useState([])
+  const [updateRequests, setUpdateRequests] = useState(false)
 
   useEffect(() => {
     run(getMyAssignedRequests())
@@ -29,10 +30,10 @@ const AssignedRequests = () => {
       .catch(e => {
         console.log(e)
       })
-  }, [])
+  }, [updateRequests])
   return (
     <div className="my-8 py-5 text-labelColor">
-      <CreateDiagnosis />
+      <CreateDiagnosis updateRequests={v => setUpdateRequests(prev => !prev)} />
       <p>{assignedRequests?.length} Total Requests</p>
 
       {assignedRequests?.map((rs, i) => (

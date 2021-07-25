@@ -25,7 +25,6 @@ const Management = ({values}) => {
   const [activeMenu, setActiveMenu] = useState('shopInformation')
   const [user, setUser] = useUser()
   const [shop, setShop] = useShop()
-  const parsedUser = JSON.parse(user)
   const {run, isLoading} = useAsync()
   const [selectedShop, setSelectedShop] = useState({})
   const {showModal, setShowModal} = useContext(StateContext)
@@ -40,10 +39,10 @@ const Management = ({values}) => {
   })
 
   useEffect(() => {
-    if (!user) return
+    if (!JSON.parse(shop) === 0) return
     console.log(Auth.getShopId(), shop)
     if (JSON.parse(shop) !== 0) {
-      run(getShopById(JSON.parse(shop)))
+      run(getShopById(Auth.getShopId()))
         .then(({data}) => {
           console.log(data.data)
           setSelectedShop(data.data)
