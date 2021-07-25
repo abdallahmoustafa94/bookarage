@@ -110,7 +110,7 @@ const ChartsAndReviews = () => {
     <div className="my-8">
       <div className="lg:flex w-full lg:space-x-4">
         <div className="lg:w-2/3 p-8 ">
-          <div className="bg-white p-8 xs:hidden md:hidden: sm:hidden ">
+          <div className="bg-white p-8 xs:hidden md:hidden: sm:hidden lg:block">
             <BarChart
               width={700}
               height={300}
@@ -132,7 +132,7 @@ const ChartsAndReviews = () => {
               <Bar dataKey="pv" fill="#f2421b" />
             </BarChart>
           </div>
-          <div className="my-8 bg-white lg:p-8 xs:hidden sm:hidden md:hidden">
+          <div className="my-8 bg-white lg:p-8 xs:hidden sm:hidden md:hidden lg:block">
             <LineChart
               width={700}
               height={300}
