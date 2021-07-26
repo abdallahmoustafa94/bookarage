@@ -407,6 +407,7 @@ const DashboardLayout = () => {
 
           <Route exact path={routes.myAccount} component={Myaccount} />
           <Route path={routes.requests} component={Requests} />
+
           <Redirect
             to={Auth.isTechnician() ? routes.requests : routes.dashboard}
           />

@@ -246,3 +246,7 @@ wrapped {
   flex-direction: row;
   flex-wrap: wrap;
 }
+
+.admin-menu {
+  background-color: #011c40 !important;
+}

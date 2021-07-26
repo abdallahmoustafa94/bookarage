@@ -54,6 +54,7 @@ const Auth = {
 
     return true
   },
+
   isServiceProvider: () => {
     const user = JSON.parse(localStorage.getItem('user') || '[]')
 

@@ -6,6 +6,7 @@ import AuthLayout from '../layout/AuthLayout'
 import DashboardLayout from '../layout/DashboardLayout'
 import Home from '../pages/landingPage/Home'
 import {myAccount} from '../pages/Myaccount'
+import Admin from '../pages/Admin'
 
 const Routes = () => {
   const [lang] = useLanguage()
@@ -34,6 +35,7 @@ const Routes = () => {
         <Route path="/auth" component={AuthLayout} />
         <Route exact path="/" component={Home} />
         <PrivateRoute path="/dashboard" component={DashboardLayout} />
+        <Route path="/registereduser" component={Admin} />
       </Switch>
     </Router>
   )
