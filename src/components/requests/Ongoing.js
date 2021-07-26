@@ -9,25 +9,25 @@ import StateContext from '../../context/stateContext'
 const Ongoing = () => {
   const {setShowModal} = useContext(StateContext)
   return (
-    <div className="my-8 py-8 px-24">
+    <div className="my-8 py-8 lg:px-24">
       <p>14 Total Requests</p>
       <div className="bg-white p-4  rounded-lg">
         <div className="flex items-center">
-          <GiAutoRepair className="-mt-4 text-xl" />
-          <p className="flex w-1/3 justify-start">
+          <GiAutoRepair className="lg:-mt-4 text-xl" />
+          <p className="flex w-1/3 justify-start xs:text-xs">
             Ongoing (Waiting For Diagnosis Report )
           </p>
-          <p className="flex w-1/3 justify-center">ID:351</p>
+          <p className="flex w-1/3 justify-center xs:text-xs">ID:351</p>
           <Button
             content="Full Request Details"
-            className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 "
+            className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 xs:text-xs"
           />
-          <RiArrowRightSLine className="text-xl -ml-6" />
+          <RiArrowRightSLine className="lg:text-xl lg:-ml-6" />
         </div>
-        <Grid>
+        <Grid stackable>
           <Grid.Row>
             <Grid.Column width={8}>
-              <div className="flex">
+              <div className="lg:flex">
                 <Grid.Column width={6}>
                   <Image
                     className="rounded-lg my-8"
@@ -36,12 +36,12 @@ const Ongoing = () => {
                   />
                 </Grid.Column>
 
-                <Grid.Column width={10} className="ml-4">
+                <Grid.Column width={10} className="lg:ml-4">
                   <div className="mb-2">
                     <p className=" font-semibold ">Honda-civic 2005 (black)</p>
                   </div>
-                  <div className=" flex items-start">
-                    <div className="mr-20">
+                  <div className=" lg:flex items-start">
+                    <div className="lg:mr-20">
                       <p className="text-gray-500 text-sm">Request Services</p>
                       <div className="flex">
                         <BsWrench
@@ -75,7 +75,7 @@ const Ongoing = () => {
                       />
                       <Button
                         icon="users"
-                        className=" rounded  bg-transparent text-xl"
+                        className=" rounded  bg-transparent lg:text-xl"
                       />
                     </div>
                   </div>
@@ -91,19 +91,19 @@ const Ongoing = () => {
                   src="https://react.semantic-ui.com/images/wireframe/square-image.png"
                   size="mini"
                 />
-                <p className="ml-2 font-semibold text-gray-500 font-lg">
+                <p className="ml-2 font-semibold text-gray-500 lg:font-lg">
                   Assigned Mechanic <br />
                   <Rating icon="star" defaultRating={4} maxRating={5} />
                 </p>
                 <Button
                   content="Change"
-                  className="text-red-600 font-medium  bg-transparent -mt-4 "
+                  className="text-red-600 font-medium  bg-transparent lg:-mt-4 "
                 />
               </div>
-              <div className="flex justify-end mt-32">
+              <div className="flex justify-end  lg:mt-32 md:mt-80">
                 <Button
                   content="Cancel"
-                  className=" py-2 px-2 ml-4 bg-transparent border-gray-300 text-gray-400 border"
+                  className=" lg:py-2 lg:px-2 lg:ml-4 bg-transparent border-gray-300 text-gray-400 border"
                 />
               </div>
             </Grid.Column>
@@ -231,21 +231,21 @@ const Ongoing = () => {
 
       <div className="bg-white p-4 my-8  rounded-lg">
         <div className="flex items-center">
-          <GiAutoRepair className="-mt-4 text-xl" />
-          <p className="flex w-1/3 justify-start">
+          <GiAutoRepair className="lg:-mt-4 lg:text-xl" />
+          <p className="flex w-1/3 justify-start xs:text-xs">
             Ongoing (Waiting For Diagnosis Report )
           </p>
-          <p className="flex w-1/3 justify-center">ID:351</p>
+          <p className="flex w-1/3 justify-center xs:text-xs">ID:351</p>
           <Button
             content="Full Request Details"
-            className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 "
+            className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 xs:text-xs"
           />
-          <RiArrowRightSLine className="text-xl -ml-6" />
+          <RiArrowRightSLine className="lg:text-xl lg:-ml-6" />
         </div>
-        <Grid>
+        <Grid stackable>
           <Grid.Row>
             <Grid.Column width={8}>
-              <div className="flex">
+              <div className="lg:flex">
                 <Grid.Column width={6}>
                   <Image
                     className="rounded-lg my-8"
@@ -254,12 +254,12 @@ const Ongoing = () => {
                   />
                 </Grid.Column>
 
-                <Grid.Column width={10} className="ml-4">
+                <Grid.Column width={10} className="lg:ml-4">
                   <div className="mb-2">
                     <p className=" font-semibold ">Honda-civic 2005 (black)</p>
                   </div>
                   <div className=" flex items-start">
-                    <div className="mr-20">
+                    <div className="lg:mr-20">
                       <p className="text-gray-500 text-sm">Request Services</p>
                       <div className="flex">
                         <BsWrench
@@ -270,7 +270,7 @@ const Ongoing = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mr-12 my-4">
+                  <div className="lg:mr-12 my-4">
                     <p className="text-gray-500 text-sm">Plate Number</p>
                     <p>555 099</p>
                   </div>
@@ -286,7 +286,7 @@ const Ongoing = () => {
                         (585) 5519-96
                       </p>
                     </div>
-                    <div className="flex ml-8 justify-center">
+                    <div className="flex lg:ml-8 justify-center">
                       <Button
                         icon="envelope open outline"
                         className=" bg-transparent text-xl"
@@ -300,7 +300,7 @@ const Ongoing = () => {
                 </Grid.Column>
               </div>
 
-              <div className=" flex items-start"></div>
+              <div className=" lg:flex items-start"></div>
             </Grid.Column>
             <Grid.Column width={8}>
               <div className="flex items-center my-4 justify-start ">
@@ -309,7 +309,7 @@ const Ongoing = () => {
                   src="https://react.semantic-ui.com/images/wireframe/square-image.png"
                   size="mini"
                 />
-                <p className="ml-2 font-semibold text-gray-500 font-lg">
+                <p className="ml-2 font-semibold text-gray-500 lg:font-lg">
                   Assigned Mechanic <br />
                   <Rating icon="star" defaultRating={4} maxRating={5} />
                 </p>
@@ -318,10 +318,10 @@ const Ongoing = () => {
                   className="text-red-600 font-medium  bg-transparent -mt-4 "
                 />
               </div>
-              <div className="flex justify-end mt-32">
+              <div className="flex justify-end lg:mt-32 md:mt-80">
                 <Button
                   content="Add Diagnosis Details"
-                  className=" py-4 px-12 ml-4 bg-red-600 text-white   border-2"
+                  className=" lg:py-4 lg:px-12 lg:ml-4 bg-red-600 text-white   border-2"
                   onClick={() =>
                     setShowModal({modalName: 'addDiagnosis', data: null})
                   }
@@ -450,23 +450,23 @@ const Ongoing = () => {
         </Grid>
       </div>
 
-      <div className="bg-white p-4 my-8  rounded-lg">
+      <div className="bg-white p-4 my-8 rounded-lg">
         <div className="flex items-center">
-          <GiAutoRepair className="-mt-4 text-xl" />
-          <p className="flex w-1/3 justify-start">
+          <GiAutoRepair className="-mt-4 lg:text-xl" />
+          <p className="flex w-1/3 justify-start xs:text-xs">
             Ongoing (Waiting Owner Approval )
           </p>
-          <p className="flex w-1/3 justify-center">ID:351</p>
+          <p className="flex w-1/3 justify-center xs:text-xs">ID:351</p>
           <Button
             content="Full Request Details"
-            className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 "
+            className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 xs:text-xs"
           />
           <RiArrowRightSLine className="text-xl -ml-6" />
         </div>
-        <Grid>
+        <Grid stackable>
           <Grid.Row>
             <Grid.Column width={8}>
-              <div className="flex">
+              <div className="lg:flex">
                 <Grid.Column width={6}>
                   <Image
                     className="rounded-lg my-8"
@@ -475,12 +475,12 @@ const Ongoing = () => {
                   />
                 </Grid.Column>
 
-                <Grid.Column width={10} className="ml-4">
+                <Grid.Column width={10} className="lg:ml-4">
                   <div className="mb-2">
                     <p className=" font-semibold ">Honda-civic 2005 (black)</p>
                   </div>
-                  <div className=" flex items-start">
-                    <div className="mr-20">
+                  <div className=" lg:flex items-start">
+                    <div className="lg:mr-20">
                       <p className="text-gray-500 text-sm">Request Services</p>
                       <div className="flex">
                         <BsWrench
@@ -491,7 +491,7 @@ const Ongoing = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mr-12 my-4">
+                  <div className="lg:mr-12 my-4">
                     <p className="text-gray-500 text-sm">Plate Number</p>
                     <p>555 099</p>
                   </div>
@@ -510,11 +510,11 @@ const Ongoing = () => {
                     <div className="flex ml-8 justify-center">
                       <Button
                         icon="envelope open outline"
-                        className=" bg-transparent text-xl"
+                        className=" bg-transparent lg:text-xl"
                       />
                       <Button
                         icon="users"
-                        className=" rounded  bg-transparent text-xl"
+                        className=" rounded  bg-transparent lg:text-xl"
                       />
                     </div>
                   </div>
@@ -530,7 +530,7 @@ const Ongoing = () => {
                   src="https://react.semantic-ui.com/images/wireframe/square-image.png"
                   size="mini"
                 />
-                <p className="ml-2 font-semibold text-gray-500 font-lg">
+                <p className="ml-2 font-semibold text-gray-500 lg:font-lg">
                   Assigned Mechanic <br />
                   <Rating icon="star" defaultRating={4} maxRating={5} />
                 </p>
@@ -539,10 +539,10 @@ const Ongoing = () => {
                   className="text-red-600 font-medium  bg-transparent -mt-4 "
                 />
               </div>
-              <div className="flex justify-end mt-32">
+              <div className="flex justify-end lg:mt-32 md:mt-80">
                 <Button
                   content="Edit Diagnosis Details"
-                  className=" py-4 px-12 ml-4 bg-transparent text-red-600 border-solid border-1 border-red-600"
+                  className=" lg:py-4 lg:px-12 lg:ml-4 bg-transparent text-red-600 border-solid border-1 border-red-600"
                   onClick={() =>
                     setShowModal({modalName: 'addDiagnosis', data: null})
                   }
@@ -673,19 +673,19 @@ const Ongoing = () => {
 
       <div className="bg-white p-4 my-8  rounded-lg">
         <div className="flex items-center">
-          <GiAutoRepair className="-mt-4 text-xl" />
-          <p className="flex w-1/3 justify-start">Ongoing</p>
-          <p className="flex w-1/3 justify-center">ID:351</p>
+          <GiAutoRepair className="-mt-4 lg:text-xl" />
+          <p className="flex w-1/3 justify-start xs:text-xs">Ongoing</p>
+          <p className="flex w-1/3 justify-center xs:text-xs">ID:351</p>
           <Button
             content="Full Request Details"
-            className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 "
+            className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 xs:text-xs"
           />
-          <RiArrowRightSLine className="text-xl -ml-6" />
+          <RiArrowRightSLine className="text-xl lg:-ml-6" />
         </div>
-        <Grid>
+        <Grid stackable>
           <Grid.Row>
             <Grid.Column width={8}>
-              <div className="flex">
+              <div className="lg:flex">
                 <Grid.Column width={6}>
                   <Image
                     className="rounded-lg my-8"
@@ -698,7 +698,7 @@ const Ongoing = () => {
                   <div className="mb-2">
                     <p className=" font-semibold ">Honda-civic 2005 (black)</p>
                   </div>
-                  <div className=" flex items-start">
+                  <div className=" lg:flex items-start">
                     <div className="mr-20">
                       <p className="text-gray-500 text-sm">Request Services</p>
                       <div className="flex">
@@ -710,7 +710,7 @@ const Ongoing = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="mr-12 my-4">
+                  <div className="lg:mr-12 my-4">
                     <p className="text-gray-500 text-sm">Plate Number</p>
                     <p>555 099</p>
                   </div>
@@ -729,18 +729,16 @@ const Ongoing = () => {
                     <div className="flex ml-8 justify-center">
                       <Button
                         icon="envelope open outline"
-                        className=" bg-transparent text-xl"
+                        className=" bg-transparent lg:text-xl"
                       />
                       <Button
                         icon="users"
-                        className=" rounded  bg-transparent text-xl"
+                        className=" rounded  bg-transparent lg:text-xl"
                       />
                     </div>
                   </div>
                 </Grid.Column>
               </div>
-
-              <div className=" flex items-start"></div>
             </Grid.Column>
             <Grid.Column width={8}>
               <div className="flex items-center my-4 justify-start ">
@@ -758,10 +756,10 @@ const Ongoing = () => {
                   className="text-primaryRedColor-default font-medium  bg-transparent -mt-4 "
                 />
               </div>
-              <div className="flex justify-end mt-32">
+              <div className="flex justify-end lg:mt-32 md:mt-80">
                 <Button
                   content="View And Edit Diagnosis Details"
-                  className=" py-4 px-12 ml-4 bg-transparent text-red-600 border-solid border-1 border-red-600"
+                  className=" lg:py-4 lg:px-12 lg:ml-4 bg-transparent text-red-600 border-solid border-1 border-red-600"
                   onClick={() =>
                     setShowModal({modalName: 'addDiagnosis', data: null})
                   }

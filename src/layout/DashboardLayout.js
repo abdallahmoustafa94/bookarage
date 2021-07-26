@@ -382,7 +382,7 @@ const DashboardLayout = () => {
           </NavLink>
         ))}
       </Sidebar>
-      <div className="p-10">
+      <div className="lg:p-10">
         <Switch>
           {!Auth.isTechnician() && (
             <Route exact path={routes.management} component={Management} />

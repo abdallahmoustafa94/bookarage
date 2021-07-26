@@ -11,26 +11,28 @@ const Accepted = () => {
 
   return (
     <div className="my-8 py-5">
-      <p>14 Total Requests</p>
+      <p className="xs:px-4 md:px-4">14 Total Requests</p>
       <div className="bg-white p-4 rounded-lg">
         <div className="flex items-center">
-          <GiAutoRepair className="-mt-4 text-xl" />
-          <p className="flex w-1/3 justify-start">Request Accepted</p>
-          <p className="flex w-1/3 justify-center">ID:351</p>
+          <GiAutoRepair className="lg:-mt-4 lg:text-xl" />
+          <p className="flex w-1/3 justify-start xs:text-sm">
+            Request Accepted
+          </p>
+          <p className="flex w-1/3 justify-center xs:text-sm">ID:351</p>
           <Button
             content="Full Request Details"
-            className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800"
+            className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 xs:text-sm"
           />
-          <RiArrowRightSLine className="text-xl -ml-6" />
+          <RiArrowRightSLine className="lg:text-xl lg:-ml-6" />
         </div>
 
-        <Grid columns={2}>
+        <Grid stackable columns={2}>
           <Grid.Row>
             <Grid.Column width={3}>
               <Image
                 className="rounded-lg my-8"
                 src="https://react.semantic-ui.com/images/wireframe/image.png"
-                size="large"
+                size="medium"
               />
             </Grid.Column>
 
@@ -38,8 +40,8 @@ const Accepted = () => {
               <div className="mb-2">
                 <p className="font-semibold">Honda-civic 2005 (black)</p>
               </div>
-              <div className="flex items-start">
-                <div className="mr-20">
+              <div className="lg:flex lg:items-start">
+                <div className="lg:mr-20">
                   <p className="text-gray-500 text-sm">Request Services</p>
                   <div className="flex">
                     <BsWrench
@@ -49,7 +51,7 @@ const Accepted = () => {
                     <p>Electric Repair</p>
                   </div>
                 </div>
-                <div className="mr-12">
+                <div className="lg:mr-12">
                   <p className="text-gray-500 text-sm">Plate Number</p>
                   <p>555 099</p>
                 </div>
@@ -64,8 +66,8 @@ const Accepted = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex items-start">
-                <div className="mr-20">
+              <div className="lg:flex items-start">
+                <div className="lg:mr-20">
                   <p className="text-gray-500 text-sm">Car Recovery</p>
                   <div className="flex ">
                     <FaCarSide size={17} className="mr-2" />
@@ -74,12 +76,12 @@ const Accepted = () => {
                 </div>
                 <div>
                   <p className="text-gray-500 text-sm">Car Location</p>
-                  <div className="flex">
-                    <p className="">Street 17C, Al Barshaal Barsha 2, Dubai </p>
+                  <div>
+                    <p>Street 17C, Al Barshaal Barsha 2, Dubai </p>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center w-full">
+              <div className="lg:flex lg:items-center w-full">
                 <div className="flex items-center my-4 justify-start">
                   <Image
                     circular
@@ -91,21 +93,21 @@ const Accepted = () => {
                     (585) 5519-96
                   </p>
                 </div>
-                <div className="flex ml-8 justify-center">
+                <div className="flex lg:ml-8 justify-center">
                   <Button
                     icon="envelope open outline"
-                    className="bg-transparent text-xl"
+                    className="bg-transparent lg:text-xl"
                   />
                   <Button
                     icon="users"
-                    className="rounded bg-transparent text-xl"
+                    className="rounded bg-transparent lg:text-xl"
                   />
                 </div>
-                <div className="flex justify-end ml-40">
+                <div className="flex xs:flex-col justify-center lg:ml-40">
                   <Button
                     icon="truck"
                     content="Send Recovery"
-                    className="bg-primaryRedColor-default text-white py-4 rounded px-12 text-sm"
+                    className="bg-primaryRedColor-default text-white py-4 rounded lg:ml-20 px-12 text-sm xs:block "
                     onClick={() =>
                       setShowModal({modalName: 'sendRecovery', data: null})
                     }
@@ -113,11 +115,11 @@ const Accepted = () => {
                   <Button
                     icon="checkmark"
                     content="Mark Car Arrived"
-                    className="py-2 px-2 ml-4 bg-transparent border-solid border border-mainBgColor-default font-medium text-mainBgColor-default"
+                    className="lg:py-2 lg:px-2 lg:ml-4 bg-transparent border-solid border border-mainBgColor-default font-medium text-mainBgColor-default xs:my-2 lg:ml-4"
                   />
                   <Button
                     content="Reject"
-                    className="py-2 px-2 ml-4 bg-transparent border-gray-300 text-gray-400 border-2"
+                    className="lg:py-2 lg:px-2 ml-4 bg-transparent border-gray-300 text-gray-400 border-2 xs:my-2"
                   />
                 </div>
               </div>
@@ -128,23 +130,23 @@ const Accepted = () => {
 
       <div className="bg-white p-4  rounded-lg my-8">
         <div className="flex items-center">
-          <GiAutoRepair className="-mt-4 text-xl" />
+          <GiAutoRepair className="lg:-mt-4 lg:text-xl" />
           <p className="flex w-1/3 justify-start">Request Accepted</p>
           <p className="flex w-1/3 justify-center">ID:351</p>
           <Button
             content="Full Request Details"
-            className="bg-transparent flex justify-end w-1/3 font-normal text-labelColor "
+            className="bg-transparent flex justify-end w-1/3 font-normal xs:text-sm text-labelColor "
           />
-          <RiArrowRightSLine className="text-xl -ml-6" />
+          <RiArrowRightSLine className="lg:text-xl lg:-ml-6" />
         </div>
 
-        <Grid columns={2}>
+        <Grid stackable columns={2}>
           <Grid.Row>
-            <Grid.Column width={3}>
+            <Grid.Column width={3} className="w-full">
               <Image
-                className="rounded-lg my-8"
+                className="rounded-lg my-8 "
                 src="https://react.semantic-ui.com/images/wireframe/image.png"
-                size="large"
+                size="medium"
               />
             </Grid.Column>
 
@@ -152,8 +154,8 @@ const Accepted = () => {
               <div className="mb-2">
                 <p className="font-semibold">Honda-civic 2005 (black)</p>
               </div>
-              <div className=" flex items-start">
-                <div className="mr-20">
+              <div className=" lg:flex items-start">
+                <div className="lg:mr-20">
                   <p className="text-gray-500 text-sm">Request Services</p>
                   <div className="flex">
                     <BsWrench
@@ -163,7 +165,7 @@ const Accepted = () => {
                     <p>Electric Repair</p>
                   </div>
                 </div>
-                <div className="mr-12">
+                <div className="lg:mr-12">
                   <p className="text-gray-500 text-sm">Plate Number</p>
                   <p>555 099</p>
                 </div>
@@ -173,20 +175,20 @@ const Accepted = () => {
                     <p className="">Monday, 15 Oct, 2020 - 2020 </p>
                     <Button
                       content="Change"
-                      className="text-primaryRedColor-default font-medium bg-transparent -mt-4 "
+                      className="text-primaryRedColor-default font-medium bg-transparent lg:-mt-4 "
                     />
                   </div>
                 </div>
               </div>
-              <div className="flex items-start">
+              <div className="lg:flex items-start">
                 <div>
                   <p className="text-gray-500 text-sm">Car Location</p>
-                  <div className="flex">
+                  <div>
                     <p className="">Street 17C, Al Barshaal Barsha 2, Dubai </p>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center w-full">
+              <div className="lg:flex items-center w-full">
                 <div className="flex items-center my-4 justify-start">
                   <Image
                     circular
@@ -198,7 +200,7 @@ const Accepted = () => {
                     (585) 5519-96
                   </p>
                 </div>
-                <div className="flex ml-8 justify-center">
+                <div className="flex lg:ml-8 justify-center">
                   <Button
                     icon="envelope open outline"
                     className="bg-transparent text-xl"
@@ -208,15 +210,15 @@ const Accepted = () => {
                     className="rounded bg-transparent text-xl"
                   />
                 </div>
-                <div className="flex justify-end ml-60">
+                <div className="flex lg:justify-end xs:justify-center lg:ml-60">
                   <Button
                     icon="checkmark"
                     content="Mark Car Arrived"
-                    className="py-4 px-8 ml-4 bg-transparent border-solid border border-mainBgColor-default font-medium text-mainBgColor-default"
+                    className="lg:py-4 lg:px-8 ml-4 bg-transparent border-solid border border-mainBgColor-default font-medium text-mainBgColor-default"
                   />
                   <Button
                     content="Reject"
-                    className="py-2 px-8 ml-4 bg-transparent border-gray-300 text-gray-400 border-2"
+                    className="lg:py-2 lg:px-8 ml-4 bg-transparent border-gray-300 text-gray-400 border-2"
                   />
                 </div>
               </div>

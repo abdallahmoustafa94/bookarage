@@ -72,7 +72,7 @@ const AddEmployeeModal = ({updateEmployee}) => {
       open={open}
     >
       <Modal.Content>
-        <div className="px-10">
+        <div className="md:px-10">
           <p className="brands-title text-center text-bold font-bold text-2xl text-labelColor mb-1">
             Add New Employee
           </p>
@@ -126,11 +126,11 @@ const AddEmployeeModal = ({updateEmployee}) => {
                   <div className="flex text-center">
                     <Button
                       content="Invite Employee"
-                      className="btn-primary"
+                      className="lg:btn-primary xs:bg-primaryRedColor-default py-4 px-8 xs:text-white "
                       type="submit"
                     />
                     <Button
-                      className="btn-declined mx-5"
+                      className="btn-declined lg:mx-5"
                       onClick={() => setShowModal({modalName: '', data: null})}
                     >
                       Cancel

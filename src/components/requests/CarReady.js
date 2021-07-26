@@ -8,22 +8,22 @@ import {FaCarSide, FaCheckCircle} from 'react-icons/fa'
 const CarReady = () => {
   return (
     <div className="my-8 py-5">
-      <p>14 Total Requests</p>
+      <p className="xs:px-4 md:px-4">14 Total Requests</p>
       <div className="bg-white p-4  rounded-lg">
         <div className="flex items-center">
           <GiAutoRepair className="-mt-4 text-xl" />
-          <p className="flex w-1/3 justify-start">Finished</p>
-          <p className="flex w-1/3 justify-center">ID:351</p>
+          <p className="flex w-1/3 justify-start xs:text-xs">Finished</p>
+          <p className="flex w-1/3 justify-center xs:text-xs">ID:351</p>
           <Button
             content="Full Request Details"
-            className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 "
+            className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 xs:text-xs"
           />
           <RiArrowRightSLine className="text-xl -ml-6" />
         </div>
-        <Grid>
+        <Grid stackable>
           <Grid.Row>
             <Grid.Column width={8}>
-              <div className="flex">
+              <div className="lg:flex">
                 <Grid.Column width={6}>
                   <Image
                     className="rounded-lg my-8"
@@ -232,18 +232,20 @@ const CarReady = () => {
       <div className="bg-white p-4 my-8  rounded-lg">
         <div className="flex items-center">
           <GiAutoRepair className="-mt-4 text-xl" />
-          <p className="flex w-1/3 justify-start">Owner Received The Car</p>
-          <p className="flex w-1/3 justify-center">ID:351</p>
+          <p className="flex w-1/3 justify-start xs:text-xs">
+            Owner Received The Car
+          </p>
+          <p className="flex w-1/3 justify-center xs:text-xs">ID:351</p>
           <Button
             content="Full Request Details"
-            className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 "
+            className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 xs:text-xs"
           />
-          <RiArrowRightSLine className="text-xl -ml-6" />
+          <RiArrowRightSLine className="lg:text-xl lg:-ml-6" />
         </div>
-        <Grid>
+        <Grid stackable>
           <Grid.Row>
             <Grid.Column width={8}>
-              <div className="flex">
+              <div className="lg:flex">
                 <Grid.Column width={6}>
                   <Image
                     className="rounded-lg my-8"
@@ -307,7 +309,7 @@ const CarReady = () => {
                   src="https://react.semantic-ui.com/images/wireframe/square-image.png"
                   size="mini"
                 />
-                <div className="flex items-center">
+                <div className="flex xs:flex-col xs:justify-center items-center">
                   <div>
                     <p className="ml-2 font-semibold text-gray-500 font-lg">
                       Assigned Mechanic <br />
@@ -328,7 +330,7 @@ const CarReady = () => {
                     <div className="flex justify-start items-center -ml-6">
                       <Button
                         content="View Review"
-                        className="bg-transparent ml-32 -my-8  font-normal text-gray-500 mr-0"
+                        className="bg-transparent lg:ml-32 lg:-my-8  font-normal text-gray-500 mr-0"
                       />
                       <RiArrowRightSLine className="text-xl -ml-6 text-gray-500" />
                     </div>

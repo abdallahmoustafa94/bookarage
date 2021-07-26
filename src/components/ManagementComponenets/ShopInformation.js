@@ -103,11 +103,11 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
       >
         {formik => (
           <Form
-            className="w-2/4"
+            className="lg:w-2/4 "
             loading={isLoading || loading}
             onSubmit={formik.submitForm}
           >
-            <Form.Group widths="equal" className="flex">
+            <Form.Group widths="equal" className="flex xs:mx-auto">
               <Form.Field>
                 <div className="mt-5">
                   <label className="block text-lg font-medium text-gray-700">
@@ -121,8 +121,8 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
                       />
                     </Form>
                   </div>
-                  <div className="space-y-1 text-center">
-                    <div className="flex text-sm col-span-6 sm:col-span-3">
+                  <div className="lg:space-y-1 text-center">
+                    <div className="lg:flex text-sm lg:col-span-6 sm:col-span-3">
                       <label
                         htmlFor="editLogo-upload"
                         className="relative cursor-pointer bg-white rounded-md font-medium file-upload"
@@ -168,14 +168,14 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
                     </Form>
                   </div>
                   <div className="space-y-1 text-center">
-                    <div className="flex text-sm col-span-6 sm:col-span-3">
+                    <div className="lg:flex text-sm lg:col-span-6 sm:col-span-3">
                       <label
                         htmlFor="editCover-upload"
                         className="relative cursor-pointer bg-white rounded-md font-medium"
                       >
                         <Image
                           src={photoImage}
-                          className="w-300 h-10 shop-logo"
+                          className="lg:w-300 lg:h-10 shop-logo"
                         />
                         <span className="secondary-text-color">
                           Select cover
@@ -221,10 +221,10 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
               name="phoneNumber"
               render={arrayhelpers => (
                 <Fragment>
-                  <div className="flex items-center w-full">
-                    <p className="mb-0 w-1/2">Phone Numbers</p>
+                  <div className="lg:flex items-center w-full">
+                    <p className="mb-0 lg:w-1/2">Phone Numbers</p>
                     <div
-                      className="flex justify-end items-center w-1/2 cursor-pointer"
+                      className="lg:flex justify-end items-center lg:w-1/2 cursor-pointer"
                       onClick={() => arrayhelpers.push('')}
                     >
                       <p className="font-normal text-primaryRedColor-default mb-0 mr-3">
@@ -241,7 +241,7 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
                   <div className="my-3">
                     {formik.values.phoneNumber.map((phone, i) => (
                       <div key={i}>
-                        <div className="flex w-full">
+                        <div className="lg:flex w-full">
                           <Form.Field width="8">
                             <FormikControl
                               icon={
@@ -268,8 +268,8 @@ const ShopInformation = ({nextStep, shopInfo, updateShop, loading}) => {
               name="VAT"
               render={arrayhelpers => (
                 <Fragment>
-                  <div className="flex items-center w-full mt-7">
-                    <p className="mb-0 w-1/2">VAT (%)</p>
+                  <div className="lg:flex items-center w-full mt-7">
+                    <p className="mb-0 lg:w-1/2">VAT (%)</p>
                     <div
                       className="flex justify-end items-center w-1/2 cursor-pointer"
                       onClick={() =>

@@ -108,9 +108,9 @@ const ChartsAndReviews = () => {
   ]
   return (
     <div className="my-8">
-      <div className="flex w-full space-x-4">
-        <div className="w-2/3 p-8">
-          <div className="bg-white p-8">
+      <div className="lg:flex w-full lg:space-x-4">
+        <div className="lg:w-2/3 p-8 ">
+          <div className="bg-white p-8 xs:hidden md:hidden: sm:hidden lg:block">
             <BarChart
               width={700}
               height={300}
@@ -126,7 +126,13 @@ const ChartsAndReviews = () => {
               <Bar dataKey="pv" fill="#f2421b" />
             </BarChart>
           </div>
-          <div className="my-8 bg-white p-8">
+          <div className="bg-white lg:hidden xl:hidden ">
+            <BarChart width={300} height={300} data={data} className="mx-auto">
+              <XAxis dataKey="name" />
+              <Bar dataKey="pv" fill="#f2421b" />
+            </BarChart>
+          </div>
+          <div className="my-8 bg-white lg:p-8 xs:hidden sm:hidden md:hidden lg:block">
             <LineChart
               width={700}
               height={300}
@@ -149,16 +155,29 @@ const ChartsAndReviews = () => {
             </LineChart>
           </div>
 
-          <div className="my-8 bg-white p-8">
-            <div className="flex w-full">
-              <p className="flex justify-start w-1/2 font-semibold leading-6">
+          <div className="my-8 bg-white  lg:hidden xl:hidden">
+            <LineChart width={300} height={300} data={data} className="mx-auto">
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Line
+                type="monotone"
+                dataKey="pv"
+                stroke="#f2421b"
+                activeDot={{r: 8}}
+              />
+            </LineChart>
+          </div>
+
+          <div className="my-8 bg-white p-4">
+            <div className="lg:flex w-full">
+              <p className="lg:flex lg:justify-start lg:w-1/2 font-semibold leading-6">
                 Steve Marshal
               </p>
-              <p className="flex w-1/2 justify-end text-gray-300">
+              <p className="lg:flex lg:w-1/2 lg:justify-end text-gray-300">
                 Septemper 03
               </p>
             </div>
-            <p className="text-blue-900 -my-0.5">Kia - cerato (2010)</p>
+            <p className="text-blue-900 lg:-my-0.5">Kia - cerato (2010)</p>
             <Rating icon="star" defaultRating={3} maxRating={5} />
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -172,23 +191,23 @@ const ChartsAndReviews = () => {
           </div>
         </div>
 
-        <div className=" w-1/3 ">
-          <div className="flex w-full bg-white p-8 text-center">
-            <div className="w-1/3">
-              <p className="font-normal text-6xl mb-2"> 17 </p>
+        <div className=" lg:w-1/3 ">
+          <div className="lg:flex w-full bg-white lg:p-8 xs:p-4 text-center">
+            <div className="lg:w-1/3">
+              <p className="font-normal lg:text-6xl mb-2"> 17 </p>
               <p className="text-gray-400">Total</p>
             </div>
-            <div className="w-1/3">
-              <p className="font-normal text-6xl mb-2 "> 14 </p>
+            <div className="lg:w-1/3">
+              <p className="font-normal lg:text-6xl mb-2 "> 14 </p>
               <p className="text-gray-400">Pending</p>
             </div>
-            <div className="w-1/3">
-              <p className="font-normal text-6xl mb-2 "> 3 </p>
+            <div className="lg:w-1/3">
+              <p className="font-normal lg:text-6xl mb-2 "> 3 </p>
               <p className="text-gray-400">Ongoing</p>
             </div>
           </div>
 
-          <div className="bg-white p-8">
+          <div className="bg-white xs:p-4">
             <Item.Group items={items} />
           </div>
         </div>

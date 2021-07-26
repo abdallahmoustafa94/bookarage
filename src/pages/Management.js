@@ -116,7 +116,7 @@ const Management = ({values}) => {
       })
   }
   return (
-    <div className="flex  w-full space-x-8 p-10">
+    <div className="lg:flex  w-full lg:space-x-8 p-10">
       <CreateShopModal />
       <AddBrandModal
         brandValues={v => setState({...state, brands: v.brands})}
@@ -144,9 +144,9 @@ const Management = ({values}) => {
               className="bg-white rounded-full text-primaryRedColor-default"
             />
           </div>
-          <div className="flex flex-col w-3/4">
+          <div className="lg:flex lg:flex-col lg:w-3/4 ">
             {activeMenu === 'shopInformation' && (
-              <div className=" p-10 bg-white w-full">
+              <div className=" p-10 bg-white w-full xs:mx-auto">
                 <p className="font-medium text-gray-700">Basic Information</p>
                 <ShopInformation
                   loading={isLoading}
@@ -168,7 +168,7 @@ const Management = ({values}) => {
             )}
 
             {activeMenu === 'servicesAndParts' && (
-              <div className=" p-10 bg-white w-full">
+              <div className=" lg:p-10 bg-white w-full">
                 <ServicesAndParts
                   values={state}
                   deletedBrand={v => handleDeleteBrand(v)}
@@ -178,7 +178,7 @@ const Management = ({values}) => {
             )}
 
             {activeMenu === 'employees' && (
-              <div className=" p-10  w-full">
+              <div className=" lg:p-10  w-full">
                 <Employees />
               </div>
             )}

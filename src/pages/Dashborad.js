@@ -105,7 +105,7 @@ const DashboardPage = () => {
         activeMenu={activeMenu}
         setActiveMenu={value => setActiveMenu(value)}
       />
-      <div className="p-10 relative">
+      <div className="lg:p-10 relative">
         {activeMenu === 'appointment' && (
           <AppointmentTable
             requests={state.appointment}

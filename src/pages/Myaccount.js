@@ -117,24 +117,24 @@ const Myaccount = ({values}) => {
   }
 
   return (
-    <div className="flex  w-full space-x-8">
+    <div className="lg:flex  w-full lg:space-x-8">
       <EditFullName updateProfile={v => setUpdateProfile(prev => !prev)} />
       <EditPhoneNumber updateProfile={v => setUpdateProfile(prev => !prev)} />
 
-      <div className="flex flex-col w-1/4 text-gray-700 bg-white flex-initial p-10">
+      <div className="flex lg:flex-col lg:w-1/4 text-gray-700 bg-white flex-initial p-10 sm:justify-center xs:justify-center ">
         <Button
           content="Account info"
-          className="bg-primaryRedColor-default text-white rounded-full py-4 px-1"
+          className="bg-primaryRedColor-default text-white rounded-full lg:py-4 lg:px-1 sm:px-4 sm:py-2 sm:mx-2 xs:text-xs"
           icon="user"
         ></Button>
         <Button
           content="Account info"
-          className="bg-transparent text-gray-700 rounded-full py-4 px-2 mt-4"
+          className="bg-transparent text-gray-700 rounded-full lg:py-4 lg:px-1 sm:px-4 sm:py-2 sm:mx-2 xs:text-xs"
           icon="payment"
         ></Button>
       </div>
       <Form loading={isLoading}>
-        <div className="flex flex-col w-4/4">
+        <div className="flex flex-col lg:w-4/4 xs:my-4 sm:my-4">
           <div className=" p-10 bg-white w-full">
             <p className="font-medium text-gray-700">Personal info</p>
             <p className="text-gray-300">Account Picture</p>
