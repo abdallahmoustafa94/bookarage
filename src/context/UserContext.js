@@ -8,8 +8,8 @@ UserContext.displayName = 'UserContext' // react dev tools doesn't display the n
 function UserProvider({children}) {
   const [user, setLocalStorageUser] = useLocalStorage('user', null)
 
-  function setUser(user) {
-    setLocalStorageUser(user)
+  function setUser(userData) {
+    setLocalStorageUser(userData)
   }
 
   return (

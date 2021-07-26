@@ -105,22 +105,24 @@ const New = () => {
                     className=" rounded  bg-transparent lg:text-xl"
                   />
                 </div>
-                <div className="lg:flex lg:justify-end lg:ml-40 xs:ml-16">
-                  <Button
+                <div className="lg:flex lg:justify-end lg:ml-40 text-center">
+                  {/* <Button
                     content="Accept & Send Recovery"
-                    className=" bg-primaryRedColor-default text-white lg:py-4 lg:rounded lg:px-8 text-sm xs:block xs:my-2"
+                    className="bg-primaryRedColor-default text-white lg:py-4 lg:rounded lg:px-8 text-sm xs:my-2"
                     onClick={() =>
                       setShowModal({modalName: 'sendRecovery', data: null})
                     }
-                  />
-                  <Button
-                    content="Accept"
-                    className="lg:py-4 lg:px-6 lg:ml-4 bg-transparent text-primaryRedColor-default ring-1 ring-primaryRedColor-default font-medium text- ring-solid xs:my-2"
-                  />
-                  <Button
-                    content="Reject"
-                    className=" lg:py-4 lg:px-6 lg:ml-4 bg-transparent border-solid border border-gray-400 text-gray-400 font-medium xs:my-2"
-                  />
+                  /> */}
+                  <div className="flex flex-col lg:flex-row">
+                    <Button
+                      content="Accept"
+                      className="lg:py-4 lg:px-6 lg:ml-4 bg-primaryRedColor-default text-white font-medium xs:my-2"
+                    />
+                    <Button
+                      content="Reject"
+                      className=" lg:py-4 lg:px-6 lg:ml-4 bg-transparent border-solid border border-gray-300 text-gray-300 font-medium xs:my-2"
+                    />
+                  </div>
                 </div>
               </div>
             </Grid.Column>

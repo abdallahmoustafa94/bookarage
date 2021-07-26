@@ -13,16 +13,22 @@ import moment from 'moment'
 import useMediaQuery from '../../../../hooks/use-media-query'
 import {FaHandHoldingUsd} from 'react-icons/fa'
 import '../../../../assets/css/step.scss'
+import useAsync from '../../../../hooks/useAsync'
 
-const RequestInformationSection = ({requestInfo}) => {
+const RequestInformationSection = ({requestInfo, updateRequestStatus}) => {
   const [copied, setCopied] = useState(false)
   const [lang] = useLanguage()
   const {addToast} = useToasts()
   const isSmall = useMediaQuery('(max-width: 992px)')
+  const {run, isLoading} = useAsync()
 
   const handleOnCopy = () => {
     setCopied(true)
     addToast('Text Copied!', {appearance: 'success'})
+  }
+
+  const handleOnClickCarArrived = requestId => {
+    updateRequestStatus({requestId, status: 3})
   }
   return (
     <div className="mx-1 bg-white p-7 rounded-md text-lg">
@@ -135,6 +141,7 @@ const RequestInformationSection = ({requestInfo}) => {
                 content="Mark as Car Arrived"
                 icon="check"
                 className="bg-transparent ring-2 ring-mainBgColor-hover text-mainBgColor-hover font-normal"
+                onClick={() => handleOnClickCarArrived(requestInfo?._id)}
               />
               <Button
                 content="Cancel"

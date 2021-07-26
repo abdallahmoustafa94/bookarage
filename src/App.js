@@ -8,9 +8,11 @@ import {UserProvider} from './context/UserContext'
 import {useState} from 'react'
 import StateContext from './context/stateContext'
 import {ShopProvider} from './context/ShopContext'
+import {Container, Grid, Tab} from 'semantic-ui-react'
 
 function App() {
   const [showModal, setShowModal] = useState({modalName: '', data: null})
+
   return (
     <ToastProvider
       components={ToastContainer}

@@ -6,7 +6,7 @@ let signupToken = localStorage.getItem('signupToken')
 
 const Auth = {
   isAuth: () => {
-    console.log(token)
+    // console.log(token)
     return Boolean(token)
   },
   isSignupAuth: () => {
@@ -31,6 +31,10 @@ const Auth = {
   getUserId: () => {
     const userId = JSON.parse(localStorage.getItem('user') || '[]')
     return userId._id
+  },
+  getUserData: () => {
+    const user = JSON.parse(localStorage.getItem('user') || '[]')
+    return user
   },
   getShopId: () => {
     const shopId = JSON.parse(localStorage.getItem('shop') || '[]')

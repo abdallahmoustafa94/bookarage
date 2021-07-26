@@ -12,6 +12,21 @@ select {
   background-color: #f2f2f2 !important;
   border: none !important;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.quantity input {
+  text-align: center !important;
+  margin-top: 0 !important;
+}
 /* html[dir='rtl'] {
   font-family: 'El Messiri', sans-serif;
 } */
@@ -41,11 +56,11 @@ textarea {
   margin-top: 5px !important;
 }
 .ui.selection.dropdown {
-  padding: 15px !important;
+  padding: 10px !important;
 }
-.ui.dropdown > .clear.dropdown.icon {
+/* .ui.dropdown > .clear.dropdown.icon {
   margin-top: -5px !important;
-}
+} */
 .text.menu .active.item {
   @apply bg-primaryRedColor-default text-gray-50 rounded-md !important;
 }
