@@ -8,6 +8,7 @@ import {addWorkingHrs} from '../../services/ShopService'
 import useAsync from '../../hooks/useAsync'
 import {useToasts} from 'react-toast-notifications'
 import {useShop} from '../../context/ShopContext'
+import {Formik} from 'formik'
 
 const WorkingHours = ({values, updateShop}) => {
   const [shop, setShop] = useShop()
@@ -68,24 +69,29 @@ const WorkingHours = ({values, updateShop}) => {
   useEffect(() => {
     console.log(values)
     let workingHrsArr = [...state]
-    if (values.length === 0) {
-      const resetWorkingHrs = [...state]
-      resetWorkingHrs?.map((w, i) => {
-        w.startTime = ''
-        w.endTime = ''
-        w.isOpened = false
-      })
-      setState(resetWorkingHrs)
-    }
-    values?.map((v, i) => {
-      const index = workingHrsArr.findIndex(o => o.day === v.day)
 
-      if (index !== -1) {
-        workingHrsArr[index].startTime = v.startTime
-        workingHrsArr[index].endTime = v.endTime
-        workingHrsArr[index].isOpened = v.isOpened
-      }
+    const resetWorkingHrs = [...state]
+    resetWorkingHrs?.map((w, i) => {
+      w.startTime = ''
+      w.endTime = ''
+      w.isOpened = false
     })
+    setState(resetWorkingHrs)
+
+    if (values?.length > 0) {
+      values?.map((v, i) => {
+        const index = workingHrsArr.findIndex(
+          o => o.day === v.day.toLowerCase(),
+        )
+        console.log(index)
+        if (index !== -1) {
+          workingHrsArr[index].startTime = v.startTime
+          workingHrsArr[index].endTime = v.endTime
+          workingHrsArr[index].isOpened = v.isOpened
+        }
+      })
+    }
+
     setState(workingHrsArr)
   }, [values])
 

@@ -1,10 +1,8 @@
 import {Fragment, useContext, useEffect, useState} from 'react'
-import ManagementTabs from '../components/ManagementComponenets/ManagementTabs'
 import ShopInformation from '../components/ManagementComponenets/ShopInformation'
 import WorkingHours from '../components/ManagementComponenets/WorkingHours'
 import ServicesAndParts from '../components/ManagementComponenets/ServiceAndParts'
 import Employees from '../components/ManagementComponenets/Employees'
-import {useUser} from '../context/UserContext'
 import useAsync from '../hooks/useAsync'
 import {getShopById} from '../services/ShopService'
 import StateContext from '../context/stateContext'
@@ -18,12 +16,11 @@ import {BsFillPlusCircleFill} from 'react-icons/bs'
 import {useToasts} from 'react-toast-notifications'
 import {removeBrand, deleteService} from '../services/ShopService'
 import EditServiceModal from '../shared/editServiceModal'
+import {Grid, Icon, Menu, Sticky, Tab} from 'semantic-ui-react'
 
 const Management = ({values}) => {
   const {addToast} = useToasts()
-
-  const [activeMenu, setActiveMenu] = useState('shopInformation')
-  const [user, setUser] = useUser()
+  const [activeMenu, setActiveMenu] = useState('shopInfo')
   const [shop, setShop] = useShop()
   const {run, isLoading} = useAsync()
   const [selectedShop, setSelectedShop] = useState({})
@@ -33,16 +30,35 @@ const Management = ({values}) => {
     brands: [],
   })
   const [updateShop, setUpdateShop] = useState(false)
-  const [removeState, setRemoveState] = useState({
-    shopId: '',
-    brandName: '',
-  })
+
+  const menuItems = [
+    {
+      key: 'shopInfo',
+      text: 'Shop Information',
+      icon: 'bookmark',
+    },
+    {
+      key: 'workingHrs',
+      text: 'Working Hours',
+      icon: 'clock',
+    },
+    {
+      key: 'services',
+      text: 'Services And Brands',
+      icon: 'settings',
+    },
+    {
+      key: 'employees',
+      text: 'Employees',
+      icon: 'users',
+    },
+  ]
 
   useEffect(() => {
     if (!JSON.parse(shop) === 0) return
     console.log(Auth.getShopId(), shop)
     if (JSON.parse(shop) !== 0) {
-      run(getShopById(Auth.getShopId()))
+      run(getShopById(JSON.parse(shop)))
         .then(({data}) => {
           console.log(data.data)
           setSelectedShop(data.data)
@@ -116,7 +132,7 @@ const Management = ({values}) => {
       })
   }
   return (
-    <div className="lg:flex  w-full lg:space-x-8 p-10">
+    <div className="">
       <CreateShopModal />
       <AddBrandModal
         brandValues={v => setState({...state, brands: v.brands})}
@@ -130,10 +146,63 @@ const Management = ({values}) => {
       <EditServiceModal updateService={v => setUpdateShop(prev => !prev)} />
       {JSON.parse(shop) !== 0 && (
         <Fragment>
-          <ManagementTabs
-            activeMenu={activeMenu}
-            setActiveMenu={value => setActiveMenu(value)}
-          />
+          <Grid stackable>
+            <Grid.Row>
+              <Grid.Column width={4} className="sticky">
+                <Menu
+                  fluid
+                  vertical
+                  className="p-3 border-none shadow-lg rounded-lg"
+                >
+                  {menuItems.map((m, i) => (
+                    <Menu.Item
+                      name={m.text}
+                      className={`${
+                        [m.key].includes(activeMenu)
+                          ? 'bg-primaryRedColor-default text-white font-bold'
+                          : ''
+                      } rounded-lg`}
+                      icon={m.icon}
+                      active={activeMenu === m.key}
+                      onClick={() => setActiveMenu(m.key)}
+                    />
+                  ))}
+                </Menu>
+              </Grid.Column>
+              <Grid.Column
+                stretched
+                className="bg-white p-7 rounded-lg"
+                width={12}
+              >
+                {activeMenu === 'shopInfo' && (
+                  <ShopInformation
+                    loading={isLoading}
+                    shopInfo={selectedShop}
+                    updateShop={v => setUpdateShop(prev => !prev)}
+                    // nextStep={v => handleOnSubmit(v)
+                    // }
+                  />
+                )}
+
+                {activeMenu === 'workingHrs' && (
+                  <WorkingHours
+                    values={selectedShop?.workingHrs}
+                    updateShop={v => setUpdateShop(prev => !prev)}
+                  />
+                )}
+
+                {activeMenu === 'services' && (
+                  <ServicesAndParts
+                    values={state}
+                    deletedBrand={v => handleDeleteBrand(v)}
+                    deletedService={v => handleDeleteService(v)}
+                  />
+                )}
+
+                {activeMenu === 'employees' && <Employees />}
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
 
           <div
             className="fixed bottom-10 right-10 z-10 rounded-full p-3 cursor-pointer"
@@ -143,51 +212,6 @@ const Management = ({values}) => {
               size={55}
               className="bg-white rounded-full text-primaryRedColor-default"
             />
-          </div>
-          <div className="lg:flex lg:flex-col lg:w-3/4 ">
-            {activeMenu === 'shopInformation' && (
-              <div className=" p-10 bg-white w-full xs:mx-auto">
-                <p className="font-medium text-gray-700">Basic Information</p>
-                <ShopInformation
-                  loading={isLoading}
-                  shopInfo={selectedShop}
-                  updateShop={v => setUpdateShop(prev => !prev)}
-                  // nextStep={v => handleOnSubmit(v)
-                  // }
-                />
-              </div>
-            )}
-
-            {activeMenu === 'workingHours' && (
-              <div className=" p-10 bg-white w-full">
-                <WorkingHours
-                  values={selectedShop?.workingHrs}
-                  updateShop={v => setUpdateShop(prev => !prev)}
-                />
-              </div>
-            )}
-
-            {activeMenu === 'servicesAndParts' && (
-              <div className=" lg:p-10 bg-white w-full">
-                <ServicesAndParts
-                  values={state}
-                  deletedBrand={v => handleDeleteBrand(v)}
-                  deletedService={v => handleDeleteService(v)}
-                />
-              </div>
-            )}
-
-            {activeMenu === 'employees' && (
-              <div className=" lg:p-10  w-full">
-                <Employees />
-              </div>
-            )}
-
-            {/* {activeMenu === 'customerLists' && (
-              <div className=" p-10  w-full">
-                <CustomerLists />
-              </div>
-            )} */}
           </div>
         </Fragment>
       )}
