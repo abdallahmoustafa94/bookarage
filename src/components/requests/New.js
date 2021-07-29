@@ -6,8 +6,11 @@ import {RiArrowRightSLine} from 'react-icons/ri'
 import {BsWrench} from 'react-icons/bs'
 import {FaCarSide} from 'react-icons/fa'
 import {AiOutlineCheckCircle} from 'react-icons/ai'
+import {useHistory} from 'react-router-dom'
+import routes from '../../routes'
 
 const New = () => {
+  const history = useHistory()
   const {setShowModal} = useContext(StateContext)
   return (
     <div className="my-8 py-5 ">
@@ -20,6 +23,7 @@ const New = () => {
           <Button
             content="Full Request Details"
             className="bg-transparent flex justify-end xs:text-sm   w-1/3 font-normal text-gray-800 "
+            onClick={() => history.push(routes.requestsDetails)}
           />
           <RiArrowRightSLine className="lg:text-xl lg:-ml-6" />
         </div>
@@ -83,8 +87,8 @@ const New = () => {
                   </div>
                 </div>
               </div>
-              <div className="lg:flex lg:items-center w-full">
-                <div className="flex items-center my-4 justify-start">
+              <div className="lg:flex lg:items-center w-full ">
+                <div className="flex items-center my-4 justify-start bg-gray-100 rounded-full p-4">
                   <Image
                     circular
                     src="https://react.semantic-ui.com/images/wireframe/square-image.png"
@@ -94,8 +98,6 @@ const New = () => {
                     Alex Lawson <br />
                     (585) 5519-96
                   </p>
-                </div>
-                <div className="lg:flex lg:justify-center lg:ml-8">
                   <Button
                     icon="envelope open outline"
                     className=" bg-transparent lg:text-xl"
@@ -105,6 +107,7 @@ const New = () => {
                     className=" rounded  bg-transparent lg:text-xl"
                   />
                 </div>
+
                 <div className="lg:flex lg:justify-end lg:ml-40 text-center">
                   {/* <Button
                     content="Accept & Send Recovery"

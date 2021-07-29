@@ -34,6 +34,7 @@ import DashboardPage from '../pages/Dashborad'
 import Myaccount from '../pages/Myaccount'
 import Management from '../pages/Management'
 import Requests from '../pages/Requests'
+import RequestDetails from '../components/requests/RequestDetails'
 import notifyImage from '../assets/images/sample.jpeg'
 import {logout} from '../services/AuthServices'
 import {useToasts} from 'react-toast-notifications'
@@ -393,6 +394,7 @@ const DashboardLayout = () => {
 
           <Route exact path={routes.myAccount} component={Myaccount} />
           <Route path={routes.requests} component={Requests} />
+          <Route path={routes.requestsDetails} component={RequestDetails} />
 
           <Redirect
             to={Auth.isTechnician() ? routes.requests : routes.dashboard}

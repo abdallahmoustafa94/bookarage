@@ -6,8 +6,11 @@ import {BsWrench} from 'react-icons/bs'
 import {FaCarSide} from 'react-icons/fa'
 import {AiOutlineCheckCircle} from 'react-icons/ai'
 import StateContext from '../../context/stateContext'
+import {useHistory} from 'react-router-dom'
+import routes from '../../routes'
 
 const CarArrived = () => {
+  const history = useHistory()
   const {setShowModal} = useContext(StateContext)
 
   return (
@@ -21,6 +24,7 @@ const CarArrived = () => {
           <Button
             content="Full Request Details"
             className="bg-transparent flex justify-end xs:text-sm   w-1/3 font-normal text-gray-800 "
+            onClick={() => history.push(routes.requestsDetails)}
           />
           <RiArrowRightSLine className="lg:text-xl lg:-ml-6" />
         </div>
@@ -64,7 +68,7 @@ const CarArrived = () => {
                 </div>
               </div>
               <div className="lg:flex lg:items-center w-full">
-                <div className="flex items-center my-4 justify-start">
+                <div className="flex items-center my-4 lg:w-1/2 justify-start bg-gray-100 rounded-full p-4">
                   <Image
                     circular
                     src="https://react.semantic-ui.com/images/wireframe/square-image.png"
@@ -74,8 +78,6 @@ const CarArrived = () => {
                     Alex Lawson <br />
                     (585) 5519-96
                   </p>
-                </div>
-                <div className="flex ml-8 xs:ml-20 xs:-mt-12 md:-mt-12  justify-center">
                   <Button
                     icon="envelope open outline"
                     className=" bg-transparent lg:text-xl"
@@ -85,10 +87,10 @@ const CarArrived = () => {
                     className=" rounded  bg-transparent lg:text-xl"
                   />
                 </div>
-                <div className="flex lg:justify-end xs:justify-center md:justify-center lg:ml-80">
+                <div className="flex lg:w-2/3 lg:justify-end xs:justify-center md:justify-center ">
                   <Button
                     content="Assign To Mechanic"
-                    className=" bg-primaryRedColor-default text-white lg:py-4 rounded lg:px-14 text-sm"
+                    className=" bg-primaryRedColor-default text-white lg:py-4 rounded lg:px-8 text-sm"
                     onClick={() =>
                       setShowModal({modalName: 'assignMechanic', data: null})
                     }

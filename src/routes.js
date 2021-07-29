@@ -6,6 +6,7 @@ module.exports = {
   register: '/auth/register',
   profile: '/dashboard/user/profile',
   requests: '/dashboard/requests',
+  requestsDetails: '/dashboard/requestsdetails',
   inquiries: '/dashboard/inquiries',
   wallet: '/dashboard/wallet',
   management: '/dashboard/management',

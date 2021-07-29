@@ -22,9 +22,9 @@ import logo from '../../assets/images/logo.svg'
 import {Link, animateScroll as scroll} from 'react-scroll'
 
 const Home = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  })
+  // useEffect(() => {
+  //   window.scrollTo(0, 0)
+  // })
   return (
     <div className="bg-gray-100 w-full">
       <Nav />
@@ -278,7 +278,7 @@ const Home = () => {
               </Formik>
             </div>
           </div>
-          <div className="flex w-1/2 justify-end">
+          <div className="flex w-1/2 justify-end xs:hidden">
             <Image src={mob} size="big" />
           </div>
         </div>
@@ -351,20 +351,24 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className=" w-full footer p-8">
-        <div className=" md:flex lg:container mx-auto ">
-          <div className="md:flex md:mx-6 md:w-1/6">
+      <div className=" w-full footer p-8 ">
+        <div className=" lg:flex lg:container lg:mx-auto xs:mx-auto md:text-center xs:text-center">
+          <div className="lg:flex lg:mx-6 lg:w-1/6">
             <div>
-              <Image src={logo} size="small" />
+              <Image
+                src={logo}
+                size="small"
+                className="xs:mx-auto md:mx-auto"
+              />
               <p className="text-white">We Care For Your Car</p>
-              <div className="flex">
+              <div className="flex items-center justify-center">
                 <Image className="mx-2" src={android} size="tiny" />
                 <Image src={ios} size="tiny" />
               </div>
             </div>
           </div>
-          <div className="md:flex md:mx-6 lg:w-1/6">
-            <div className="text-white xs:py-4 sm:py-4">
+          <div className="lg:flex lg:mx-6 lg:w-1/6">
+            <div className="text-white xs:py-4 lg:py-0 sm:py-4">
               <Link
                 className="my-4 text-white mb-8 cursor-pointer"
                 to="home"
@@ -390,7 +394,7 @@ const Home = () => {
               </Link>
             </div>
           </div>
-          <div className="md:flex lg:w-1/6 md:mx-6">
+          <div className="lg:flex lg:w-1/6 lg:mx-6">
             <div className="text-white">
               <Link
                 className="my-4 text-white mb-8 cursor-pointer"
@@ -418,24 +422,24 @@ const Home = () => {
               </Link>
             </div>
           </div>
-          <div className=" md:flex lg:w-1/6 md:mx-6">
-            <div className="text-white">
-              <p>Terms And Condition</p>
-              <p>Privacy Policy</p>
+          <div className=" lg:flex lg:w-1/6 lg:mx-6">
+            <div className="text-white ">
+              <p className="lg:mb-0">Terms And Condition</p>
+              <p className="lg:mb-0">Privacy Policy</p>
             </div>
           </div>
           <div className="lg:w-2/6">
             <div className="text-white">
               <p>Subscribe To Newsletter</p>
-              <div className="lg:flex">
+              <div className=" flex justify-start items-center md:justify-center">
                 <Input
                   type="text"
                   placeholder="Email Address"
-                  className="xs:block"
+                  className="xs:w-2/3 md:w-1/4 md:flex "
                 />
                 <Button
                   content="Subscribe"
-                  className="bg-primaryRedColor-default text-white py-4 xs:block sm:block"
+                  className="bg-primaryRedColor-default text-white py-4 xs:w-1/3 md:w-1/4 rounded"
                 />
               </div>
             </div>

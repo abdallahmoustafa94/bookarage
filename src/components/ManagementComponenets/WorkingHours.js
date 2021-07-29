@@ -9,8 +9,10 @@ import useAsync from '../../hooks/useAsync'
 import {useToasts} from 'react-toast-notifications'
 import {useShop} from '../../context/ShopContext'
 import {Formik} from 'formik'
+import useMediaQuery from '../../hooks/use-media-query'
 
 const WorkingHours = ({values, updateShop}) => {
+  const isSmall = useMediaQuery('(max-width: 1470px)')
   const [shop, setShop] = useShop()
   const [state, setState] = useState([
     {
@@ -154,16 +156,33 @@ const WorkingHours = ({values, updateShop}) => {
       <Form loading={isLoading}>
         <ul>
           {state.map((item, i) => (
-            <li key={item.id} className="mb-3">
-              <div className="lg:flex items-center">
-                <p className="mb-0 lg:w-2/12">{capitalize(item.day)}</p>
-                <div className="lg:w-4/12 lg:justify-start">
+            <li key={item.id} className={isSmall ? 'relative' : 'mb-3'}>
+              <div
+                className={`flex ${
+                  isSmall ? 'flex-col justify-start w-full' : 'justify-between'
+                } items-center`}
+              >
+                <p className={`mb-0 ${isSmall ? 'w-full' : ''} `}>
+                  {capitalize(item.day)}
+                </p>
+                <div
+                  className={`${
+                    isSmall ? 'w-full' : 'justify-items-start mx-5'
+                  } `}
+                >
                   {/* {console.log(Object.keys(item))} */}
-                  <div>
+                  <div className={isSmall ? 'my-5' : ''}>
                     <Form.Group widths="equal" className="mb-0">
                       <Form.Field>
-                        <div className={`lg:flex items-center`}>
-                          <label htmlFor={``} className="lg:mx-3 text-gray-400">
+                        <div
+                          className={`flex ${
+                            isSmall ? 'w-full' : ''
+                          } items-center`}
+                        >
+                          <label
+                            htmlFor={``}
+                            className={'mx-3 w-1/6 text-gray-400'}
+                          >
                             From
                           </label>
                           {/* {formatTime(item.startTime)} */}
@@ -173,6 +192,7 @@ const WorkingHours = ({values, updateShop}) => {
                             value={formatTime(state[i].startTime)}
                             disabled={item.isOpened ? false : true}
                             iconPosition="left"
+                            className="w-5/6"
                             popupPosition="bottom left"
                             timeFormat="AMPM"
                             onChange={(e, {value}) =>
@@ -183,8 +203,15 @@ const WorkingHours = ({values, updateShop}) => {
                       </Form.Field>
 
                       <Form.Field>
-                        <div className={`lg:flex items-center`}>
-                          <label htmlFor={``} className="lg:mx-3 text-gray-400">
+                        <div
+                          className={`flex ${
+                            isSmall ? 'w-full' : ''
+                          } items-center`}
+                        >
+                          <label
+                            htmlFor={``}
+                            className={`mx-3 w-1/6 text-gray-400`}
+                          >
                             To
                           </label>
                           <TimeInput
@@ -194,6 +221,7 @@ const WorkingHours = ({values, updateShop}) => {
                             iconPosition="left"
                             popupPosition="bottom left"
                             value={formatTime(state[i].endTime)}
+                            className="w-5/6"
                             timeFormat="AMPM"
                             onChange={(e, {value}) =>
                               handleOnChangeTime(i, 'end', value)
@@ -205,15 +233,16 @@ const WorkingHours = ({values, updateShop}) => {
                   </div>
                 </div>
 
-                <div className="lg:w-6/12">
-                  <div className="lg:flex  lg:justify-end">
-                    <label className="lg:mx-3 text-gray-400">
+                <div className={isSmall ? 'absolute top-0 right-3' : 'w-6/12'}>
+                  <div className="flex  justify-end">
+                    <label className="mx-3 text-gray-400">
                       {item?.isOpened ? 'Opened' : 'Closed'}
                     </label>
-                    <div className="lg:-mt-3">
+                    <div className="-mt-3">
                       <Form.Checkbox
                         toggle
                         checked={item.isOpened}
+                        className="mt-1"
                         onChange={(e, {value, checked}) =>
                           handleOnChangeCheckBox(i, checked)
                         }

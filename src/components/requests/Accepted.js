@@ -5,8 +5,12 @@ import {RiArrowRightSLine} from 'react-icons/ri'
 import {BsWrench} from 'react-icons/bs'
 import {FaCarSide} from 'react-icons/fa'
 import StateContext from '../../context/stateContext'
+import routes from '../../routes'
+import {useHistory} from 'react-router-dom'
 
 const Accepted = () => {
+  const history = useHistory()
+
   const {setShowModal} = useContext(StateContext)
 
   return (
@@ -22,6 +26,7 @@ const Accepted = () => {
           <Button
             content="Full Request Details"
             className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 xs:text-sm"
+            onClick={() => history.push(routes.requestsDetails)}
           />
           <RiArrowRightSLine className="lg:text-xl lg:-ml-6" />
         </div>
@@ -82,7 +87,7 @@ const Accepted = () => {
                 </div>
               </div>
               <div className="lg:flex lg:items-center w-full">
-                <div className="flex items-center my-4 justify-start">
+                <div className="flex items-center my-4 lg:w-1/3 justify-start bg-gray-100 rounded-full p-4">
                   <Image
                     circular
                     src="https://react.semantic-ui.com/images/wireframe/square-image.png"
@@ -92,22 +97,20 @@ const Accepted = () => {
                     Alex Lawson <br />
                     (585) 5519-96
                   </p>
-                </div>
-                <div className="flex lg:ml-8 justify-center">
                   <Button
                     icon="envelope open outline"
-                    className="bg-transparent lg:text-xl"
+                    className=" bg-transparent lg:text-xl"
                   />
                   <Button
                     icon="users"
-                    className="rounded bg-transparent lg:text-xl"
+                    className=" rounded  bg-transparent lg:text-xl"
                   />
                 </div>
-                <div className="flex xs:flex-col justify-center lg:ml-40">
+                <div className="flex xs:flex-col lg:ml-40 justify-center ">
                   <Button
                     icon="truck"
                     content="Send Recovery"
-                    className="bg-primaryRedColor-default text-white py-4 rounded lg:ml-20 px-12 text-sm xs:block "
+                    className="bg-primaryRedColor-default text-white py-4 rounded  px-8 text-sm xs:block "
                     onClick={() =>
                       setShowModal({modalName: 'sendRecovery', data: null})
                     }
@@ -136,6 +139,7 @@ const Accepted = () => {
           <Button
             content="Full Request Details"
             className="bg-transparent flex justify-end w-1/3 font-normal xs:text-sm text-labelColor "
+            onClick={() => history.push(routes.requestsDetails)}
           />
           <RiArrowRightSLine className="lg:text-xl lg:-ml-6" />
         </div>
@@ -189,7 +193,7 @@ const Accepted = () => {
                 </div>
               </div>
               <div className="lg:flex items-center w-full">
-                <div className="flex items-center my-4 justify-start">
+                <div className="flex items-center my-4 justify-start bg-gray-100 rounded-full p-4">
                   <Image
                     circular
                     src="https://react.semantic-ui.com/images/wireframe/square-image.png"
@@ -199,15 +203,13 @@ const Accepted = () => {
                     Alex Lawson <br />
                     (585) 5519-96
                   </p>
-                </div>
-                <div className="flex lg:ml-8 justify-center">
                   <Button
                     icon="envelope open outline"
-                    className="bg-transparent text-xl"
+                    className=" bg-transparent lg:text-xl"
                   />
                   <Button
                     icon="users"
-                    className="rounded bg-transparent text-xl"
+                    className=" rounded  bg-transparent lg:text-xl"
                   />
                 </div>
                 <div className="flex lg:justify-end xs:justify-center lg:ml-60">

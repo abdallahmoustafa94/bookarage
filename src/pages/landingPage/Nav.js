@@ -58,7 +58,10 @@ const Nav = () => {
                   offset={-70}
                   duration={500}
                 >
-                  <Menu.Item name="Services" className="cursor-pointer mr-8" />
+                  <Menu.Item
+                    name="Services"
+                    className="cursor-pointer mr-8   md:mt-4 xs:mt-4 "
+                  />
                 </Link>
               </li>
               <li className="nav-item">
@@ -71,7 +74,10 @@ const Nav = () => {
                   offset={-70}
                   duration={500}
                 >
-                  <Menu.Item name="About us" className="cursor-pointer mr-8" />
+                  <Menu.Item
+                    name="About us"
+                    className="cursor-pointer mr-8 md:mt-4 xs:mt-4 "
+                  />
                 </Link>
               </li>
               <li className="nav-item">
@@ -80,17 +86,18 @@ const Nav = () => {
                   to="contact"
                   activeClass="active"
                   spy={true}
+                  s
                   smooth={true}
                   offset={-70}
                   duration={500}
                 >
                   <Menu.Item
                     name="Contact us"
-                    className="cursor-pointer mr-8"
+                    className="cursor-pointer mr-8 md:mt-4 xs:mt-4 "
                   />
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className="nav-item md:mt-4 xs:mt-4">
                 <Menu.Item
                   name="Become A Provider"
                   className="cursor-pointer lg:bg-primaryRedColor-default lg:text-white lg:px-6 md:rounded-lg  md:py-2 xs:text-gray-600 sm:text-gray-600 "

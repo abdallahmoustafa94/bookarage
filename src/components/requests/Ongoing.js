@@ -5,8 +5,11 @@ import {RiArrowRightSLine} from 'react-icons/ri'
 import {BsWrench} from 'react-icons/bs'
 import {FaCarSide, FaCheckCircle} from 'react-icons/fa'
 import StateContext from '../../context/stateContext'
+import {useHistory} from 'react-router-dom'
+import routes from '../../routes'
 
 const Ongoing = () => {
+  const history = useHistory()
   const {setShowModal} = useContext(StateContext)
   return (
     <div className="my-8 py-8 lg:px-24">
@@ -21,6 +24,7 @@ const Ongoing = () => {
           <Button
             content="Full Request Details"
             className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 xs:text-xs"
+            onClick={() => history.push(routes.requestsDetails)}
           />
           <RiArrowRightSLine className="lg:text-xl lg:-ml-6" />
         </div>
@@ -57,7 +61,7 @@ const Ongoing = () => {
                     <p>555 099</p>
                   </div>
                   <div className="flex">
-                    <div className="flex items-center my-4 justify-start">
+                    <div className="flex items-center my-4 justify-start bg-gray-100 rounded-full p-4">
                       <Image
                         circular
                         src="https://react.semantic-ui.com/images/wireframe/square-image.png"
@@ -67,11 +71,9 @@ const Ongoing = () => {
                         Alex Lawson <br />
                         (585) 5519-96
                       </p>
-                    </div>
-                    <div className="flex ml-8 justify-center">
                       <Button
                         icon="envelope open outline"
-                        className=" bg-transparent text-xl"
+                        className=" bg-transparent lg:text-xl"
                       />
                       <Button
                         icon="users"
@@ -239,6 +241,7 @@ const Ongoing = () => {
           <Button
             content="Full Request Details"
             className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 xs:text-xs"
+            onClick={() => history.push(routes.requestsDetails)}
           />
           <RiArrowRightSLine className="lg:text-xl lg:-ml-6" />
         </div>
@@ -275,7 +278,7 @@ const Ongoing = () => {
                     <p>555 099</p>
                   </div>
                   <div className="flex">
-                    <div className="flex items-center my-4 justify-start">
+                    <div className="flex items-center my-4 justify-start bg-gray-100 rounded-full p-4">
                       <Image
                         circular
                         src="https://react.semantic-ui.com/images/wireframe/square-image.png"
@@ -285,15 +288,13 @@ const Ongoing = () => {
                         Alex Lawson <br />
                         (585) 5519-96
                       </p>
-                    </div>
-                    <div className="flex lg:ml-8 justify-center">
                       <Button
                         icon="envelope open outline"
-                        className=" bg-transparent text-xl"
+                        className=" bg-transparent lg:text-xl"
                       />
                       <Button
                         icon="users"
-                        className=" rounded  bg-transparent text-xl"
+                        className=" rounded  bg-transparent lg:text-xl"
                       />
                     </div>
                   </div>
@@ -460,6 +461,7 @@ const Ongoing = () => {
           <Button
             content="Full Request Details"
             className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 xs:text-xs"
+            onClick={() => history.push(routes.requestsDetails)}
           />
           <RiArrowRightSLine className="text-xl -ml-6" />
         </div>
@@ -496,7 +498,7 @@ const Ongoing = () => {
                     <p>555 099</p>
                   </div>
                   <div className="flex">
-                    <div className="flex items-center my-4 justify-start">
+                    <div className="flex items-center my-4 justify-start bg-gray-100 rounded-full p-4">
                       <Image
                         circular
                         src="https://react.semantic-ui.com/images/wireframe/square-image.png"
@@ -506,8 +508,6 @@ const Ongoing = () => {
                         Alex Lawson <br />
                         (585) 5519-96
                       </p>
-                    </div>
-                    <div className="flex ml-8 justify-center">
                       <Button
                         icon="envelope open outline"
                         className=" bg-transparent lg:text-xl"
@@ -679,6 +679,7 @@ const Ongoing = () => {
           <Button
             content="Full Request Details"
             className="bg-transparent flex justify-end w-1/3 font-normal text-gray-800 xs:text-xs"
+            onClick={() => history.push(routes.requestsDetails)}
           />
           <RiArrowRightSLine className="text-xl lg:-ml-6" />
         </div>
@@ -715,7 +716,7 @@ const Ongoing = () => {
                     <p>555 099</p>
                   </div>
                   <div className="flex">
-                    <div className="flex items-center my-4 justify-start">
+                    <div className="flex items-center my-4 justify-start bg-gray-100 rounded-full p-4">
                       <Image
                         circular
                         src="https://react.semantic-ui.com/images/wireframe/square-image.png"
@@ -725,8 +726,6 @@ const Ongoing = () => {
                         Alex Lawson <br />
                         (585) 5519-96
                       </p>
-                    </div>
-                    <div className="flex ml-8 justify-center">
                       <Button
                         icon="envelope open outline"
                         className=" bg-transparent lg:text-xl"
