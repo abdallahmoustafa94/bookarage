@@ -2,7 +2,7 @@ import {Image} from 'semantic-ui-react'
 const RequestDetails = () => {
   return (
     <div>
-      <div className="bg-white lg:p-12 xs:p-4 sm:p-4 md:p-4">
+      <div className="bg-white lg:p-12 xs:p-4 sm:p-4 md:p-4 ">
         <p className="text-gray-400 text-lg">Account Information</p>
         <div className="lg:flex  w-full my-12">
           <div>

@@ -121,7 +121,7 @@ const Myaccount = ({values}) => {
       <EditFullName updateProfile={v => setUpdateProfile(prev => !prev)} />
       <EditPhoneNumber updateProfile={v => setUpdateProfile(prev => !prev)} />
 
-      <div className="flex lg:flex-col lg:w-1/4 text-gray-700 bg-white flex-initial p-10 sm:justify-center xs:justify-center ">
+      <div className="flex lg:h-40 sticky lg:flex-col lg:w-1/4 text-gray-700 bg-white flex-initial p-8 sm:justify-center xs:justify-center lg:justify-start">
         <Button
           content="Account info"
           className="bg-primaryRedColor-default text-white rounded-full lg:py-4 lg:px-1 sm:px-4 sm:py-2 sm:mx-2 xs:text-xs"

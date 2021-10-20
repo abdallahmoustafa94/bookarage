@@ -30,7 +30,7 @@ const Auth = {
   },
   getUserId: () => {
     const userId = JSON.parse(localStorage.getItem('user') || '[]')
-    return userId._id
+    // return userId._id
   },
   getUserData: () => {
     const user = JSON.parse(localStorage.getItem('user') || '[]')
@@ -52,46 +52,46 @@ const Auth = {
   isTechnician: () => {
     const user = JSON.parse(localStorage.getItem('user') || '[]')
 
-    if (![keys.ROLES.tech].includes(user.role)) {
-      return false
-    }
+    //   if (![keys.ROLES.tech].includes(user.role)) {
+    //     return false
+    //   }
 
-    return true
-  },
+    //   return true
+    // },
 
-  isServiceProvider: () => {
-    const user = JSON.parse(localStorage.getItem('user') || '[]')
+    // isServiceProvider: () => {
+    //   const user = JSON.parse(localStorage.getItem('user') || '[]')
 
-    if (![keys.ROLES.serviceProvider].includes(user.role)) {
-      return false
-    }
+    //   if (![keys.ROLES.serviceProvider].includes(user.role)) {
+    //     return false
+    //   }
 
-    return true
-  },
-  isCarRental: () => {
-    const user = JSON.parse(localStorage.getItem('user') || '[]')
+    //   return true
+    // },
+    // isCarRental: () => {
+    //   const user = JSON.parse(localStorage.getItem('user') || '[]')
 
-    if (![keys.ROLES.carRental].includes(user.role)) {
-      return false
-    }
+    //   if (![keys.ROLES.carRental].includes(user.role)) {
+    //     return false
+    //   }
 
-    return true
-  },
-  isCarRecovery: () => {
-    const user = JSON.parse(localStorage.getItem('user') || '[]')
+    //   return true
+    // },
+    // isCarRecovery: () => {
+    //   const user = JSON.parse(localStorage.getItem('user') || '[]')
 
-    if (![keys.ROLES.carRecovery].includes(user.role)) {
-      return false
-    }
+    //   if (![keys.ROLES.carRecovery].includes(user.role)) {
+    //     return false
+    //   }
 
-    return true
-  },
-  isInsurance: () => {
-    const user = JSON.parse(localStorage.getItem('user') || '[]')
+    //   return true
+    // },
+    // isInsurance: () => {
+    //   const user = JSON.parse(localStorage.getItem('user') || '[]')
 
-    if (![keys.ROLES.insurance].includes(user.role)) {
-      return false
-    }
+    //   if (![keys.ROLES.insurance].includes(user.role)) {
+    //     return false
+    //   }
 
     return true
   },

@@ -76,11 +76,11 @@ const DetailsModal = ({updateRequestStatus}) => {
                   setShowModal({modalName: '', data: null})
                 }}
               />
-              {!Auth.isTechnician() && (
-                <AssignedTechnicianSection
-                  assignedTechData={modalData?.requestDetails?.assignedTech}
-                />
-              )}
+              {/* {!Auth.isTechnician() && ( */}
+              <AssignedTechnicianSection
+                assignedTechData={modalData?.requestDetails?.assignedTech}
+              />
+              {/* )} */}
               <MaintainanceHistorySection
                 carDiganosisHistory={modalData?.requestDetails?.car?.diagnosis}
               />

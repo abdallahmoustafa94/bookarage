@@ -54,29 +54,29 @@ const Management = ({values}) => {
     },
   ]
 
-  useEffect(() => {
-    if (!JSON.parse(shop) === 0) return
-    console.log(Auth.getShopId(), shop)
-    if (JSON.parse(shop) !== 0) {
-      run(getShopById(JSON.parse(shop)))
-        .then(({data}) => {
-          console.log(data.data)
-          setSelectedShop(data.data)
-          setState({
-            services: data.data?.shopDetails?.services || [],
-            brands: data.data?.shopDetails?.brands || [],
-          })
-        })
-        .catch(e => {
-          console.log(e)
-        })
-    } else {
-      if (Auth.isAuth()) {
-        console.log('no branches')
-        setShowModal({modalName: 'createShop', data: null})
-      }
-    }
-  }, [shop, updateShop])
+  // useEffect(() => {
+  //   if (!JSON.parse(shop) === 0) return
+  //   console.log(Auth.getShopId(), shop)
+  //   if (JSON.parse(shop) !== 0) {
+  //     run(getShopById(JSON.parse(shop)))
+  //       .then(({data}) => {
+  //         console.log(data.data)
+  //         setSelectedShop(data.data)
+  //         setState({
+  //           services: data.data?.shopDetails?.services || [],
+  //           brands: data.data?.shopDetails?.brands || [],
+  //         })
+  //       })
+  //       .catch(e => {
+  //         console.log(e)
+  //       })
+  //   } else {
+  //     if (Auth.isAuth()) {
+  //       console.log('no branches')
+  //       setShowModal({modalName: 'createShop', data: null})
+  //     }
+  //   }
+  // }, [shop, updateShop])
 
   const handleService = v => {
     let serviceArr = [...state.services]
@@ -144,77 +144,77 @@ const Management = ({values}) => {
       />
       <DeleteServiceModal deletedService={handleDeleteService} />
       <EditServiceModal updateService={v => setUpdateShop(prev => !prev)} />
-      {JSON.parse(shop) !== 0 && (
-        <Fragment>
-          <Grid stackable>
-            <Grid.Row>
-              <Grid.Column width={4} className="sticky">
-                <Menu
-                  fluid
-                  vertical
-                  className="p-3 border-none shadow-lg rounded-lg"
-                >
-                  {menuItems.map((m, i) => (
-                    <Menu.Item
-                      name={m.text}
-                      className={`${
-                        [m.key].includes(activeMenu)
-                          ? 'bg-primaryRedColor-default text-white font-bold'
-                          : ''
-                      } rounded-lg`}
-                      icon={m.icon}
-                      active={activeMenu === m.key}
-                      onClick={() => setActiveMenu(m.key)}
-                    />
-                  ))}
-                </Menu>
-              </Grid.Column>
-              <Grid.Column
-                stretched
-                className="bg-white p-7 rounded-lg"
-                width={12}
+      {/* {JSON.parse(shop) !== 0 && ( */}
+      <Fragment>
+        <Grid stackable>
+          <Grid.Row>
+            <Grid.Column width={4} className="sticky">
+              <Menu
+                fluid
+                vertical
+                className="p-3 border-none shadow-lg rounded-lg"
               >
-                {activeMenu === 'shopInfo' && (
-                  <ShopInformation
-                    loading={isLoading}
-                    shopInfo={selectedShop}
-                    updateShop={v => setUpdateShop(prev => !prev)}
-                    // nextStep={v => handleOnSubmit(v)
-                    // }
+                {menuItems.map((m, i) => (
+                  <Menu.Item
+                    name={m.text}
+                    className={`${
+                      [m.key].includes(activeMenu)
+                        ? 'bg-primaryRedColor-default text-white font-bold'
+                        : ''
+                    } rounded-lg`}
+                    icon={m.icon}
+                    active={activeMenu === m.key}
+                    onClick={() => setActiveMenu(m.key)}
                   />
-                )}
+                ))}
+              </Menu>
+            </Grid.Column>
+            <Grid.Column
+              stretched
+              className="bg-white p-7 rounded-lg"
+              width={12}
+            >
+              {activeMenu === 'shopInfo' && (
+                <ShopInformation
+                  loading={isLoading}
+                  shopInfo={selectedShop}
+                  updateShop={v => setUpdateShop(prev => !prev)}
+                  // nextStep={v => handleOnSubmit(v)
+                  // }
+                />
+              )}
 
-                {activeMenu === 'workingHrs' && (
-                  <WorkingHours
-                    values={selectedShop?.workingHrs}
-                    updateShop={v => setUpdateShop(prev => !prev)}
-                  />
-                )}
+              {activeMenu === 'workingHrs' && (
+                <WorkingHours
+                  values={selectedShop?.workingHrs}
+                  updateShop={v => setUpdateShop(prev => !prev)}
+                />
+              )}
 
-                {activeMenu === 'services' && (
-                  <ServicesAndParts
-                    values={state}
-                    deletedBrand={v => handleDeleteBrand(v)}
-                    deletedService={v => handleDeleteService(v)}
-                  />
-                )}
+              {activeMenu === 'services' && (
+                <ServicesAndParts
+                  values={state}
+                  deletedBrand={v => handleDeleteBrand(v)}
+                  deletedService={v => handleDeleteService(v)}
+                />
+              )}
 
-                {activeMenu === 'employees' && <Employees />}
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
+              {activeMenu === 'employees' && <Employees />}
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
 
-          <div
-            className="fixed bottom-10 right-10 z-10 rounded-full p-3 cursor-pointer"
-            onClick={() => setShowModal({modalName: 'createShop', data: null})}
-          >
-            <BsFillPlusCircleFill
-              size={55}
-              className="bg-white rounded-full text-primaryRedColor-default"
-            />
-          </div>
-        </Fragment>
-      )}
+        <div
+          className="fixed bottom-10 right-10 z-10 rounded-full p-3 cursor-pointer"
+          onClick={() => setShowModal({modalName: 'createShop', data: null})}
+        >
+          <BsFillPlusCircleFill
+            size={55}
+            className="bg-white rounded-full text-primaryRedColor-default"
+          />
+        </div>
+      </Fragment>
+      {/* // )} */}
     </div>
   )
 }

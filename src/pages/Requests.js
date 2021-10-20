@@ -9,41 +9,41 @@ import AssignedRequests from '../components/requests/AssignedRequests'
 
 const Requests = () => {
   const panes = [
+    // {
+    //   // ...(Auth.isTechnician() && {
+    //   menuItem: 'Assigned Requests',
+    //   render: () => <AssignedRequests />,
+    //   // }),
+    // },
     {
-      ...(Auth.isTechnician() && {
-        menuItem: 'Assigned Requests',
-        render: () => <AssignedRequests />,
-      }),
+      // ...(!Auth.isTechnician() && {
+      menuItem: 'New',
+      render: () => <New />,
+      // }),
     },
     {
-      ...(!Auth.isTechnician() && {
-        menuItem: 'New',
-        render: () => <New />,
-      }),
+      // ...(!Auth.isTechnician() && {
+      menuItem: 'Accepted',
+      render: () => <Accepted />,
+      // }),
     },
     {
-      ...(!Auth.isTechnician() && {
-        menuItem: 'Accepted',
-        render: () => <Accepted />,
-      }),
+      // ...(!Auth.isTechnician() && {
+      menuItem: 'Car Arrived',
+      render: () => <CarArrived />,
+      // }),
     },
     {
-      ...(!Auth.isTechnician() && {
-        menuItem: 'Car Arrived',
-        render: () => <CarArrived />,
-      }),
+      // ...(!Auth.isTechnician() && {
+      menuItem: 'On Going',
+      render: () => <Ongoing />,
+      // }),
     },
     {
-      ...(!Auth.isTechnician() && {
-        menuItem: 'On Going',
-        render: () => <Ongoing />,
-      }),
-    },
-    {
-      ...(!Auth.isTechnician() && {
-        menuItem: 'Car Ready',
-        render: () => <CarReady />,
-      }),
+      // ...(!Auth.isTechnician() && {
+      menuItem: 'Car Ready',
+      render: () => <CarReady />,
+      // }),
     },
   ]
 

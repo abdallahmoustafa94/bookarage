@@ -46,6 +46,7 @@ import {getMyShops} from '../services/ShopService'
 import {useShop} from '../context/ShopContext'
 import {Formik} from 'formik'
 import FormikControl from '../components/formik/FormikControl'
+import Inquires from '../pages/Inquires'
 
 const DashboardLayout = () => {
   const {run, isLoading} = useAsync()
@@ -394,6 +395,7 @@ const DashboardLayout = () => {
 
           <Route exact path={routes.myAccount} component={Myaccount} />
           <Route path={routes.requests} component={Requests} />
+          <Route path={routes.inquiries} component={Inquires} />
           <Route path={routes.requestsDetails} component={RequestDetails} />
 
           <Redirect

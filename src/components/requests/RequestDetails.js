@@ -25,7 +25,7 @@ const RequestDetails = () => {
           <p>Request ID:351</p>
         </div>
       </div>
-      <div className="my-4 px-4 w-full">
+      <div className="my-4 px-4 w-full lg:mx-8">
         <Grid columns={2} stackable>
           <Grid.Row>
             <Grid.Column width={10}>

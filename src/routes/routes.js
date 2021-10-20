@@ -9,33 +9,10 @@ import {myAccount} from '../pages/Myaccount'
 import Admin from '../pages/Admin'
 
 const Routes = () => {
-  const [lang] = useLanguage()
-
-  useEffect(() => {
-    let isMounted = true
-    if (!isMounted) return
-    const directionTag = document
-      .getElementsByTagName('html')[0]
-      .getAttribute('dir')
-    const style = document.getElementById('semanticStyle')
-
-    if (directionTag === 'ltr') {
-      style.href = '/assets/css/semantic.min.css'
-    } else {
-      style.href = '/assets/css/semantic.rtl.min.css'
-    }
-    return () => {
-      isMounted = false
-    }
-  }, [lang])
-
   return (
     <Router>
       <Switch>
-        <Route path="/auth" component={AuthLayout} />
-        <Route exact path="/" component={Home} />
-        <PrivateRoute path="/dashboard" component={DashboardLayout} />
-        <Route path="/registereduser" component={Admin} />
+        <Route path="/" component={AuthLayout} />
       </Switch>
     </Router>
   )

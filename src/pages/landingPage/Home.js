@@ -22,9 +22,9 @@ import logo from '../../assets/images/logo.svg'
 import {Link, animateScroll as scroll} from 'react-scroll'
 
 const Home = () => {
-  // useEffect(() => {
-  //   window.scrollTo(0, 0)
-  // })
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  })
   return (
     <div className="bg-gray-100 w-full">
       <Nav />
@@ -352,13 +352,13 @@ const Home = () => {
         </div>
       </div>
       <div className=" w-full footer p-8 ">
-        <div className=" lg:flex lg:container lg:mx-auto xs:mx-auto md:text-center xs:text-center">
+        <div className=" lg:flex lg:container lg:mx-auto xs:mx-auto sm:mx-auto md:mx-auto md:text-center xs:text-center sm:text-center md:text-center">
           <div className="lg:flex lg:mx-6 lg:w-1/6">
             <div>
               <Image
                 src={logo}
                 size="small"
-                className="xs:mx-auto md:mx-auto"
+                className="xs:mx-auto md:mx-auto sm:mx-auto"
               />
               <p className="text-white">We Care For Your Car</p>
               <div className="flex items-center justify-center">
@@ -431,15 +431,15 @@ const Home = () => {
           <div className="lg:w-2/6">
             <div className="text-white">
               <p>Subscribe To Newsletter</p>
-              <div className=" flex justify-start items-center md:justify-center">
+              <div className=" flex lg:justify-start items-center md:justify-center xs:justify-center sm:justify-center ">
                 <Input
                   type="text"
                   placeholder="Email Address"
-                  className="xs:w-2/3 md:w-1/4 md:flex "
+                  className="xs:w-2/4 sm:w-2/6 md:w-1/4 md:flex lg:w-2/4"
                 />
                 <Button
                   content="Subscribe"
-                  className="bg-primaryRedColor-default text-white py-4 xs:w-1/3 md:w-1/4 rounded"
+                  className="bg-primaryRedColor-default text-white py-4 xs:w-2/4 sm:w-2/6  md:w-1/4 lg:w-2/4 rounded"
                 />
               </div>
             </div>
